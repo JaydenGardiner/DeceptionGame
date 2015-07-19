@@ -1,0 +1,286 @@
+fileFormatVersion: 2
+guid: eaf2bec077b817f458019b42f93686de
+timeCreated: 1437345737
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: number sprites alpha_0
+    21300002: number sprites alpha_1
+    21300004: number sprites alpha_2
+    21300006: number sprites alpha_3
+    21300008: number sprites alpha_4
+    21300010: number sprites alpha_5
+    21300012: number sprites alpha_6
+    21300014: number sprites alpha_7
+    21300016: number sprites alpha_8
+    21300018: number sprites alpha_9
+    21300020: number sprites alpha_10
+    21300022: number sprites alpha_11
+    21300024: number sprites alpha_12
+    21300026: number sprites alpha_13
+    21300028: number sprites alpha_14
+    21300030: number sprites alpha_15
+    21300032: number sprites alpha_16
+    21300034: number sprites alpha_17
+    21300036: number sprites alpha_18
+    21300038: number sprites alpha_19
+    21300040: number sprites alpha_20
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: number sprites alpha_0
+      rect:
+        serializedVersion: 2
+        x: 23
+        y: 113
+        width: 55
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: number sprites alpha_1
+      rect:
+        serializedVersion: 2
+        x: 127
+        y: 112
+        width: 48
+        height: 77
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: number sprites alpha_2
+      rect:
+        serializedVersion: 2
+        x: 226
+        y: 112
+        width: 48
+        height: 74
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: number sprites alpha_3
+      rect:
+        serializedVersion: 2
+        x: 327
+        y: 110
+        width: 48
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: number sprites alpha_4
+      rect:
+        serializedVersion: 2
+        x: 424
+        y: 114
+        width: 40
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: number sprites alpha_5
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 113
+        width: 47
+        height: 74
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: number sprites alpha_6
+      rect:
+        serializedVersion: 2
+        x: 628
+        y: 113
+        width: 47
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: number sprites alpha_7
+      rect:
+        serializedVersion: 2
+        x: 733
+        y: 110
+        width: 47
+        height: 74
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: number sprites alpha_8
+      rect:
+        serializedVersion: 2
+        x: 813
+        y: 112
+        width: 18
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: number sprites alpha_9
+      rect:
+        serializedVersion: 2
+        x: 829
+        y: 113
+        width: 47
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: number sprites alpha_10
+      rect:
+        serializedVersion: 2
+        x: 927
+        y: 113
+        width: 47
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: number sprites alpha_11
+      rect:
+        serializedVersion: 2
+        x: 23
+        y: 13
+        width: 55
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: number sprites alpha_12
+      rect:
+        serializedVersion: 2
+        x: 127
+        y: 12
+        width: 48
+        height: 77
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: number sprites alpha_13
+      rect:
+        serializedVersion: 2
+        x: 226
+        y: 12
+        width: 48
+        height: 74
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: number sprites alpha_14
+      rect:
+        serializedVersion: 2
+        x: 327
+        y: 10
+        width: 48
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: number sprites alpha_15
+      rect:
+        serializedVersion: 2
+        x: 424
+        y: 14
+        width: 40
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: number sprites alpha_16
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 13
+        width: 47
+        height: 74
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: number sprites alpha_17
+      rect:
+        serializedVersion: 2
+        x: 628
+        y: 13
+        width: 47
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: number sprites alpha_18
+      rect:
+        serializedVersion: 2
+        x: 733
+        y: 10
+        width: 47
+        height: 74
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: number sprites alpha_19
+      rect:
+        serializedVersion: 2
+        x: 829
+        y: 13
+        width: 47
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: number sprites alpha_20
+      rect:
+        serializedVersion: 2
+        x: 927
+        y: 13
+        width: 47
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
