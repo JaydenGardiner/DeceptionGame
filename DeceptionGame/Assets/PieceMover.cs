@@ -5,7 +5,6 @@ public class PieceMover : MonoBehaviour {
     
 	// Use this for initialization
 	void Start () {
-        Debug.Log("INIT NUMBER SCRIPT");
 	}
 	
 	// Update is called once per frame
