@@ -8,6 +8,9 @@ public class BoardManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         board = this.gameObject;
+        GameObject n_Obj = board.GetComponent<GameObject>();
+        Debug.Log(n_Obj.name);
+
 	}
 	
 	// Update is called once per frame

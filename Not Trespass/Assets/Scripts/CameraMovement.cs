@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 using System.Collections;
 
 public class CameraMovement : MonoBehaviour {
-
-    public GameObject board;
 
     private float speed = 5f;
     private Vector3 target;

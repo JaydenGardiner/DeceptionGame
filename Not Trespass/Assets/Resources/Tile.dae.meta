@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: ea63be4628e6522469188bc784194933
-timeCreated: 1442265470
+guid: c842d4b79bc6e3a40bc5c0379da2df4c
+timeCreated: 1442262627
 licenseType: Free
 ModelImporter:
   serializedVersion: 18
@@ -9,23 +9,18 @@ ModelImporter:
     100002: Cube
     100004: Lamp
     100006: //RootNode
-    100008: Piece
-    100010: Tile
+    100008: Tile
     400000: Camera
     400002: Cube
     400004: Lamp
     400006: //RootNode
-    400008: Piece
-    400010: Tile
+    400008: Tile
     2300000: Cube
-    2300002: Piece
-    2300004: Tile
+    2300002: Tile
     3300000: Cube
-    3300002: Piece
-    3300004: Tile
+    3300002: Tile
     4300000: Cube
     4300002: Tile
-    4300004: Piece
     9500000: //RootNode
   materials:
     importMaterials: 1
