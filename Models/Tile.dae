@@ -5,8 +5,8 @@
       <author>Blender User</author>
       <authoring_tool>Blender 2.75.0 commit date:2015-07-07, commit time:14:56, hash:c27589e</authoring_tool>
     </contributor>
-    <created>2015-09-14T15:48:49</created>
-    <modified>2015-09-14T15:48:49</modified>
+    <created>2015-09-14T16:22:48</created>
+    <modified>2015-09-14T16:22:48</modified>
     <unit name="meter" meter="1"/>
     <up_axis>Z_UP</up_axis>
   </asset>
@@ -172,7 +172,7 @@
     <geometry id="Tile-mesh" name="Tile">
       <mesh>
         <source id="Tile-mesh-positions">
-          <float_array id="Tile-mesh-positions-array" count="24">-30.48 0 -30.48 -30.48 0 0 -30.48 5.08 -30.48 -30.48 5.08 0 0 0 -30.48 0 5.08 -30.48 0 0 0 0 5.08 0</float_array>
+          <float_array id="Tile-mesh-positions-array" count="24">-30 0 -30 -30 0 0 -30 5.08 -30 -30 5.08 0 0 0 -30 0 5.08 -30 0 0 0 0 5.08 0</float_array>
           <technique_common>
             <accessor source="#Tile-mesh-positions-array" count="8" stride="3">
               <param name="X" type="float"/>
