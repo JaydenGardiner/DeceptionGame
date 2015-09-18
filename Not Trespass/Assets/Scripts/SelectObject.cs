@@ -25,9 +25,9 @@ public class SelectObject : MonoBehaviour {
                         Ray worldPos = Camera.main.ScreenPointToRay(Input.GetTouch(0).position);
                         if (Physics.Raycast(worldPos, out hit, Mathf.Infinity))
                         {
-                            hit.transform.gameObject.GetComponent<PieceMovement>().OnSelect();
+                            hit.transform.parent.gameObject.GetComponent<PieceMovement>().OnSelect();
                             Debug.Log("hit piece");
-                            Debug.Log(hit.transform.gameObject.name);
+                            Debug.Log(hit.transform.parent.gameObject.name);
                             //m_T.text = "HIT PIECE";
                         }
                     }

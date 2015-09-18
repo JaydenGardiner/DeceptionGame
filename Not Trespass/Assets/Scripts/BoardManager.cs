@@ -22,11 +22,14 @@ public class BoardManager : MonoBehaviour {
     public Vector3[,] positions2d;
     public GameObject[,] tiles2d;
 
+    public PieceMovement[,] Pieces2D;
+
 	// Use this for initialization
 	void Start () {
         //Create 2d arrays of positions and game objects and instantiate pieces
         positions2d = new Vector3[6, 5];
         tiles2d = new GameObject[6, 5];
+        Pieces2D = new PieceMovement[6, 5];
         for(int i = 0; i < 6; i++)
         {
             for(int j = 0; j < 5; j++)
@@ -43,6 +46,12 @@ public class BoardManager : MonoBehaviour {
                     n_GameObj.transform.Rotate(new Vector3(90, 0, 0));
                     n_GameObj.transform.Translate(0, 0, -2);
                     n_GameObj.AddComponent<MeshCollider>();
+                    Pieces2D[i, j] = n_GameObj.GetComponent<PieceMovement>();
+                    Debug.Log(n_GameObj.GetComponent<PieceMovement>());
+                }
+                else
+                {
+                    Pieces2D[i, j] = null;
                 }
                 
             }
