@@ -42,6 +42,7 @@ public class BoardManager : MonoBehaviour {
                     n_GameObj.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
                     n_GameObj.transform.Rotate(new Vector3(90, 0, 0));
                     n_GameObj.transform.Translate(0, 0, -2);
+                    n_GameObj.AddComponent<MeshCollider>();
                 }
                 
             }
