@@ -5,7 +5,7 @@ public class Tile : MonoBehaviour {
 
     public Vector3 Location { get; private set; }
 
-    public PieceMovement Piece;
+    public Piece Piece;
 
     public int I;
 
@@ -28,4 +28,9 @@ public class Tile : MonoBehaviour {
 	void Update () {
 	
 	}
+
+    public void HighLight()
+    {
+        //implement piece highlighting
+    }
 }
