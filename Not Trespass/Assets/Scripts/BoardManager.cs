@@ -4,10 +4,10 @@ using System.Collections;
 
 public class BoardManager : MonoBehaviour {
 
-    public GameObject board;
-
+    //Prefab for instantiating piece, set in scene
     public GameObject PiecePrefab;
 
+    //this allows me to set the tiles up in the scene and access them from code
     public GameObject[] tiles;
 
  
@@ -19,39 +19,54 @@ public class BoardManager : MonoBehaviour {
      * 0 1 2 3 4  r=4
      * 5 6 7 8 9  r=5
      */
-    public Vector3[,] positions2d;
-    public GameObject[,] tiles2d;
+    //Use this for 2d array
+    public Tile[,] Tiles2D;
 
-    public PieceMovement[,] Pieces2D;
+    void Awake()
+    {
+        //Add tile script to all tiles.  This is done in awake to ensure that by Start(), all tiles have Tile script
+        foreach (GameObject t in tiles)
+        {
+            t.AddComponent<Tile>();
+        }
+    }
 
 	// Use this for initialization
 	void Start () {
+        
         //Create 2d arrays of positions and game objects and instantiate pieces
-        positions2d = new Vector3[6, 5];
-        tiles2d = new GameObject[6, 5];
-        Pieces2D = new PieceMovement[6, 5];
+        Tiles2D = new Tile[6, 5];
         for(int i = 0; i < 6; i++)
         {
             for(int j = 0; j < 5; j++)
             {
+                //Convert 1d tile array from scene to 2d representation.
+                //Assumes tiles are ordered in scene, probably not best implementation but w.e
                 GameObject tile = tiles[(i * 5) + j];
-                Vector3 center = tile.gameObject.GetComponentInChildren<MeshRenderer>().bounds.center;
-                positions2d[i, j] = center;
-                tiles2d[i, j] = tile.gameObject;
+                Tiles2D[i, j] = tile.gameObject.GetComponent<Tile>();
+
+                //Instantiate pieces on tiles.
                 if (i == 0 || i == 1 || i == 5 || i == 4)
                 {
+                    //Instantiate piece on center of tile
+                    Vector3 center = tile.gameObject.GetComponentInChildren<MeshRenderer>().bounds.center;
                     Object n_Obj = GameObject.Instantiate(PiecePrefab, center, Quaternion.identity);
                     GameObject n_GameObj = (GameObject)n_Obj;
+                    //needs completion to center piece on square b/c unity instantiates corner of piece on center of tile
                     n_GameObj.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
                     n_GameObj.transform.Rotate(new Vector3(90, 0, 0));
                     n_GameObj.transform.Translate(0, 0, -2);
                     n_GameObj.AddComponent<MeshCollider>();
-                    Pieces2D[i, j] = n_GameObj.GetComponent<PieceMovement>();
-                    Debug.Log(n_GameObj.GetComponent<PieceMovement>());
+                    //Set tile's piece
+                    Tiles2D[i, j].Piece = n_GameObj.GetComponent<PieceMovement>();
+                    //Instantiate virtual board location
+                    Tiles2D[i, j].I = i;
+                    Tiles2D[i, j].J = j;
+                    Debug.Log("this: " + center.ToString() + ", tile: " + Tiles2D[i, j].Location);
                 }
                 else
                 {
-                    Pieces2D[i, j] = null;
+                    Tiles2D[i, j].Piece = null;
                 }
                 
             }

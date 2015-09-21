@@ -3,6 +3,7 @@ using System.Collections;
 
 public class PieceMovement : MonoBehaviour {
 
+
 	// Use this for initialization
 	void Start () {
 	
@@ -18,4 +19,5 @@ public class PieceMovement : MonoBehaviour {
         Debug.Log("piece select");
         //change color, set to move, etc.....
     }
+
 }
