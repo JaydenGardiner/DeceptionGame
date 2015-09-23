@@ -17,6 +17,9 @@ public class BoardManager : MonoBehaviour {
     public int Player1Secret;
     public int Player2Secret;
 
+    //the currently selected piece
+    public Piece currentPiece;
+
     /* In row column order where the rows go downwards
      * 5 6 7 8 9  r=0
      * 0 1 2 3 4  r=1
@@ -50,6 +53,9 @@ public class BoardManager : MonoBehaviour {
                 GameObject tile = tiles[(i * 5) + j];
                 Tiles2D[i, j] = tile.gameObject.GetComponent<Tile>();
 
+                //Instantiate virtual board location
+                Tiles2D[i, j].I = i;
+                Tiles2D[i, j].J = j;
                 //Instantiate pieces on tiles.
                 if (i == 0 || i == 1 || i == 5 || i == 4)
                 {
@@ -64,9 +70,9 @@ public class BoardManager : MonoBehaviour {
                     n_GameObj.AddComponent<MeshCollider>();
                     //Set tile's piece
                     Tiles2D[i, j].Piece = n_GameObj.GetComponent<Piece>();
-                    //Instantiate virtual board location
-                    Tiles2D[i, j].I = i;
-                    Tiles2D[i, j].J = j;
+                    Tiles2D[i, j].Piece.Tile = Tiles2D[i, j];
+                    Tiles2D[i, j].Piece.transform.Find("Piece").GetComponent<Renderer>().material.SetColor("_TintColor", Color.red);
+                    
 
                     //Set team for each piece
                     if (i == 0 || i == 1)
@@ -98,6 +104,64 @@ public class BoardManager : MonoBehaviour {
 	void Update () {
 
 	}
+
+
+    public void RestoreAllTiles()
+    {
+        for(int i = 0; i < 6; i++)
+        {
+            for(int j = 0; j < 5; j++)
+            {
+                Tiles2D[i, j].Dehighlight();
+            }
+        }
+
+    }
+    // Displays tiles that the current piece ca move to
+    public void FindMovementOptions()
+    {
+        Piece p = currentPiece;
+        //multiplier to keep pieces moving "forward"
+        int side = 1;
+        if (p.Team == 1) side = -1;
+        Debug.Log("finding movement options");
+        int[,] marked = new int[6, 5];
+        Stack<Tile> toVisit = new Stack<Tile>();
+        int i = p.Tile.I;
+        int j = p.Tile.J;
+        while (i >= 0 && i < 6 && (Tiles2D[i, j].Piece == null || (i == p.Tile.I && j == p.Tile.J)))
+        {
+            toVisit.Push(Tiles2D[i, j]);
+            int k = j + 1;
+            while (k < 5 && Tiles2D[i, k].Piece == null)
+            {
+                toVisit.Push(Tiles2D[i, k]);
+                k++;
+            }
+            k = j - 1;
+            while (k >= 0 && Tiles2D[i, k].Piece == null)
+            {
+                toVisit.Push(Tiles2D[i, k]);
+                k--;
+            }
+            i += side;
+        }
+        Debug.Log("highlighting tiles");
+        while (toVisit.Count > 0)
+        {
+            Tile t = toVisit.Pop();
+            t.Highlight();
+            j = t.J;
+            i = t.I;
+            if (side == -1 && i > 1 && marked[i - 2, j] == 0 && Tiles2D[i - 1, j].Piece != null && Tiles2D[i - 2, j].Piece == null) toVisit.Push(Tiles2D[i - 2, j]);
+            if (side == 1 && i < 4 && marked[i + 2, j] == 0 && Tiles2D[i + 1, j].Piece != null && Tiles2D[i + 2, j].Piece == null) toVisit.Push(Tiles2D[i + 2, j]);
+            if (j > 1 && marked[i, j - 2] == 0 && Tiles2D[i, j - 1].Piece != null && Tiles2D[i, j - 2].Piece == null) toVisit.Push(Tiles2D[i, j - 2]);
+            if (j < 3 && marked[i, j + 2] == 0 && Tiles2D[i, j + 1].Piece != null && Tiles2D[i, j + 2].Piece == null) toVisit.Push(Tiles2D[i, j + 2]);
+            marked[i, j] = 1;
+        }
+
+        p.Tile.Dehighlight();
+    }
 }
 //just some ideas
 public struct GamePlayer

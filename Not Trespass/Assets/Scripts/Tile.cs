@@ -11,6 +11,8 @@ public class Tile : MonoBehaviour {
 
     public int J;
 
+    public bool isHighlighted;
+
     //to access actual tile object, use this.gameObject
 
 	// Use this for initialization
@@ -18,6 +20,7 @@ public class Tile : MonoBehaviour {
     {
         //This must be in awake, otherwise it will be an incorrect location
         Location = this.gameObject.GetComponentInChildren<MeshRenderer>().bounds.center;
+        isHighlighted = false;
     }
 
 	void Start () {
@@ -26,11 +29,19 @@ public class Tile : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+	    
 	}
 
-    public void HighLight()
+    public void Highlight()
     {
-        //implement piece highlighting
+        isHighlighted = true;
+        Debug.Log("Tile " + I + " " + J + " " + (gameObject.GetComponentInChildren<Renderer>() == null));
+        gameObject.GetComponentInChildren<Renderer>().material.SetColor("_TintColor", Color.blue);
+    }
+
+    public void Dehighlight()
+    {
+        isHighlighted = false;
+        gameObject.GetComponentInChildren<Renderer>().material.SetColor("_TintColor", Color.white);
     }
 }

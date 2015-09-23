@@ -5,6 +5,8 @@ public class Piece : MonoBehaviour {
 
     public int PieceNumber;
 
+    public Tile Tile;
+
     public bool IsSecret;
 
     public int Team;
@@ -26,6 +28,7 @@ public class Piece : MonoBehaviour {
     public void OnSelect()
     {
         Debug.Log("piece select");
+        //deprecated
         //change color, set to move, etc.....
     }
 
