@@ -3,7 +3,10 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class SelectObject : MonoBehaviour {
-    public Text m_T;
+
+    private bool m_IsPieceSelected;
+    private Piece m_SelectedPiece;
+    private Tile m_PieceTile;
 
     BoardManager board;
 	// Use this for initialization
@@ -27,17 +30,91 @@ public class SelectObject : MonoBehaviour {
                         Ray worldPos = Camera.main.ScreenPointToRay(Input.GetTouch(0).position);
                         if (Physics.Raycast(worldPos, out hit, Mathf.Infinity))
                         {
-                            board.currentPiece = hit.transform.parent.gameObject.GetComponent<Piece>();
-                            board.RestoreAllTiles();
-                            board.FindMovementOptions();
-                            Debug.Log("hit piece");
-                            Debug.Log(hit.transform.parent.gameObject.name);
-                            //m_T.text = "HIT PIECE";
+                            if (hit.transform.parent.gameObject.tag == "piece")
+                            {
+                                board.currentPiece = hit.transform.parent.gameObject.GetComponent<Piece>();
+                                if (board.currentPiece.Team == board.CurrentTeam)
+                                {
+                                    board.RestoreAllTiles();
+                                    board.FindMovementOptions();
+                                    Debug.Log("hit piece");
+                                    Debug.Log(hit.transform.parent.gameObject.name);
+                                    m_IsPieceSelected = true;
+                                    m_SelectedPiece = hit.transform.parent.gameObject.GetComponent<Piece>();
+                                    m_PieceTile = m_SelectedPiece.Tile;
+                                }
+
+                            }
+                            else if (hit.transform.parent.gameObject.tag == "tile")
+                            {
+                                Tile t = hit.transform.parent.gameObject.GetComponent<Tile>();
+                                Debug.Log("hit tile");
+                                if (m_IsPieceSelected && (m_SelectedPiece.Team == board.CurrentTeam))
+                                {
+                                    Debug.Log("piece is selected");
+                                    if (t.isHighlighted)
+                                    {
+                                        Debug.Log("asking to mvoe");
+                                        m_SelectedPiece.MoveToTile(t);
+                                        board.RestoreAllTiles();
+                                        m_PieceTile.Piece = null;
+                                        t.Piece = m_SelectedPiece;
+                                        board.ChangeTurn();
+                                    }
+
+                                }
+                            }
+                            
                         }
                     }
                     
                     break;
             }
         }
+#if UNITY_EDITOR
+        if (Input.GetMouseButtonDown(0))
+        {
+            RaycastHit hit;
+            Ray worldPos = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(worldPos, out hit, Mathf.Infinity))
+            {
+                if (hit.transform.parent.gameObject.tag == "piece")
+                {
+                    board.currentPiece = hit.transform.parent.gameObject.GetComponent<Piece>();
+                    if (board.currentPiece.Team == board.CurrentTeam)
+                    {
+                        board.RestoreAllTiles();
+                        board.FindMovementOptions();
+                        Debug.Log("hit piece");
+                        Debug.Log(hit.transform.parent.gameObject.name);
+                        m_IsPieceSelected = true;
+                        m_SelectedPiece = hit.transform.parent.gameObject.GetComponent<Piece>();
+                        m_PieceTile = m_SelectedPiece.Tile;
+                    }
+                    
+                }
+                else if (hit.transform.parent.gameObject.tag == "tile")
+                {
+                    Tile t = hit.transform.parent.gameObject.GetComponent<Tile>();
+                    Debug.Log("hit tile");
+                    if (m_IsPieceSelected && (m_SelectedPiece.Team == board.CurrentTeam))
+                    {
+                        Debug.Log("piece is selected");
+                        if (t.isHighlighted)
+                        {
+                            Debug.Log("asking to mvoe");
+                            m_SelectedPiece.MoveToTile(t);
+                            board.RestoreAllTiles();
+                            m_PieceTile.Piece = null;
+                            t.Piece = m_SelectedPiece;
+                            board.ChangeTurn();
+                        }
+
+                    }
+                }
+            }
+        }
+
+#endif
 	}
 }

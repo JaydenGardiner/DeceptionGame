@@ -3,7 +3,18 @@ using System.Collections;
 
 public class Tile : MonoBehaviour {
 
-    public Vector3 Location { get; private set; }
+    private Vector3 m_Loc;
+    public Vector3 Location
+    {
+        get
+        {
+            return m_Loc;
+        }
+        private set
+        {
+            m_Loc = value;
+        }
+    }
 
     public Piece Piece;
 
@@ -19,7 +30,9 @@ public class Tile : MonoBehaviour {
     void Awake()
     {
         //This must be in awake, otherwise it will be an incorrect location
-        Location = this.gameObject.GetComponentInChildren<MeshRenderer>().bounds.center;
+        m_Loc = this.gameObject.GetComponentInChildren<MeshRenderer>().bounds.center;
+        //set to correct height to move pieces to
+        m_Loc.y += 2f;
         isHighlighted = false;
     }
 
@@ -35,7 +48,7 @@ public class Tile : MonoBehaviour {
     public void Highlight()
     {
         isHighlighted = true;
-        Debug.Log("Tile " + I + " " + J + " " + (gameObject.GetComponentInChildren<Renderer>() == null));
+        //Debug.Log("Tile " + I + " " + J + " " + (gameObject.GetComponentInChildren<Renderer>() == null));
         gameObject.GetComponentInChildren<Renderer>().material.SetColor("_TintColor", Color.blue);
     }
 

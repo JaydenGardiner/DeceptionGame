@@ -20,6 +20,9 @@ public class BoardManager : MonoBehaviour {
     //the currently selected piece
     public Piece currentPiece;
 
+    public int CurrentTeam;
+
+
     /* In row column order where the rows go downwards
      * 5 6 7 8 9  r=0
      * 0 1 2 3 4  r=1
@@ -30,6 +33,10 @@ public class BoardManager : MonoBehaviour {
      */
     //Use this for 2d array, is in row, column order
     public Tile[,] Tiles2D;
+
+    private bool m_ZeroWins;
+    private bool m_OneWins;
+    
 
     void Awake()
     {
@@ -42,6 +49,8 @@ public class BoardManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        m_OneWins = false;
+        m_ZeroWins = false;
         //Create 2d arrays of positions and game objects and instantiate pieces
         Tiles2D = new Tile[6, 5];
         for(int i = 0; i < 6; i++)
@@ -51,6 +60,7 @@ public class BoardManager : MonoBehaviour {
                 //Convert 1d tile array from scene to 2d representation.
                 //Assumes tiles are ordered in scene, probably not best implementation but w.e
                 GameObject tile = tiles[(i * 5) + j];
+                tile.gameObject.GetComponentInChildren<MeshRenderer>().gameObject.AddComponent<BoxCollider>();
                 Tiles2D[i, j] = tile.gameObject.GetComponent<Tile>();
 
                 //Instantiate virtual board location
@@ -68,6 +78,8 @@ public class BoardManager : MonoBehaviour {
                     n_GameObj.transform.Rotate(new Vector3(90, 0, 0));
                     n_GameObj.transform.Translate(0, 0, -2);
                     n_GameObj.AddComponent<MeshCollider>();
+                    //for collision
+                    n_GameObj.tag = "piece";
                     //Set tile's piece
                     Tiles2D[i, j].Piece = n_GameObj.GetComponent<Piece>();
                     Tiles2D[i, j].Piece.Tile = Tiles2D[i, j];
@@ -95,15 +107,46 @@ public class BoardManager : MonoBehaviour {
         //random initilization, testing ideas
         Player1 = new GamePlayer(new Player("John"), 0, true);
         Player2 = new GamePlayer(new Player("Cena"), 1, false);
-
+        CurrentTeam = 0;
         Tiles2D[0, 0].Piece.IsSecret = true;
         Tiles2D[5, 0].Piece.IsSecret = true;
 	}
 	
 	// Update is called once per frame
 	void Update () {
+        foreach(Tile t in Tiles2D)
+        {
+            Piece p = t.Piece;
+            if (p.IsSecret && (p.Team == 0) && (t.I == 0))
+            {
+                m_ZeroWins = true;
+            }
+            else if (p.IsSecret && (p.Team == 1) && (t.I == 5))
+            {
+                m_OneWins = true;
+            }
+        }
+        if (m_OneWins)
+        {
 
+        }
+        if (m_ZeroWins)
+        {
+
+        }
 	}
+
+    public void ChangeTurn()
+    {
+        if (CurrentTeam == 0)
+        {
+            CurrentTeam = 1;
+        }
+        else
+        {
+            CurrentTeam = 0;
+        }
+    }
 
 
     public void RestoreAllTiles()

@@ -6,7 +6,6 @@ using System.Collections;
 public class CameraMovement : MonoBehaviour {
 
 
-    public Text m_T;
     private float m_Speed = 2.5f;
     private Vector3 m_Target;
     private Vector3 m_OtherPt;
@@ -33,8 +32,6 @@ public class CameraMovement : MonoBehaviour {
         this.transform.LookAt(m_Target);
 
 
-        m_T.text = "updating lol";
-
         if (Input.touchCount > 0)
         {
             foreach (Touch touch in Input.touches)
@@ -42,7 +39,6 @@ public class CameraMovement : MonoBehaviour {
                 switch (touch.phase)
                 {
                     case TouchPhase.Began:
-                        m_T.text = "begin touch";
                         /* this is a new touch */
                         isSwipe = true;
                         fingerStartTime = Time.time;
@@ -50,13 +46,11 @@ public class CameraMovement : MonoBehaviour {
                         break;
 
                     case TouchPhase.Canceled:
-                        m_T.text = "cancelled touch";
                         /* The touch is being canceled */
                         isSwipe = false;
                         break;
 
                     case TouchPhase.Moved:
-                        m_T.text = "ending  touch beginning movement";
                         float gestureTime = Time.time - fingerStartTime;
                         float gestureDist = (touch.position - fingerStartPos).magnitude;
 
