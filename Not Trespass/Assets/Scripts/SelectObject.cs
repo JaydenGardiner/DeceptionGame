@@ -33,23 +33,22 @@ public class SelectObject : MonoBehaviour {
                             if (hit.transform.parent.gameObject.tag == "piece")
                             {
                                 board.currentPiece = hit.transform.parent.gameObject.GetComponent<Piece>();
-                                if (board.currentPiece.Team == board.CurrentTeam)
-                                {
-                                    board.RestoreAllTiles();
-                                    board.FindMovementOptions();
-                                    Debug.Log("hit piece");
-                                    Debug.Log(hit.transform.parent.gameObject.name);
-                                    m_IsPieceSelected = true;
-                                    m_SelectedPiece = hit.transform.parent.gameObject.GetComponent<Piece>();
-                                    m_PieceTile = m_SelectedPiece.Tile;
-                                }
+                                
+                                board.RestoreAllTiles();
+                                board.FindMovementOptions();
+                                Debug.Log("hit piece");
+                                Debug.Log(hit.transform.parent.gameObject.name);
+                                m_IsPieceSelected = true;
+                                m_SelectedPiece = hit.transform.parent.gameObject.GetComponent<Piece>();
+                                m_PieceTile = m_SelectedPiece.Tile;
+                                
 
                             }
                             else if (hit.transform.parent.gameObject.tag == "tile")
                             {
                                 Tile t = hit.transform.parent.gameObject.GetComponent<Tile>();
                                 Debug.Log("hit tile");
-                                if (m_IsPieceSelected && (m_SelectedPiece.Team == board.CurrentTeam))
+                                if (m_IsPieceSelected)
                                 {
                                     Debug.Log("piece is selected");
                                     if (t.isHighlighted)
@@ -81,23 +80,22 @@ public class SelectObject : MonoBehaviour {
                 if (hit.transform.parent.gameObject.tag == "piece")
                 {
                     board.currentPiece = hit.transform.parent.gameObject.GetComponent<Piece>();
-                    if (board.currentPiece.Team == board.CurrentTeam)
-                    {
-                        board.RestoreAllTiles();
-                        board.FindMovementOptions();
-                        Debug.Log("hit piece");
-                        Debug.Log(hit.transform.parent.gameObject.name);
-                        m_IsPieceSelected = true;
-                        m_SelectedPiece = hit.transform.parent.gameObject.GetComponent<Piece>();
-                        m_PieceTile = m_SelectedPiece.Tile;
-                    }
+                    
+                    board.RestoreAllTiles();
+                    board.FindMovementOptions();
+                    Debug.Log("hit piece");
+                    Debug.Log(hit.transform.parent.gameObject.name);
+                    m_IsPieceSelected = true;
+                    m_SelectedPiece = hit.transform.parent.gameObject.GetComponent<Piece>();
+                    m_PieceTile = m_SelectedPiece.Tile;
+                    
                     
                 }
                 else if (hit.transform.parent.gameObject.tag == "tile")
                 {
                     Tile t = hit.transform.parent.gameObject.GetComponent<Tile>();
                     Debug.Log("hit tile");
-                    if (m_IsPieceSelected && (m_SelectedPiece.Team == board.CurrentTeam))
+                    if (m_IsPieceSelected)
                     {
                         Debug.Log("piece is selected");
                         if (t.isHighlighted)

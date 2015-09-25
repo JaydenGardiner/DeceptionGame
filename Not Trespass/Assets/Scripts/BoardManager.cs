@@ -117,22 +117,22 @@ public class BoardManager : MonoBehaviour {
         foreach(Tile t in Tiles2D)
         {
             Piece p = t.Piece;
-            if (p.IsSecret && (p.Team == 0) && (t.I == 0))
+            if (p != null && p.IsSecret && (p.Team == 0) && (t.I == 0))
             {
                 m_ZeroWins = true;
             }
-            else if (p.IsSecret && (p.Team == 1) && (t.I == 5))
+            else if (p != null && p.IsSecret && (p.Team == 1) && (t.I == 5))
             {
                 m_OneWins = true;
             }
         }
         if (m_OneWins)
         {
-
+            Application.Quit();
         }
         if (m_ZeroWins)
         {
-
+            Application.Quit();
         }
 	}
 

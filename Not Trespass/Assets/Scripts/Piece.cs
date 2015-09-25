@@ -23,10 +23,7 @@ public class Piece : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         m_TimeToMove = 1.0f;
-        if (IsSecret)
-        {
-            HighlightPiece();
-        }
+        HighlightPiece();
 	}
 	
 	// Update is called once per frame
@@ -36,14 +33,36 @@ public class Piece : MonoBehaviour {
 
     private void HighlightPiece()
     {
+        if (IsSecret)
+        {
+            
+        }
         if (Team == 0)
         {
-            this.gameObject.GetComponentsInChildren<Renderer>()[1].material.SetColor("_TintColor", Color.yellow);
+            if (IsSecret)
+            {
+                this.gameObject.GetComponentsInChildren<Renderer>()[1].material.SetColor("_TintColor", Color.yellow);
+            }
+            else
+            {
+                this.gameObject.GetComponentsInChildren<Renderer>()[1].material.SetColor("_TintColor", Color.magenta);
+            }
+            
         }
         else
         {
-            this.gameObject.GetComponentsInChildren<Renderer>()[1].material.SetColor("_TintColor", Color.green);
+            if (IsSecret)
+            {
+                this.gameObject.GetComponentsInChildren<Renderer>()[1].material.SetColor("_TintColor", Color.green);
+            }
+            else
+            {
+                this.gameObject.GetComponentsInChildren<Renderer>()[1].material.SetColor("_TintColor", Color.red);
+            }
+            
         }
+
+        
     }
 
     public void OnSelect()
