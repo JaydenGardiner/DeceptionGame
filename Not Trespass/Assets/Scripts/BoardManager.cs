@@ -128,11 +128,11 @@ public class BoardManager : MonoBehaviour {
         }
         if (m_OneWins)
         {
-            Application.Quit();
+            //Application.Quit();
         }
         if (m_ZeroWins)
         {
-            Application.Quit();
+            //Application.Quit();
         }
 	}
 
