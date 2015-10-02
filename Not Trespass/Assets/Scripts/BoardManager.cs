@@ -136,6 +136,17 @@ public class BoardManager : MonoBehaviour {
         }
 	}
 
+    public void UpdateBoard(Piece[,] n_pieces)
+    {
+        for (int i = 0; i < 6; i++)
+        {
+            for (int j = 0; j < 5; j++)
+            {
+                Tiles2D[i, j].Piece = n_pieces[i, j];
+            }
+        }
+    }
+
     public void ChangeTurn()
     {
         if (CurrentTeam == 0)

@@ -9,12 +9,20 @@ public class CameraMovement : MonoBehaviour {
     private float m_Speed = 2.5f;
     private Vector3 m_Target;
     private Vector3 m_OtherPt;
+
+    private Vector3 prevPos;
+    private Quaternion prevRot;
+    public float m_MaxCameraY;
+    public float m_MinCameraY;
+
 	// Use this for initialization
 	void Start () {
         //Renderer render = board.GetComponent<Renderer>();
         //target = render.bounds.center;
         m_Target = Vector3.zero;
         m_OtherPt = new Vector3(1, 0, 0);
+        m_MaxCameraY = 90f;
+        m_MinCameraY = 15f;
 	}
 
 
@@ -28,9 +36,11 @@ public class CameraMovement : MonoBehaviour {
 	// Update is called once per frame
     void Update()
     {
-
+        
+        //Debug.Log("rotation: " + transform.rotation);
         this.transform.LookAt(m_Target);
-
+        prevPos = this.transform.position;
+        prevRot = this.transform.rotation;
 
         if (Input.touchCount > 0)
         {
@@ -78,6 +88,7 @@ public class CameraMovement : MonoBehaviour {
                                     
                                     //this.transform.Translate(Vector3.right * Time.deltaTime * speed);
                                     this.transform.RotateAround(m_Target, Vector3.up, Input.GetAxis("Mouse X") * m_Speed);
+                                    
                                     m_OtherPt = RotateAroundPivot(m_OtherPt, Vector3.up, Quaternion.Euler(0, Input.GetAxis("Mouse X") * m_Speed, 0));
                                 }
                                 else
@@ -108,6 +119,40 @@ public class CameraMovement : MonoBehaviour {
             }
 
         }
+
+#if UNITY_EDITOR
+        this.transform.RotateAround(m_Target, Vector3.up, Input.GetAxis("Mouse X") * m_Speed);
+        m_OtherPt = RotateAroundPivot(m_OtherPt, Vector3.up, Quaternion.Euler(0, Input.GetAxis("Mouse X") * m_Speed, 0));
+        this.transform.RotateAround(m_Target, (m_OtherPt - m_Target), Input.GetAxis("Mouse Y") * m_Speed);
+        if (this.transform.position.y < m_MinCameraY || this.transform.position.y >= m_MaxCameraY)
+        {
+            this.transform.position = prevPos;
+            this.transform.rotation = prevRot;
+        }
+        /*
+        if (this.transform.position.y >= 15 && this.transform.position.y <= 90)
+        {
+            this.transform.RotateAround(m_Target, (m_OtherPt - m_Target), Input.GetAxis("Mouse Y") * m_Speed);
+        }
+        else if (this.transform.position.y < 15)
+        {
+            Debug.Log("limit lower");
+            this.transform.RotateAround(m_Target, (m_OtherPt - m_Target), -1*Mathf.Abs(Input.GetAxis("Mouse Y") * m_Speed));
+        }
+        else if (this.transform.position.y >= 90)
+        {
+            Debug.Log("limit upper");
+            this.transform.RotateAround(m_Target, (m_OtherPt - m_Target), Mathf.Abs(Input.GetAxis("Mouse Y") * m_Speed));
+        }
+        else
+        {
+            Debug.Log("other");
+        }*/
+        
+
+
+#endif
+
     }
 
     public Vector3 RotateAroundPivot(Vector3 Point, Vector3 Pivot, Quaternion Angle)
