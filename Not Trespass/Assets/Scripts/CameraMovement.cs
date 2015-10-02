@@ -105,10 +105,20 @@ public class CameraMovement : MonoBehaviour {
                                 if (swipeType.y > 0.0f)
                                 {
                                     this.transform.RotateAround(m_Target, (m_OtherPt - m_Target), Input.GetAxis("Mouse Y") * m_Speed);
+                                    if (this.transform.position.y < m_MinCameraY || this.transform.position.y >= m_MaxCameraY)
+                                    {
+                                        this.transform.position = prevPos;
+                                        this.transform.rotation = prevRot;
+                                    }
                                 }
                                 else
                                 {
                                     this.transform.RotateAround(m_Target, (m_OtherPt - m_Target), Input.GetAxis("Mouse Y") * m_Speed);
+                                    if (this.transform.position.y < m_MinCameraY || this.transform.position.y >= m_MaxCameraY)
+                                    {
+                                        this.transform.position = prevPos;
+                                        this.transform.rotation = prevRot;
+                                    }
                                 }
                             }
 
