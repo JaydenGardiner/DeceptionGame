@@ -15,14 +15,17 @@ public class CameraMovement : MonoBehaviour {
     public float m_MaxCameraY;
     public float m_MinCameraY;
 
+    private Camera camera;
+
 	// Use this for initialization
 	void Start () {
         //Renderer render = board.GetComponent<Renderer>();
         //target = render.bounds.center;
         m_Target = Vector3.zero;
         m_OtherPt = new Vector3(1, 0, 0);
-        m_MaxCameraY = 90f;
+        m_MaxCameraY = 100f;
         m_MinCameraY = 15f;
+        camera = this.GetComponent<Camera>();
 	}
 
 
@@ -33,6 +36,9 @@ public class CameraMovement : MonoBehaviour {
     private float minSwipeDist  = 50.0f;
     private float maxSwipeTime = 0.5f;
 
+    private float perspectiveZoomSpeed = 0.5f;        // The rate of change of the field of view in perspective mode.
+    private float orthoZoomSpeed = 0.5f;
+
 	// Update is called once per frame
     void Update()
     {
@@ -42,7 +48,7 @@ public class CameraMovement : MonoBehaviour {
         prevPos = this.transform.position;
         prevRot = this.transform.rotation;
 
-        if (Input.touchCount > 0)
+        if (Input.touchCount > 0 && Input.touchCount < 2)
         {
             foreach (Touch touch in Input.touches)
             {
@@ -104,7 +110,7 @@ public class CameraMovement : MonoBehaviour {
                             {
                                 if (swipeType.y > 0.0f)
                                 {
-                                    this.transform.RotateAround(m_Target, (m_OtherPt - m_Target), Input.GetAxis("Mouse Y") * m_Speed);
+                                    this.transform.RotateAround(m_Target, (m_OtherPt - m_Target), Input.GetAxis("Mouse Y") * m_Speed);                                    
                                     if (this.transform.position.y < m_MinCameraY || this.transform.position.y >= m_MaxCameraY)
                                     {
                                         this.transform.position = prevPos;
@@ -113,7 +119,7 @@ public class CameraMovement : MonoBehaviour {
                                 }
                                 else
                                 {
-                                    this.transform.RotateAround(m_Target, (m_OtherPt - m_Target), Input.GetAxis("Mouse Y") * m_Speed);
+                                    this.transform.RotateAround(m_Target, (m_OtherPt - m_Target), Input.GetAxis("Mouse Y") * m_Speed);                                    
                                     if (this.transform.position.y < m_MinCameraY || this.transform.position.y >= m_MaxCameraY)
                                     {
                                         this.transform.position = prevPos;
@@ -129,11 +135,42 @@ public class CameraMovement : MonoBehaviour {
             }
 
         }
+        else if (Input.touchCount >= 2)
+        {
+            Touch touchZero = Input.GetTouch(0);
+            Touch touchOne = Input.GetTouch(1);
+
+            Vector2 touchZeroPrevPos = touchZero.position - touchZero.deltaPosition;
+            Vector2 touchOnePrevPos = touchOne.position - touchOne.deltaPosition;
+
+            float prevTouchDeltaMag = (touchZeroPrevPos - touchOnePrevPos).magnitude;
+            float touchDeltaMag = (touchZero.position - touchOne.position).magnitude;
+
+            float deltaMagnitudeDiff = prevTouchDeltaMag - touchDeltaMag;
+            
+            if (camera.orthographic)
+            {
+                // ... change the orthographic size based on the change in distance between the touches.
+                camera.orthographicSize += deltaMagnitudeDiff * orthoZoomSpeed;
+
+                // Make sure the orthographic size never drops below zero.
+                camera.orthographicSize = Mathf.Max(camera.orthographicSize, 0.1f);
+                camera.orthographicSize = Mathf.Min(camera.orthographicSize, 50f);
+            }
+            else
+            {
+                // Otherwise change the field of view based on the change in distance between the touches.
+                camera.fieldOfView += deltaMagnitudeDiff * perspectiveZoomSpeed;
+
+                // Clamp the field of view to make sure it's between 0 and 180.
+                camera.fieldOfView = Mathf.Clamp(camera.fieldOfView, 10f, 120f);
+            }
+        }
 
 #if UNITY_EDITOR
         this.transform.RotateAround(m_Target, Vector3.up, Input.GetAxis("Mouse X") * m_Speed);
         m_OtherPt = RotateAroundPivot(m_OtherPt, Vector3.up, Quaternion.Euler(0, Input.GetAxis("Mouse X") * m_Speed, 0));
-        this.transform.RotateAround(m_Target, (m_OtherPt - m_Target), Input.GetAxis("Mouse Y") * m_Speed);
+        this.transform.RotateAround(m_Target, (m_OtherPt - m_Target), Input.GetAxis("Mouse Y") * m_Speed);  
         if (this.transform.position.y < m_MinCameraY || this.transform.position.y >= m_MaxCameraY)
         {
             this.transform.position = prevPos;
