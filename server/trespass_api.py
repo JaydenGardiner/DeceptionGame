@@ -26,7 +26,14 @@ games = [
     {
         "player1": 0,
         "player2": 2,
-        "status": "pending"
+        "status": "pending",
+        "board": [
+            [0, 1, 2, 1], 
+            [1, 1, 1, 0],
+            [0, 0, 0, 0],
+            [3, 3, 3, 3],
+            [0, 0, 4, 3]
+        ]
     }
 ]
 
