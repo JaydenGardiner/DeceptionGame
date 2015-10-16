@@ -15,8 +15,24 @@ public class Tile : MonoBehaviour {
             m_Loc = value;
         }
     }
-
-    public Piece Piece;
+    private Piece m_Piece;
+    public Piece Piece
+    {
+        get { return m_Piece; }
+        set
+        {
+            if (value != null)
+            {
+                m_Piece = value;
+                m_Piece.Tile = this;
+            }
+            else
+            {
+                m_Piece = null;
+            }
+            
+        }
+    }
 
     public int I;
 

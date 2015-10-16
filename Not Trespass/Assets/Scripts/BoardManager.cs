@@ -20,6 +20,7 @@ public class BoardManager : MonoBehaviour {
     //the currently selected piece
     public Piece currentPiece;
 
+    //Current team
     public int CurrentTeam;
 
 
@@ -36,6 +37,14 @@ public class BoardManager : MonoBehaviour {
 
     private bool m_ZeroWins;
     private bool m_OneWins;
+
+    public bool Moved
+    {
+        get;
+        private set;
+    }
+    private int prevI, prevJ;
+    private int nextI, nextJ;
     
 
     void Awake()
@@ -82,7 +91,9 @@ public class BoardManager : MonoBehaviour {
                     n_GameObj.tag = "piece";
                     //Set tile's piece
                     Tiles2D[i, j].Piece = n_GameObj.GetComponent<Piece>();
-                    Tiles2D[i, j].Piece.Tile = Tiles2D[i, j];
+                    Tiles2D[i, j].Piece.IsSecret = false;
+                    //This is now unneeded, when I set the tile's piece, I also set the piece's tile (see Piece property in tile)
+                    //Tiles2D[i, j].Piece.Tile = Tiles2D[i, j];
                     Tiles2D[i, j].Piece.transform.Find("Piece").GetComponent<Renderer>().material.SetColor("_TintColor", Color.red);
                     
 
@@ -117,11 +128,11 @@ public class BoardManager : MonoBehaviour {
         foreach(Tile t in Tiles2D)
         {
             Piece p = t.Piece;
-            if (p != null && p.IsSecret && (p.Team == 0) && (t.I == 0))
+            if (p != null && p.IsSecret && (p.Team == 0) && (t.I == 5))
             {
                 m_ZeroWins = true;
             }
-            else if (p != null && p.IsSecret && (p.Team == 1) && (t.I == 5))
+            else if (p != null && p.IsSecret && (p.Team == 1) && (t.I == 0))
             {
                 m_OneWins = true;
             }
@@ -136,6 +147,7 @@ public class BoardManager : MonoBehaviour {
         }
 	}
 
+    //Update board given new pieces
     public void UpdateBoard(Piece[,] n_pieces)
     {
         for (int i = 0; i < 6; i++)
@@ -149,14 +161,43 @@ public class BoardManager : MonoBehaviour {
 
     public void ChangeTurn()
     {
-        if (CurrentTeam == 0)
+        if (Moved)
         {
-            CurrentTeam = 1;
+            if (CurrentTeam == 0)
+            {
+                CurrentTeam = 1;
+            }
+            else
+            {
+                CurrentTeam = 0;
+            }
+            Moved = false;
         }
-        else
+        
+    }
+    //Register new move so that it can be reverted / turn ended
+    public void RegisterNewMove(Tile prevTile, Tile nextTile)
+    {
+        Moved = true;
+        prevI = prevTile.I;
+        prevJ = prevTile.J;
+        nextI = nextTile.I;
+        nextJ = nextTile.J;
+    }
+    //Revert move before turn ended
+    public void RevertMove()
+    {
+        if (Moved)
         {
-            CurrentTeam = 0;
+            //Set the previous tile's piece back
+            Tiles2D[prevI, prevJ].Piece = Tiles2D[nextI, nextJ].Piece;
+            //Move the actual position back
+            Tiles2D[prevI, prevJ].Piece.transform.position = Tiles2D[prevI, prevJ].Location;
+            //Set the next tile's piece to none
+            Tiles2D[nextI, nextJ].Piece = null;
         }
+        //Now we havent moved
+        Moved = false;
     }
 
 

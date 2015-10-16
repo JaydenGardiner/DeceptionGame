@@ -41,11 +41,13 @@ public class SelectObject : MonoBehaviour {
                             Ray worldPos = Camera.main.ScreenPointToRay(Input.GetTouch(0).position);
                             if (Physics.Raycast(worldPos, out hit, Mathf.Infinity))
                             {
-                                if (hit.transform.parent.gameObject.tag == "piece")
+                                if (hit.transform.parent.gameObject.tag == "piece" && !board.Moved)
                                 {
+                                    //Find piece selected
                                     board.currentPiece = hit.transform.parent.gameObject.GetComponent<Piece>();
-
+                                    //Dehighlight tiles
                                     board.RestoreAllTiles();
+                                    //Highlight possible tiles
                                     board.FindMovementOptions();
                                     Debug.Log("hit piece");
                                     Debug.Log(hit.transform.parent.gameObject.name);
@@ -53,9 +55,8 @@ public class SelectObject : MonoBehaviour {
                                     m_SelectedPiece = hit.transform.parent.gameObject.GetComponent<Piece>();
                                     m_PieceTile = m_SelectedPiece.Tile;
 
-
                                 }
-                                else if (hit.transform.parent.gameObject.tag == "tile")
+                                else if (hit.transform.parent.gameObject.tag == "tile" && !board.Moved)
                                 {
                                     Tile t = hit.transform.parent.gameObject.GetComponent<Tile>();
                                     Debug.Log("hit tile");
@@ -69,7 +70,8 @@ public class SelectObject : MonoBehaviour {
                                             board.RestoreAllTiles();
                                             m_PieceTile.Piece = null;
                                             t.Piece = m_SelectedPiece;
-                                            board.ChangeTurn();
+                                            board.RegisterNewMove(m_PieceTile, t);
+                                            //board.ChangeTurn();
                                         }
 
                                     }
@@ -92,7 +94,7 @@ public class SelectObject : MonoBehaviour {
             Ray worldPos = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(worldPos, out hit, Mathf.Infinity))
             {
-                if (hit.transform.parent.gameObject.tag == "piece")
+                if (hit.transform.parent.gameObject.tag == "piece" && !board.Moved)
                 {
                     board.currentPiece = hit.transform.parent.gameObject.GetComponent<Piece>();
                     
@@ -106,7 +108,7 @@ public class SelectObject : MonoBehaviour {
                     
                     
                 }
-                else if (hit.transform.parent.gameObject.tag == "tile")
+                else if (hit.transform.parent.gameObject.tag == "tile" && !board.Moved)
                 {
                     Tile t = hit.transform.parent.gameObject.GetComponent<Tile>();
                     Debug.Log("hit tile");
@@ -120,7 +122,8 @@ public class SelectObject : MonoBehaviour {
                             board.RestoreAllTiles();
                             m_PieceTile.Piece = null;
                             t.Piece = m_SelectedPiece;
-                            board.ChangeTurn();
+                            board.RegisterNewMove(m_PieceTile, t);
+                            //board.ChangeTurn();
                         }
 
                     }
