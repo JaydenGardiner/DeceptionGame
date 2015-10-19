@@ -53,7 +53,8 @@ public class Piece : MonoBehaviour {
         {
             if (IsSecret)
             {
-                this.gameObject.GetComponentsInChildren<Renderer>()[1].material.SetColor("_TintColor", Color.green);
+                //dont highlight other players piece
+                //this.gameObject.GetComponentsInChildren<Renderer>()[1].material.SetColor("_TintColor", Color.green);
             }
             else
             {

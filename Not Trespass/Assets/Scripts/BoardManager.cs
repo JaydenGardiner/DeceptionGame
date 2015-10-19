@@ -35,8 +35,8 @@ public class BoardManager : MonoBehaviour {
     //Use this for 2d array, is in row, column order
     public Tile[,] Tiles2D;
 
-    private bool m_ZeroWins;
-    private bool m_OneWins;
+    public bool ZeroWins { get; private set; }
+    public bool OneWins { get; private set; }
 
     public bool Moved
     {
@@ -58,8 +58,8 @@ public class BoardManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        m_OneWins = false;
-        m_ZeroWins = false;
+        OneWins = false;
+        ZeroWins = false;
         //Create 2d arrays of positions and game objects and instantiate pieces
         Tiles2D = new Tile[6, 5];
         for(int i = 0; i < 6; i++)
@@ -125,26 +125,7 @@ public class BoardManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        foreach(Tile t in Tiles2D)
-        {
-            Piece p = t.Piece;
-            if (p != null && p.IsSecret && (p.Team == 0) && (t.I == 5))
-            {
-                m_ZeroWins = true;
-            }
-            else if (p != null && p.IsSecret && (p.Team == 1) && (t.I == 0))
-            {
-                m_OneWins = true;
-            }
-        }
-        if (m_OneWins)
-        {
-            //Application.Quit();
-        }
-        if (m_ZeroWins)
-        {
-            //Application.Quit();
-        }
+        
 	}
 
     //Update board given new pieces
@@ -172,6 +153,18 @@ public class BoardManager : MonoBehaviour {
                 CurrentTeam = 0;
             }
             Moved = false;
+        }
+        foreach (Tile t in Tiles2D)
+        {
+            Piece p = t.Piece;
+            if (p != null && p.IsSecret && (p.Team == 0) && (t.I == 5))
+            {
+                ZeroWins = true;
+            }
+            else if (p != null && p.IsSecret && (p.Team == 1) && (t.I == 0))
+            {
+                OneWins = true;
+            }
         }
         
     }
