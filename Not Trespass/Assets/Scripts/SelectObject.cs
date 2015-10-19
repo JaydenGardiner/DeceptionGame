@@ -41,24 +41,28 @@ public class SelectObject : MonoBehaviour {
                             Ray worldPos = Camera.main.ScreenPointToRay(Input.GetTouch(0).position);
                             if (Physics.Raycast(worldPos, out hit, Mathf.Infinity))
                             {
-                                if (hit.transform.parent.gameObject.tag == "piece" && !board.Moved)
+                                GameObject objHit = hit.transform.parent.gameObject;
+                                if (objHit.tag == "piece" && !board.Moved)
                                 {
-                                    //Find piece selected
-                                    board.currentPiece = hit.transform.parent.gameObject.GetComponent<Piece>();
-                                    //Dehighlight tiles
-                                    board.RestoreAllTiles();
-                                    //Highlight possible tiles
-                                    board.FindMovementOptions();
-                                    Debug.Log("hit piece");
-                                    Debug.Log(hit.transform.parent.gameObject.name);
-                                    m_IsPieceSelected = true;
-                                    m_SelectedPiece = hit.transform.parent.gameObject.GetComponent<Piece>();
-                                    m_PieceTile = m_SelectedPiece.Tile;
+                                    if (board.MovedPiece != objHit.GetComponent<Piece>())
+                                    {
+                                        //Find piece selected
+                                        board.currentPiece = objHit.GetComponent<Piece>();
+                                        m_IsPieceSelected = true;
+                                        m_SelectedPiece = objHit.GetComponent<Piece>();
+                                        m_PieceTile = m_SelectedPiece.Tile;
+                                        //Dehighlight tiles
+                                        board.RestoreAllTiles();
+                                        //Highlight possible tiles
+                                        board.FindMovementOptions();
+                                        Debug.Log("hit piece");
+                                        Debug.Log(objHit.name);
+                                    }
 
                                 }
-                                else if (hit.transform.parent.gameObject.tag == "tile" && !board.Moved)
+                                else if (objHit.tag == "tile" && !board.Moved)
                                 {
-                                    Tile t = hit.transform.parent.gameObject.GetComponent<Tile>();
+                                    Tile t = objHit.GetComponent<Tile>();
                                     Debug.Log("hit tile");
                                     if (m_IsPieceSelected)
                                     {
@@ -66,11 +70,11 @@ public class SelectObject : MonoBehaviour {
                                         if (t.isHighlighted)
                                         {
                                             Debug.Log("asking to mvoe");
-                                            m_SelectedPiece.MoveToTile(t);
-                                            board.RestoreAllTiles();
+                                            m_SelectedPiece.MoveToTile(t, 1);
                                             m_PieceTile.Piece = null;
                                             t.Piece = m_SelectedPiece;
                                             board.RegisterNewMove(m_PieceTile, t);
+                                            board.RestoreAllTiles();
                                             //board.ChangeTurn();
                                         }
 
@@ -94,34 +98,37 @@ public class SelectObject : MonoBehaviour {
             Ray worldPos = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(worldPos, out hit, Mathf.Infinity))
             {
-                if (hit.transform.parent.gameObject.tag == "piece" && !board.Moved)
+                GameObject objHit = hit.transform.parent.gameObject;
+                if (objHit.tag == "piece" && !board.Moved)
                 {
-                    board.currentPiece = hit.transform.parent.gameObject.GetComponent<Piece>();
-                    
-                    board.RestoreAllTiles();
-                    board.FindMovementOptions();
-                    Debug.Log("hit piece");
-                    Debug.Log(hit.transform.parent.gameObject.name);
-                    m_IsPieceSelected = true;
-                    m_SelectedPiece = hit.transform.parent.gameObject.GetComponent<Piece>();
-                    m_PieceTile = m_SelectedPiece.Tile;
+                    if (board.MovedPiece != objHit.GetComponent<Piece>())
+                    {
+                        board.currentPiece = objHit.GetComponent<Piece>();
+                        m_IsPieceSelected = true;
+                        m_SelectedPiece = objHit.GetComponent<Piece>();
+                        m_PieceTile = m_SelectedPiece.Tile;
+                        board.RestoreAllTiles();
+                        board.FindMovementOptions();
+                        //Debug.Log("hit piece");
+                        Debug.Log(objHit.gameObject.name);
+                    }
                     
                     
                 }
-                else if (hit.transform.parent.gameObject.tag == "tile" && !board.Moved)
+                else if (objHit.tag == "tile" && !board.Moved)
                 {
-                    Tile t = hit.transform.parent.gameObject.GetComponent<Tile>();
-                    Debug.Log("hit tile");
+                    Tile t = objHit.GetComponent<Tile>();
+                    //Debug.Log("hit tile");
                     if (m_IsPieceSelected)
                     {
-                        Debug.Log("piece is selected");
+                        //Debug.Log("piece is selected");
                         if (t.isHighlighted)
                         {
-                            Debug.Log("asking to mvoe");
-                            m_SelectedPiece.MoveToTile(t);
-                            board.RestoreAllTiles();
+                            //Debug.Log("asking to mvoe");
+                            m_SelectedPiece.MoveToTile(t, 1);
                             m_PieceTile.Piece = null;
                             t.Piece = m_SelectedPiece;
+                            board.RestoreAllTiles();
                             board.RegisterNewMove(m_PieceTile, t);
                             //board.ChangeTurn();
                         }

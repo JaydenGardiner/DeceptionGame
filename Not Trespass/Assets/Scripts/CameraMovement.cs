@@ -15,7 +15,7 @@ public class CameraMovement : MonoBehaviour {
     public float m_MaxCameraY;
     public float m_MinCameraY;
 
-    private Camera camera;
+    private Camera m_MainCamera;
 
 	// Use this for initialization
 	void Start () {
@@ -25,7 +25,7 @@ public class CameraMovement : MonoBehaviour {
         m_OtherPt = new Vector3(1, 0, 0);
         m_MaxCameraY = 100f;
         m_MinCameraY = 15f;
-        camera = this.GetComponent<Camera>();
+        m_MainCamera = this.GetComponent<Camera>();
 	}
 
 
@@ -33,8 +33,8 @@ public class CameraMovement : MonoBehaviour {
     private Vector2 fingerStartPos = Vector2.zero;
   
     private bool isSwipe = false;
-    private float minSwipeDist  = 50.0f;
-    private float maxSwipeTime = 0.5f;
+    //private float minSwipeDist  = 50.0f;
+    //private float maxSwipeTime = 0.5f;
 
     private float perspectiveZoomSpeed = 0.5f;        // The rate of change of the field of view in perspective mode.
     private float orthoZoomSpeed = 0.5f;
@@ -148,22 +148,22 @@ public class CameraMovement : MonoBehaviour {
 
             float deltaMagnitudeDiff = prevTouchDeltaMag - touchDeltaMag;
             
-            if (camera.orthographic)
+            if (m_MainCamera.orthographic)
             {
                 // ... change the orthographic size based on the change in distance between the touches.
-                camera.orthographicSize += deltaMagnitudeDiff * orthoZoomSpeed;
+                m_MainCamera.orthographicSize += deltaMagnitudeDiff * orthoZoomSpeed;
 
                 // Make sure the orthographic size never drops below zero.
-                camera.orthographicSize = Mathf.Max(camera.orthographicSize, 0.1f);
-                camera.orthographicSize = Mathf.Min(camera.orthographicSize, 50f);
+                m_MainCamera.orthographicSize = Mathf.Max(m_MainCamera.orthographicSize, 0.1f);
+                m_MainCamera.orthographicSize = Mathf.Min(m_MainCamera.orthographicSize, 50f);
             }
             else
             {
                 // Otherwise change the field of view based on the change in distance between the touches.
-                camera.fieldOfView += deltaMagnitudeDiff * perspectiveZoomSpeed;
+                m_MainCamera.fieldOfView += deltaMagnitudeDiff * perspectiveZoomSpeed;
 
                 // Clamp the field of view to make sure it's between 0 and 180.
-                camera.fieldOfView = Mathf.Clamp(camera.fieldOfView, 10f, 120f);
+                m_MainCamera.fieldOfView = Mathf.Clamp(m_MainCamera.fieldOfView, 10f, 120f);
             }
         }
 

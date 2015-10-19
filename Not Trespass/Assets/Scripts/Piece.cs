@@ -12,8 +12,6 @@ public class Piece : MonoBehaviour {
     public int Team;
 
     private Vector3 m_Destination;
-    private bool m_IsMoving;
-    private float m_TimeToMove;
 
 
     void Awake()
@@ -22,7 +20,6 @@ public class Piece : MonoBehaviour {
     }
 	// Use this for initialization
 	void Start () {
-        m_TimeToMove = 1.0f;
         HighlightPiece();
 	}
 	
@@ -72,20 +69,20 @@ public class Piece : MonoBehaviour {
         //deprecated
         //change color, set to move, etc.....
     }
-
+    /*
     public override bool Equals(object o)
     {
         if (o == null) { return false; }
         Piece p = o as Piece;
         if ((System.Object)p == null) { return false; }
         return (this.PieceNumber == p.PieceNumber);
-    }
+    }*/
 
-    private IEnumerator WaitAndMove(float delay)
+    private IEnumerator WaitAndMove(float delay, float duration)
     {
         yield return new WaitForSeconds(delay);
         float startTime = Time.time;
-        while(Time.time - startTime <= 1)
+        while(Time.time - startTime <= duration)
         {
             this.transform.position = Vector3.Lerp(this.transform.position, m_Destination, Time.time - startTime);
             //wait for next frame
@@ -93,12 +90,12 @@ public class Piece : MonoBehaviour {
         }
     }
 
-    public void MoveToTile(Tile tile)
+    public void MoveToTile(Tile tile, float duration)
     {
         Debug.Log("moving");
         m_Destination = tile.Location;
-        StartCoroutine(WaitAndMove(0));
-        Tile = tile;
+        StartCoroutine(WaitAndMove(0, duration));
+        this.Tile = tile;
     }
 
 }

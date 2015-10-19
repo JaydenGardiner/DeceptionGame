@@ -11,8 +11,8 @@ public class BoardManager : MonoBehaviour {
     public GameObject[] tiles;
 
     //Get these from other stuff, just initialising for now.
-    public GamePlayer Player1;
-    public GamePlayer Player2;
+    //public GamePlayer Player1;
+    //public GamePlayer Player2;
 
     public int Player1Secret;
     public int Player2Secret;
@@ -43,8 +43,11 @@ public class BoardManager : MonoBehaviour {
         get;
         private set;
     }
-    private int prevI, prevJ;
-    private int nextI, nextJ;
+
+    public Piece MovedPiece { get; private set; }
+
+    private Tile revertTo;
+    private Tile revertFrom;
     
 
     void Awake()
@@ -116,8 +119,8 @@ public class BoardManager : MonoBehaviour {
             }
         }
         //random initilization, testing ideas
-        Player1 = new GamePlayer(new Player("John"), 0, true);
-        Player2 = new GamePlayer(new Player("Cena"), 1, false);
+        //Player1 = new GamePlayer(new Player("John"), 0, true);
+        //Player2 = new GamePlayer(new Player("Cena"), 1, false);
         CurrentTeam = 0;
         Tiles2D[0, 0].Piece.IsSecret = true;
         Tiles2D[5, 0].Piece.IsSecret = true;
@@ -172,10 +175,9 @@ public class BoardManager : MonoBehaviour {
     public void RegisterNewMove(Tile prevTile, Tile nextTile)
     {
         Moved = true;
-        prevI = prevTile.I;
-        prevJ = prevTile.J;
-        nextI = nextTile.I;
-        nextJ = nextTile.J;
+        MovedPiece = nextTile.Piece;
+        revertTo = prevTile;
+        revertFrom = nextTile;
     }
     //Revert move before turn ended
     public void RevertMove()
@@ -183,11 +185,13 @@ public class BoardManager : MonoBehaviour {
         if (Moved)
         {
             //Set the previous tile's piece back
-            Tiles2D[prevI, prevJ].Piece = Tiles2D[nextI, nextJ].Piece;
-            //Move the actual position back
-            Tiles2D[prevI, prevJ].Piece.transform.position = Tiles2D[prevI, prevJ].Location;
+            revertTo.Piece = revertFrom.Piece;
             //Set the next tile's piece to none
-            Tiles2D[nextI, nextJ].Piece = null;
+            revertFrom.Piece = null;
+            //Move the actual position back
+            revertTo.Piece.MoveToTile(revertTo, 0.5f);
+            //No moved piece
+            MovedPiece = null;
         }
         //Now we havent moved
         Moved = false;
@@ -252,6 +256,7 @@ public class BoardManager : MonoBehaviour {
     }
 }
 //just some ideas
+/*
 public struct GamePlayer
 {
     public Player P { get; private set; }
@@ -270,5 +275,5 @@ public struct GamePlayer
         Team = team;
         IsTurn = isStarting;
     }
-}
+}*/
 
