@@ -270,6 +270,7 @@ public struct GamePlayer
     }
 
     public GamePlayer(Player nPlayer, int team, bool isStarting)
+		: this()
     {
         P = nPlayer;
         Team = team;
