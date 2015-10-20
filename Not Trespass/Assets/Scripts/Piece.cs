@@ -13,32 +13,41 @@ public class Piece : MonoBehaviour {
 
     private Vector3 m_Destination;
 
+    private BoardManager board;
 
     void Awake()
     {
         IsSecret = false;
+        
     }
 	// Use this for initialization
 	void Start () {
+        board = GameObject.FindObjectOfType<BoardManager>();
         HighlightPiece();
+        
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        
+        HighlightPiece();
 	}
 
     public void HighlightPiece()
     {
-        if (IsSecret)
-        {
-            
-        }
+        
         if (Team == 0)
         {
             if (IsSecret)
             {
-                this.gameObject.GetComponentsInChildren<Renderer>()[1].material.SetColor("_TintColor", Color.yellow);
+                if (board == null || board.CurrentTeam == 0)
+                {
+                    this.gameObject.GetComponentsInChildren<Renderer>()[1].material.SetColor("_TintColor", Color.yellow);
+                }
+                else
+                {
+                    this.gameObject.GetComponentsInChildren<Renderer>()[1].material.SetColor("_TintColor", Color.magenta);
+                }
+                
             }
             else
             {

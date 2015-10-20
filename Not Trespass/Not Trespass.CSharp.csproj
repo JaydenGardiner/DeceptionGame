@@ -72,7 +72,8 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\BoardManager.cs" />
     <Compile Include="Assets\Scripts\CameraMovement.cs" />
-    <Compile Include="Assets\Scripts\CreateGameData.cs" />
+    <Compile Include="Assets\Scripts\SharedSceneData.cs" />
+    <Compile Include="Assets\Scripts\FriendsPageActions.cs" />
     <Compile Include="Assets\Scripts\MenuMovement.cs" />
     <Compile Include="Assets\Scripts\Piece.cs" />
     <Compile Include="Assets\Scripts\Player.cs" />

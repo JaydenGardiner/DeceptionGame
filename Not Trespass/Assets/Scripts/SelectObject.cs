@@ -4,7 +4,6 @@ using System.Collections;
 
 public class SelectObject : MonoBehaviour
 {
-
     private bool m_IsPieceSelected;
     private Piece m_SelectedPiece;
     private Tile m_PieceTile;

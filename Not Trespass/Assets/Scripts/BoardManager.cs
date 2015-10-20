@@ -63,6 +63,7 @@ public class BoardManager : MonoBehaviour {
 	void Start () {
         OneWins = false;
         ZeroWins = false;
+        Player1Secret = SharedSceneData.SecretNumber;
         //Create 2d arrays of positions and game objects and instantiate pieces
         Tiles2D = new Tile[6, 5];
         for(int i = 0; i < 6; i++)
@@ -109,7 +110,7 @@ public class BoardManager : MonoBehaviour {
                     {
                         Tiles2D[i, j].Piece.Team = 1;
                     }
-                    Debug.Log("this: " + center.ToString() + ", tile: " + Tiles2D[i, j].Location);
+                    //Debug.Log("this: " + center.ToString() + ", tile: " + Tiles2D[i, j].Location);
                 }
                 else
                 {
@@ -118,11 +119,8 @@ public class BoardManager : MonoBehaviour {
                 
             }
         }
-        //random initilization, testing ideas
-        //Player1 = new GamePlayer(new Player("John"), 0, true);
-        //Player2 = new GamePlayer(new Player("Cena"), 1, false);
         CurrentTeam = 0;
-        Tiles2D[0, 0].Piece.IsSecret = true;
+        Tiles2D[1-Player1Secret / 5, Player1Secret % 5].Piece.IsSecret = true;
         Tiles2D[5, 0].Piece.IsSecret = true;
 	}
 	

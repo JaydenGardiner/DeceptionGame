@@ -114,7 +114,8 @@ public class MenuMovement : MonoBehaviour {
 		currentPage = 1;
 		mainCanvas.SetActive (false);
 		playCanvas.SetActive(true);
-
+        optionsCanvas.SetActive(false);
+        friendsCanvas.SetActive(false);
 		startTime = Time.time;
 	}
 
@@ -123,6 +124,8 @@ public class MenuMovement : MonoBehaviour {
 
 		currentPage = 2;
 		mainCanvas.SetActive (false);
+        playCanvas.SetActive(false);
+        optionsCanvas.SetActive(false);
 		friendsCanvas.SetActive(true);
 
 		startTime = Time.time;
@@ -133,7 +136,8 @@ public class MenuMovement : MonoBehaviour {
 	public void MoveToOptionsScreen() {
 		//mode = 4;
 		currentPage = 3;
-
+        playCanvas.SetActive(false);
+        friendsCanvas.SetActive(false);
 		mainCanvas.SetActive (false);
 		optionsCanvas.SetActive(true);
 
