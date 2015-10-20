@@ -14,8 +14,8 @@ public class FriendsPageActions : MonoBehaviour {
     public Button AddFriendButton;
 
     private Canvas FriendCanvas;
-    private int startPos = -200;
-    private int increment = -40;
+    private int startPos = -220;
+    private int increment = -80;
     private bool m_IsTap;
 
     private Dictionary<int, Toggle> Toggles;
@@ -32,7 +32,7 @@ public class FriendsPageActions : MonoBehaviour {
 
     void Update()
     {
-        if (index > 4)
+        if (index > 3)
         {
             AddFriendButton.interactable = false;
         }
@@ -45,7 +45,7 @@ public class FriendsPageActions : MonoBehaviour {
         tObject.transform.SetParent(FriendCanvas.transform);
         RectTransform rt = tObject.GetComponent<RectTransform>();
         rt.pivot = new Vector2(1f, 0f);
-        rt.anchoredPosition = new Vector2(0, startPos + index * increment);
+        rt.anchoredPosition = new Vector2(300, startPos + index * increment);
         tObject.GetComponent<Text>().text = EmailInput.text;
         Toggles.Add(index, tObject.GetComponent<Toggle>());
         tObject.GetComponent<Toggle>().onValueChanged.AddListener(SelectItem);
@@ -144,7 +144,7 @@ public class FriendsPageActions : MonoBehaviour {
         {
             RectTransform rt = Toggles[i].gameObject.GetComponent<RectTransform>();
             print(i);
-            rt.anchoredPosition = new Vector2(55, startPos + i * increment);
+            rt.anchoredPosition = new Vector2(300, startPos + i * increment);
         }
     }
 

@@ -28,9 +28,14 @@ public class MenuMovement : MonoBehaviour {
 
 	private GameObject mainCanvas, playCanvas, friendsCanvas, optionsCanvas;
 
+    void Awake()
+    {
+        Screen.orientation = ScreenOrientation.Landscape;
+    }
 
 	// Use this for initialization
 	void Start () {
+        
 
 		mainCanvas = GameObject.Find ("MainScreen");
 		playCanvas = GameObject.Find ("PlayScreen");
@@ -74,6 +79,11 @@ public class MenuMovement : MonoBehaviour {
 			}
 		}
 	}
+
+    public void LoadSecretScreen()
+    {
+        Application.LoadLevel("SecretPiece");
+    }
 
 	public void MoveToMainMenu(){
 
