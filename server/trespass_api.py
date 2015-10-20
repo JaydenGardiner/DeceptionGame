@@ -40,15 +40,40 @@ games = [
 # TODO: this will get loaded from the current auth session
 current_user_id = 1
 
+def error(msg):
+    return {"error": msg}
+def info(msg):
+    return {"result": msg}
 
 class FriendList(Resource):
     def get(self):
         return {"friends": [users[i] for i in users[current_user_id]['friends']]}
-    #TODO: post friend
+    def post(self, user_id):
+        if user_id < 0 or user_id >= len(users):
+            return error("Invalid user id")
+        if user_id in users[current_user_id]["friends"]:
+            return info("Already friends with this person")
+        if user_id == current_user_id:
+            return error("You can never befriend your inner self.")
+        users[current_user_id]["friends"].append(user_id)
+            return info("Success")
+    def delete(self, user_id):
+        if user_id < 0 or user_id >= len(users):
+            return error("Invalid user id")
+        if user_id not in users[current_user_id]["friends"]:
+            return info("Not even friends with this person")
+        if user_id == current_user_id:
+            return error("You can never unfriend your inner self.")
+        users[current_user_id]["friends"].remove(user_id)
+            return info("Success")
+
 
 class GameList(Resource):
     def get(self):
         return {"games": games}
+    def put(self, game_id, game_state):
+        
+       games[game_id] = game_state; 
     #TODO: post game
 
 class Game(Resource):
