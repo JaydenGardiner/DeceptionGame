@@ -28,7 +28,7 @@ public class Piece : MonoBehaviour {
         
 	}
 
-    private void HighlightPiece()
+    public void HighlightPiece()
     {
         if (IsSecret)
         {
@@ -97,5 +97,4 @@ public class Piece : MonoBehaviour {
         StartCoroutine(WaitAndMove(0, duration));
         this.Tile = tile;
     }
-
 }

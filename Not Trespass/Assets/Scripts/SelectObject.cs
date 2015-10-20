@@ -2,7 +2,8 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class SelectObject : MonoBehaviour {
+public class SelectObject : MonoBehaviour
+{
 
     private bool m_IsPieceSelected;
     private Piece m_SelectedPiece;
@@ -10,21 +11,22 @@ public class SelectObject : MonoBehaviour {
     private bool m_IsTap;
 
     BoardManager board;
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start()
+    {
         board = FindObjectOfType<BoardManager>();
         m_IsTap = false;
-	}
-	
-	// Update is called once per frame
-	void Update ()
+    }
+
+    // Update is called once per frame
+    void Update()
     {
         // || Input.GetMouseButtonDown(0)
-	    if(Input.touchCount > 0)
+        if (Input.touchCount > 0)
         {
             Touch curTouch = Input.GetTouch(0);
-            
-            switch(curTouch.phase)
+
+            switch (curTouch.phase)
             {
                 case TouchPhase.Began:
                     m_IsTap = true;
@@ -84,8 +86,8 @@ public class SelectObject : MonoBehaviour {
                             }
                         }
                     }
-                    
-                    
+
+
                     break;
             }
         }
@@ -112,8 +114,8 @@ public class SelectObject : MonoBehaviour {
                         //Debug.Log("hit piece");
                         Debug.Log(objHit.gameObject.name);
                     }
-                    
-                    
+
+
                 }
                 else if (objHit.tag == "tile" && !board.Moved)
                 {
