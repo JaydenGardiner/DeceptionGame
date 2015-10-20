@@ -26,7 +26,7 @@ games = [
     {
         "player1": 0,
         "player2": 2,
-        "status": "pending",
+        "turn": 2 # Player 2's turn. This will be the state when the game is pending
         "board": [
             [0, 1, 2, 1], 
             [1, 1, 1, 0],
@@ -71,16 +71,20 @@ class FriendList(Resource):
 class GameList(Resource):
     def get(self):
         return {"games": games}
-    def put(self, game_id, game_state):
-        
-       games[game_id] = game_state; 
+    def post(self, player1, player2):
     #TODO: post game
+        #TODO:
 
 class Game(Resource):
     def get(self, gameId):
         return games[gameId]
-    #TODO: put game updates
-        
+    def put(self, game_id, board_state):
+        if game_id < 0 or game_id >= len(games):
+            return error("Invalid game id")
+        games[game_id]["turn"] = 2 if games[game_id][turn] == 1 else 1
+        games[game_id]["board"] = board_state;
+        # TODO: check board state
+       
 class UserList(Resource):
     def get(self):
         return {"users": users}
