@@ -167,7 +167,7 @@ public class CameraMovement : MonoBehaviour {
             }
         }
 
-#if UNITY_EDITOR
+#if UNITY_EDITORs
         this.transform.RotateAround(m_Target, Vector3.up, Input.GetAxis("Mouse X") * m_Speed);
         m_OtherPt = RotateAroundPivot(m_OtherPt, Vector3.up, Quaternion.Euler(0, Input.GetAxis("Mouse X") * m_Speed, 0));
         this.transform.RotateAround(m_Target, (m_OtherPt - m_Target), Input.GetAxis("Mouse Y") * m_Speed);  

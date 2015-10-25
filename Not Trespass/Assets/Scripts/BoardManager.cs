@@ -210,6 +210,13 @@ public class BoardManager : MonoBehaviour {
     // Displays tiles that the current piece ca move to
     public void FindMovementOptions()
     {
+        for (int r = 0; r < 6; r++)
+        {
+            for (int c = 0; c < 5; c++)
+            {
+                Tiles2D[r, c].movementsToHere.Clear();
+            }
+        }
         Piece p = currentPiece;
         //multiplier to keep pieces moving "forward"
         int side = 1;
@@ -221,19 +228,26 @@ public class BoardManager : MonoBehaviour {
         int j = p.Tile.J;
         while (i >= 0 && i < 6 && (Tiles2D[i, j].Piece == null || (i == p.Tile.I && j == p.Tile.J)))
         {
+            Tiles2D[i, j].movementsToHere.Add(Tiles2D[i, j]);
+            Tiles2D[i, j].movementsToHere.Add(Tiles2D[i, j]);
             toVisit.Push(Tiles2D[i, j]);
             int k = j + 1;
             while (k < 5 && Tiles2D[i, k].Piece == null)
             {
-                toVisit.Push(Tiles2D[i, k]);
+                Tiles2D[i, k].movementsToHere.Add(Tiles2D[i, j]);
+                Tiles2D[i, k].movementsToHere.Add(Tiles2D[i, k]);
+                toVisit.Push(Tiles2D[i, k]);            
                 k++;
             }
             k = j - 1;
             while (k >= 0 && Tiles2D[i, k].Piece == null)
             {
-                toVisit.Push(Tiles2D[i, k]);
+                Tiles2D[i, k].movementsToHere.Add(Tiles2D[i, j]);
+                Tiles2D[i, k].movementsToHere.Add(Tiles2D[i, k]);
+                toVisit.Push(Tiles2D[i, k]);               
                 k--;
             }
+            
             i += side;
         }
         Debug.Log("highlighting tiles");
@@ -243,10 +257,30 @@ public class BoardManager : MonoBehaviour {
             t.Highlight();
             j = t.J;
             i = t.I;
-            if (side == -1 && i > 1 && marked[i - 2, j] == 0 && Tiles2D[i - 1, j].Piece != null && Tiles2D[i - 2, j].Piece == null) toVisit.Push(Tiles2D[i - 2, j]);
-            if (side == 1 && i < 4 && marked[i + 2, j] == 0 && Tiles2D[i + 1, j].Piece != null && Tiles2D[i + 2, j].Piece == null) toVisit.Push(Tiles2D[i + 2, j]);
-            if (j > 1 && marked[i, j - 2] == 0 && Tiles2D[i, j - 1].Piece != null && Tiles2D[i, j - 2].Piece == null) toVisit.Push(Tiles2D[i, j - 2]);
-            if (j < 3 && marked[i, j + 2] == 0 && Tiles2D[i, j + 1].Piece != null && Tiles2D[i, j + 2].Piece == null) toVisit.Push(Tiles2D[i, j + 2]);
+            if (side == -1 && i > 1 && marked[i - 2, j] == 0 && (Tiles2D[i - 1, j].Piece != null && !(i - 1 == p.Tile.I && j == p.Tile.J)) && Tiles2D[i - 2, j].Piece == null)
+            {
+                Tiles2D[i - 2, j].movementsToHere.AddRange(Tiles2D[i, j].movementsToHere);
+                Tiles2D[i - 2, j].movementsToHere.Add(Tiles2D[i - 2, j]);
+                toVisit.Push(Tiles2D[i - 2, j]);
+            }
+            if (side == 1 && i < 4 && marked[i + 2, j] == 0 && (Tiles2D[i + 1, j].Piece != null && !(i + 1 == p.Tile.I && j == p.Tile.J)) && Tiles2D[i + 2, j].Piece == null)
+            {
+                Tiles2D[i + 2, j].movementsToHere.AddRange(Tiles2D[i, j].movementsToHere);
+                Tiles2D[i + 2, j].movementsToHere.Add(Tiles2D[i + 2, j]);
+                toVisit.Push(Tiles2D[i + 2, j]);
+            }
+            if (j > 1 && marked[i, j - 2] == 0 && (Tiles2D[i, j - 1].Piece != null && !(i == p.Tile.I && j - 1 == p.Tile.J)) && Tiles2D[i, j - 2].Piece == null)
+            {
+                Tiles2D[i, j - 2].movementsToHere.AddRange(Tiles2D[i, j].movementsToHere);
+                Tiles2D[i, j - 2].movementsToHere.Add(Tiles2D[i, j - 2]);
+                toVisit.Push(Tiles2D[i, j - 2]);
+            }
+            if (j < 3 && marked[i, j + 2] == 0 && (Tiles2D[i, j + 1].Piece != null && !(i == p.Tile.I && j + 1 == p.Tile.J)) && Tiles2D[i, j + 2].Piece == null)
+            {
+                Tiles2D[i, j + 2].movementsToHere.AddRange(Tiles2D[i, j].movementsToHere);
+                Tiles2D[i, j + 2].movementsToHere.Add(Tiles2D[i, j + 2]);
+                toVisit.Push(Tiles2D[i, j + 2]);
+            }
             marked[i, j] = 1;
         }
 
