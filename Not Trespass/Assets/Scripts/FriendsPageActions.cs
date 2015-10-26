@@ -12,6 +12,8 @@ public class FriendsPageActions : MonoBehaviour {
 
     public GameObject FriendTextPrefab;
     public Button AddFriendButton;
+    public Button ChallengeFriendButton;
+    public Button RemoveFriendButton;
 
     private Canvas FriendCanvas;
     private int startPos = -220;
@@ -20,6 +22,37 @@ public class FriendsPageActions : MonoBehaviour {
 
     private Dictionary<int, Toggle> Toggles;
     int index;
+    int numOn;
+
+    static FriendsPageActions _instance;
+    public static FriendsPageActions instance
+    {
+        get
+        {
+            // Don't allow new instances to be created when the application is quitting to avoid the GOKit object never being destroyed.
+            // These dangling instances can't be found with FindObjectOfType and so you'd get multiple instances in a scene.
+            if (!_instance)
+            {
+                // check if there is a GO instance already available in the scene graph
+                _instance = FindObjectOfType(typeof(FriendsPageActions)) as FriendsPageActions;
+
+                // possible Unity bug with FindObjectOfType workaround
+                //_instance = FindObjectOfType( typeof( Go ) ) ?? GameObject.Find( "GoKit" ).GetComponent<Go>() as Go;
+
+                // nope, create a new one
+                if (!_instance)
+                {
+                    var obj = new GameObject("friend actions");
+                    _instance = obj.AddComponent<FriendsPageActions>();
+                    DontDestroyOnLoad(obj);
+                }
+            }
+
+            return _instance;
+        }
+    }
+
+
 
 	// Use this for initialization
 	public void Start () {
@@ -27,14 +60,56 @@ public class FriendsPageActions : MonoBehaviour {
         friends = new Dictionary<int, string>();
         Toggles = new Dictionary<int, Toggle>();
         index = 0;
+        numOn = 0;
+        
+        if (SharedSceneData.FriendEmails != null)
+        {
+            print(string.Join(", ", SharedSceneData.FriendEmails.ToArray()));
+            int maxIndex = Mathf.Min(SharedSceneData.FriendEmails.Count, 3);
+            for (int i = 0; i < maxIndex; i++)
+            {
+                if (SharedSceneData.FriendEmails[i] != null || SharedSceneData.FriendEmails[i] != "")
+                {
+                    EmailInput.text = SharedSceneData.FriendEmails[i];
+                    addFriend();
+                }
+            }
+        }
+        
+        
         //        EmailInput.contentType = InputField.ContentType.EmailAddress;\
     }
 
     void Update()
     {
+        numOn = 0;
+        foreach (Toggle t in Toggles.Values)
+        {
+            if (t.isOn)
+            {
+                numOn++;
+            }
+        }
+
         if (index > 3)
         {
             AddFriendButton.interactable = false;
+        }
+        if (numOn != 1)
+        {
+            ChallengeFriendButton.interactable = false;
+        }
+        else
+        {
+            ChallengeFriendButton.interactable = true;
+        }
+        if (numOn >= 1)
+        {
+            RemoveFriendButton.interactable = true;
+        }
+        else
+        {
+            RemoveFriendButton.interactable = false;
         }
     }
 
@@ -54,11 +129,13 @@ public class FriendsPageActions : MonoBehaviour {
 
     void SelectItem(bool status)
     {
+        int onCount = 0;
         print("selecting");
         foreach (Toggle t in Toggles.Values)
         {
             if (t.isOn)
             {
+                onCount++;
                 t.GetComponent<Text>().color = Color.red;
             }
             else
@@ -66,6 +143,7 @@ public class FriendsPageActions : MonoBehaviour {
                 t.GetComponent<Text>().color = Color.black;
             }
         }
+        numOn = onCount;
     }
 
     public void addFriend()
@@ -80,10 +158,9 @@ public class FriendsPageActions : MonoBehaviour {
                 CreateText(EmailInput.text);
                 EmailInput.text = "";
             }
-            
-            
         }
     }
+    
 
 
     public void removeFriend()
@@ -131,9 +208,15 @@ public class FriendsPageActions : MonoBehaviour {
                 count++;
             }
         }
+        print("coutn: " + count);
         if (count == 1)
         {
-            SharedSceneData.OpponentEmail = friends[onIndex];
+            //SharedSceneData.OpponentEmail = friends[onIndex];
+            SharedSceneData.FriendEmails = new List<string>();
+            foreach(string friend in friends.Values)
+            {
+                SharedSceneData.FriendEmails.Add(friend);
+            }
             Application.LoadLevel("SecretPiece");
         }
     }

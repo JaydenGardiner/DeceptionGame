@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 
 public static class SharedSceneData
 {
@@ -22,5 +23,5 @@ public static class SharedSceneData
 
     public static string Email;
 
-    public static string OpponentEmail;
+    public static List<string> FriendEmails;
 }

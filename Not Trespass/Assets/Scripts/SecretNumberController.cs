@@ -25,6 +25,11 @@ public class SecretNumberController : MonoBehaviour
         }
     }
 
+    public void CancelButton()
+    {
+        Application.LoadLevel("MenuScreen");
+    }
+
 
     // Use this for initialization
     void Start()
