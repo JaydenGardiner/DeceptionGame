@@ -24,4 +24,8 @@ public static class SharedSceneData
     public static string Email;
 
     public static List<string> FriendEmails;
+
+    //change to Game object
+    public static int[][] GameToLoad;
+
 }

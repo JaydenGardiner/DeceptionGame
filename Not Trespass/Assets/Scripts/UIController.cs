@@ -9,6 +9,8 @@ public class UIController : MonoBehaviour {
     public Text LockScreenText;
     public Button TurnButton;
     public Button RevertButton;
+
+
 	// Use this for initialization
 	void Start () {
 	

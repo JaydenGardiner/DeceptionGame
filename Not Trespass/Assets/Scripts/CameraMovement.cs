@@ -24,7 +24,7 @@ public class CameraMovement : MonoBehaviour {
         //target = render.bounds.center;
         m_Target = Vector3.zero;
         m_OtherPt = new Vector3(1, 0, 0);
-        m_MaxCameraY = 130f;
+        m_MaxCameraY = 111f;
         m_MinCameraY = 15f;
         m_MainCamera = this.GetComponent<Camera>();
 	}

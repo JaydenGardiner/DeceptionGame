@@ -48,7 +48,8 @@ public class BoardManager : MonoBehaviour {
 
     private Tile revertTo;
     private Tile revertFrom;
-    
+
+
 
     void Awake()
     {
@@ -59,16 +60,25 @@ public class BoardManager : MonoBehaviour {
         }
     }
 
-	// Use this for initialization
-	void Start () {
+    //change to game object
+    public void UpdateBoard(int[][] arr)
+    {
+        if (arr == null)
+        {
+            CreateBoard();
+        }
+    }
+
+    void CreateBoard()
+    {
         OneWins = false;
         ZeroWins = false;
         Player1Secret = SharedSceneData.SecretNumber;
         //Create 2d arrays of positions and game objects and instantiate pieces
         Tiles2D = new Tile[6, 5];
-        for(int i = 0; i < 6; i++)
+        for (int i = 0; i < 6; i++)
         {
-            for(int j = 0; j < 5; j++)
+            for (int j = 0; j < 5; j++)
             {
                 //Convert 1d tile array from scene to 2d representation.
                 //Assumes tiles are ordered in scene, probably not best implementation but w.e
@@ -99,7 +109,7 @@ public class BoardManager : MonoBehaviour {
                     //This is now unneeded, when I set the tile's piece, I also set the piece's tile (see Piece property in tile)
                     //Tiles2D[i, j].Piece.Tile = Tiles2D[i, j];
                     Tiles2D[i, j].Piece.transform.Find("Piece").GetComponent<Renderer>().material.SetColor("_TintColor", Color.red);
-                    
+
 
                     //Set team for each piece
                     if (i == 0 || i == 1)
@@ -116,30 +126,32 @@ public class BoardManager : MonoBehaviour {
                 {
                     Tiles2D[i, j].Piece = null;
                 }
-                
+
             }
         }
         CurrentTeam = 0;
-        Tiles2D[1-Player1Secret / 5, Player1Secret % 5].Piece.IsSecret = true;
+        Tiles2D[1 - Player1Secret / 5, Player1Secret % 5].Piece.IsSecret = true;
         Tiles2D[5, 0].Piece.IsSecret = true;
+    }
+
+
+	// Use this for initialization
+	void Start ()
+    {
+        UpdateBoard(SharedSceneData.GameToLoad);
 	}
 	
 	// Update is called once per frame
-	void Update () {
-        
-	}
-
-    //Update board given new pieces
-    public void UpdateBoard(Piece[,] n_pieces)
+	void Update ()
     {
-        for (int i = 0; i < 6; i++)
+        foreach(Tile t in Tiles2D)
         {
-            for (int j = 0; j < 5; j++)
+            if (t.Piece != null)
             {
-                Tiles2D[i, j].Piece = n_pieces[i, j];
+                t.Piece.HighlightPiece(CurrentTeam);
             }
         }
-    }
+	}
 
     public void ChangeTurn()
     {
@@ -287,26 +299,5 @@ public class BoardManager : MonoBehaviour {
         p.Tile.Dehighlight();
     }
 }
-//just some ideas
-/*
-public struct GamePlayer
-{
-    public Player P { get; private set; }
-    public int Team { get; private set; }
 
-    public bool IsTurn { get; private set; }
-
-    public void ChangeTurn()
-    {
-        IsTurn = !IsTurn;
-    }
-
-    public GamePlayer(Player nPlayer, int team, bool isStarting)
-		: this()
-    {
-        P = nPlayer;
-        Team = team;
-        IsTurn = isStarting;
-    }
-}*/
 

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class Piece : MonoBehaviour {
 
@@ -14,8 +15,6 @@ public class Piece : MonoBehaviour {
 
     //private Vector3 m_Destination;
 
-    private BoardManager board;
-
     void Awake()
     {
         IsSecret = false;
@@ -23,24 +22,21 @@ public class Piece : MonoBehaviour {
     }
 	// Use this for initialization
 	void Start () {
-        board = GameObject.FindObjectOfType<BoardManager>();
-        HighlightPiece();
         
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        HighlightPiece();
 	}
 
-    public void HighlightPiece()
+    public void HighlightPiece(int curTeam)
     {
         
         if (Team == 0)
         {
             if (IsSecret)
             {
-                if (board == null || board.CurrentTeam == 0)
+                if (curTeam == 0)
                 {
                     this.gameObject.GetComponentsInChildren<Renderer>()[1].material.SetColor("_TintColor", Color.yellow);
                 }
@@ -72,21 +68,6 @@ public class Piece : MonoBehaviour {
 
         
     }
-
-    public void OnSelect()
-    {
-        Debug.Log("piece select");
-        //deprecated
-        //change color, set to move, etc.....
-    }
-    /*
-    public override bool Equals(object o)
-    {
-        if (o == null) { return false; }
-        Piece p = o as Piece;
-        if ((System.Object)p == null) { return false; }
-        return (this.PieceNumber == p.PieceNumber);
-    }*/
 
     private IEnumerator WaitAndMove(float delay, float duration, Vector3 dest )
     {

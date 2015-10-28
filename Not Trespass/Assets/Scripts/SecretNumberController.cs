@@ -7,6 +7,7 @@ public class SecretNumberController : MonoBehaviour
 {
     private bool m_IsPieceSelected;
     private bool m_IsTap;
+    private bool m_IsSelectionChanged;
 
     public Button cButton;
     public Text NumberText;
@@ -19,6 +20,7 @@ public class SecretNumberController : MonoBehaviour
     {
         if (m_IsPieceSelected)
         {
+            //TODO- update shared scene data with game object, then no need for secretnumber specifically
             SharedSceneData.SecretNumber = m_curNumber;
             print("loading next scene");
             Application.LoadLevel("GameScene");
@@ -43,7 +45,7 @@ public class SecretNumberController : MonoBehaviour
             piece.AddComponent<MeshCollider>();
             pieces.Add(piece.GetComponent<Piece>());
         }
-        
+        m_IsSelectionChanged = true;
     }
 
 
@@ -57,6 +59,17 @@ public class SecretNumberController : MonoBehaviour
         else
         {
             cButton.interactable = false;
+        }
+        if (m_IsSelectionChanged)
+        {
+            foreach (Piece p in pieces)
+            {
+                if (p != null)
+                {
+                    p.HighlightPiece(0);
+                }
+            }
+            m_IsSelectionChanged = false;
         }
         // || Input.GetMouseButtonDown(0)
         if (Input.touchCount > 0)
@@ -90,7 +103,6 @@ public class SecretNumberController : MonoBehaviour
                                         if (p != null)
                                         {
                                             p.IsSecret = false;
-                                            p.HighlightPiece();
                                         }
 
                                     }
@@ -100,7 +112,7 @@ public class SecretNumberController : MonoBehaviour
                                     m_SelectedPiece.IsSecret = true;
                                     m_curNumber = m_SelectedPiece.PieceNumber;
                                     NumberText.text = "Choose your secret piece: " + m_curNumber;
-
+                                    m_IsSelectionChanged = true;
                                 }
 
                             }
@@ -130,7 +142,6 @@ public class SecretNumberController : MonoBehaviour
                         if (p != null)
                         {
                             p.IsSecret = false;
-                            p.HighlightPiece();
                         }
                         
                     }
@@ -138,10 +149,10 @@ public class SecretNumberController : MonoBehaviour
                     m_IsPieceSelected = true;
                     Piece m_SelectedPiece = objHit.GetComponent<Piece>();
                     m_SelectedPiece.IsSecret = true;
-                    m_SelectedPiece.HighlightPiece();
+                    m_SelectedPiece.HighlightPiece(0);
                     m_curNumber = m_SelectedPiece.PieceNumber;
                     NumberText.text = "Choose your secret piece: " + m_curNumber;
-
+                    m_IsSelectionChanged = true;
                 }
             }
         }

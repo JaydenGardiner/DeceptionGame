@@ -25,7 +25,7 @@ public class FriendsPageActions : MonoBehaviour {
     int numOn;
 
     static FriendsPageActions _instance;
-    public static FriendsPageActions instance
+    public static FriendsPageActions Instance
     {
         get
         {
