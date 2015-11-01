@@ -5,6 +5,7 @@ using System.Collections;
 
 public class CameraMovement : MonoBehaviour {
 
+    public static bool LockScreen;
 
     private float m_Speed = 2.5f;
     private Vector3 m_Target;
@@ -23,7 +24,7 @@ public class CameraMovement : MonoBehaviour {
         //target = render.bounds.center;
         m_Target = Vector3.zero;
         m_OtherPt = new Vector3(1, 0, 0);
-        m_MaxCameraY = 100f;
+        m_MaxCameraY = 111f;
         m_MinCameraY = 15f;
         m_MainCamera = this.GetComponent<Camera>();
 	}
@@ -48,7 +49,7 @@ public class CameraMovement : MonoBehaviour {
         prevPos = this.transform.position;
         prevRot = this.transform.rotation;
 
-        if (Input.touchCount > 0 && Input.touchCount < 2)
+        if (Input.touchCount > 0 && Input.touchCount < 2 && LockScreen)
         {
             foreach (Touch touch in Input.touches)
             {
@@ -135,7 +136,7 @@ public class CameraMovement : MonoBehaviour {
             }
 
         }
-        else if (Input.touchCount >= 2)
+        else if (Input.touchCount >= 2 && LockScreen)
         {
             Touch touchZero = Input.GetTouch(0);
             Touch touchOne = Input.GetTouch(1);
@@ -173,6 +174,7 @@ public class CameraMovement : MonoBehaviour {
         this.transform.RotateAround(m_Target, (m_OtherPt - m_Target), Input.GetAxis("Mouse Y") * m_Speed);  
         if (this.transform.position.y < m_MinCameraY || this.transform.position.y >= m_MaxCameraY)
         {
+            print("camera: " + this.transform.rotation);
             this.transform.position = prevPos;
             this.transform.rotation = prevRot;
         }

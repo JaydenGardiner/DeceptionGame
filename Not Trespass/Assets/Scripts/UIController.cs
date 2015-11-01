@@ -6,8 +6,11 @@ public class UIController : MonoBehaviour {
     public BoardManager board;
 
     public Text StatusText;
+    public Text LockScreenText;
     public Button TurnButton;
     public Button RevertButton;
+
+
 	// Use this for initialization
 	void Start () {
 	
@@ -58,5 +61,18 @@ public class UIController : MonoBehaviour {
     public void RevertButtonMethod()
     {
         board.RevertMove();
+    }
+
+    public void LockScreenMethod()
+    {
+        CameraMovement.LockScreen = !CameraMovement.LockScreen;
+        if(CameraMovement.LockScreen)
+        {
+            LockScreenText.text = "Lock Camera";
+        }
+        else
+        {
+            LockScreenText.text = "Unlock Camera";
+        }
     }
 }

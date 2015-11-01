@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Tile : MonoBehaviour {
 
@@ -40,6 +41,8 @@ public class Tile : MonoBehaviour {
 
     public bool isHighlighted;
 
+    public List<Tile> movementsToHere;
+
     //to access actual tile object, use this.gameObject
 
 	// Use this for initialization
@@ -50,6 +53,7 @@ public class Tile : MonoBehaviour {
         //set to correct height to move pieces to
         m_Loc.y += 2f;
         isHighlighted = false;
+        movementsToHere = new List<Tile>();
     }
 
 	void Start () {
@@ -65,12 +69,14 @@ public class Tile : MonoBehaviour {
     {
         isHighlighted = true;
         //Debug.Log("Tile " + I + " " + J + " " + (gameObject.GetComponentInChildren<Renderer>() == null));
-        gameObject.GetComponentInChildren<Renderer>().material.SetColor("_TintColor", Color.blue);
+        if ((I + J) % 2 == 0) gameObject.GetComponentInChildren<Renderer>().material.SetColor("_TintColor", Color.cyan);
+        else gameObject.GetComponentInChildren<Renderer>().material.SetColor("_TintColor", Color.blue);
     }
 
     public void Dehighlight()
     {
         isHighlighted = false;
-        gameObject.GetComponentInChildren<Renderer>().material.SetColor("_TintColor", Color.white);
+        if ((I + J) % 2 == 0) gameObject.GetComponentInChildren<Renderer>().material.SetColor("_TintColor", Color.white);
+        else gameObject.GetComponentInChildren<Renderer>().material.SetColor("_TintColor", Color.gray);
     }
 }

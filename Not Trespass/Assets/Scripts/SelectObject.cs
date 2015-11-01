@@ -71,7 +71,7 @@ public class SelectObject : MonoBehaviour
                                         if (t.isHighlighted)
                                         {
                                             Debug.Log("asking to mvoe");
-                                            m_SelectedPiece.MoveToTile(t, 1);
+                                            m_SelectedPiece.MoveOnPathToTile(t, .5f);
                                             m_PieceTile.Piece = null;
                                             t.Piece = m_SelectedPiece;
                                             board.RegisterNewMove(m_PieceTile, t);
@@ -126,7 +126,7 @@ public class SelectObject : MonoBehaviour
                         if (t.isHighlighted)
                         {
                             //Debug.Log("asking to mvoe");
-                            m_SelectedPiece.MoveToTile(t, 1);
+                            m_SelectedPiece.MoveOnPathToTile(t, .5f);
                             m_PieceTile.Piece = null;
                             t.Piece = m_SelectedPiece;
                             board.RestoreAllTiles();
