@@ -26,7 +26,7 @@ public class MenuMovement : MonoBehaviour {
 					 * 		options - 3
 					 */
 
-	private GameObject mainCanvas, playCanvas, friendsCanvas, optionsCanvas;
+	private GameObject mainCanvas, playCanvas, friendsCanvas, optionsCanvas, gamesCanvas;
 
     void Awake()
     {
@@ -41,11 +41,13 @@ public class MenuMovement : MonoBehaviour {
 		playCanvas = GameObject.Find ("PlayScreen");
 		friendsCanvas = GameObject.Find ("FriendsScreen");
 		optionsCanvas = GameObject.Find ("OptionsScreen");
+        gamesCanvas = GameObject.Find("GamesScreen");
 
-		mainCanvas.SetActive (true);
+        mainCanvas.SetActive (true);
 		playCanvas.SetActive (false);
 		friendsCanvas.SetActive (false);
 		optionsCanvas.SetActive (false);
+        gamesCanvas.SetActive(false);
 
 		mainMenuPos = new tuple (410F,58F,357F);
 		mainMenuRot = new Quaternion (39.28185F, 0F, 0F, 0F);
@@ -93,8 +95,11 @@ public class MenuMovement : MonoBehaviour {
 			friendsCanvas.SetActive (false);
 		} else if (currentPage == 3) {
 			optionsCanvas.SetActive(false);
-		}
-		currentPage = 0;
+		} else if (currentPage == 4)
+        {
+            gamesCanvas.SetActive(false);
+        }
+        currentPage = 0;
 
 		mainCanvas.SetActive (true);
 
@@ -126,7 +131,9 @@ public class MenuMovement : MonoBehaviour {
 		playCanvas.SetActive(true);
         optionsCanvas.SetActive(false);
         friendsCanvas.SetActive(false);
-		startTime = Time.time;
+        gamesCanvas.SetActive(false);
+
+        startTime = Time.time;
 	}
 
 	public void MoveToFriendsScreen() {
@@ -136,7 +143,8 @@ public class MenuMovement : MonoBehaviour {
 		mainCanvas.SetActive (false);
         playCanvas.SetActive(false);
         optionsCanvas.SetActive(false);
-		friendsCanvas.SetActive(true);
+        gamesCanvas.SetActive(false);
+        friendsCanvas.SetActive(true);
 
 		startTime = Time.time;
 //		StartCoroutine(fadeOut(mainCanvas, 2.0f));
@@ -149,13 +157,28 @@ public class MenuMovement : MonoBehaviour {
         playCanvas.SetActive(false);
         friendsCanvas.SetActive(false);
 		mainCanvas.SetActive (false);
-		optionsCanvas.SetActive(true);
+        gamesCanvas.SetActive(false);
+        optionsCanvas.SetActive(true);
 
 		startTime = Time.time;
 
 	}
 
-	IEnumerator fadeIn(GameObject obj, float speed) {
+    public void MoveToGamesScreen()
+    {
+        //mode = 4;
+        currentPage = 4;
+        playCanvas.SetActive(false);
+        friendsCanvas.SetActive(false);
+        mainCanvas.SetActive(false);
+        optionsCanvas.SetActive(false);
+        gamesCanvas.SetActive(true);
+
+        startTime = Time.time;
+
+    }
+
+    IEnumerator fadeIn(GameObject obj, float speed) {
 		float increment;
 		obj.SetActive(true);
 		CanvasGroup cv = obj.GetComponent<CanvasGroup>();
