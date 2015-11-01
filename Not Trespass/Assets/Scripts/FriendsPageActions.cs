@@ -45,7 +45,7 @@ public class FriendsPageActions : MonoBehaviour {
         tObject.transform.SetParent(FriendCanvas.transform);
         RectTransform rt = tObject.GetComponent<RectTransform>();
         rt.pivot = new Vector2(1f, 0f);
-        rt.anchoredPosition = new Vector2(300, startPos + index * increment);
+        rt.anchoredPosition = new Vector2(600, startPos + index * increment);
         tObject.GetComponent<Text>().text = EmailInput.text;
         Toggles.Add(index, tObject.GetComponent<Toggle>());
         tObject.GetComponent<Toggle>().onValueChanged.AddListener(SelectItem);
