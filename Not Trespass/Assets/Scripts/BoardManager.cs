@@ -97,9 +97,11 @@ public class BoardManager : MonoBehaviour {
                     Object n_Obj = GameObject.Instantiate(PiecePrefab, center, Quaternion.identity);
                     GameObject n_GameObj = (GameObject)n_Obj;
                     //needs completion to center piece on square b/c unity instantiates corner of piece on center of tile
-                    n_GameObj.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
-                    n_GameObj.transform.Rotate(new Vector3(90, 0, 0));
-                    n_GameObj.transform.Translate(0, 0, -2);
+                    n_GameObj.transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
+                    //n_GameObj.transform.Rotate(new Vector3(90, 0, 0));
+                    n_GameObj.transform.Rotate(new Vector3(0, 0, 90));
+
+                    n_GameObj.transform.Translate(2.5f, -10.0f, 10.0f);
                     n_GameObj.AddComponent<MeshCollider>();
                     //for collision
                     n_GameObj.tag = "piece";

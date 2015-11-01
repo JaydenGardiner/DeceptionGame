@@ -42,7 +42,7 @@ public class SecretNumberController : MonoBehaviour
         GameObject[] objs = GameObject.FindGameObjectsWithTag("piece");
         foreach(GameObject piece in objs)
         {
-            piece.AddComponent<MeshCollider>();
+            //piece.AddComponent<MeshCollider>();
             pieces.Add(piece.GetComponent<Piece>());
         }
         m_IsSelectionChanged = true;

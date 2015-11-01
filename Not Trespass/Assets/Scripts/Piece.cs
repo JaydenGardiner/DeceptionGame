@@ -31,24 +31,32 @@ public class Piece : MonoBehaviour {
 
     public void HighlightPiece(int curTeam)
     {
-        
+        //"_TintColor"
+        GameObject outlineObj = this.gameObject;
+        foreach(Transform child in transform)
+        {
+            if (child.CompareTag("pieceOutline"))
+            {
+                outlineObj = child.gameObject;
+            }
+        }
         if (Team == 0)
         {
             if (IsSecret)
             {
                 if (curTeam == 0)
                 {
-                    this.gameObject.GetComponentsInChildren<Renderer>()[1].material.SetColor("_TintColor", Color.yellow);
+                    outlineObj.GetComponentInChildren<MeshRenderer>().material.SetColor("_OutlineColor", Color.yellow);
                 }
                 else
                 {
-                    this.gameObject.GetComponentsInChildren<Renderer>()[1].material.SetColor("_TintColor", Color.magenta);
+                    outlineObj.GetComponentInChildren<MeshRenderer>().material.SetColor("_OutlineColor", Color.magenta);
                 }
                 
             }
             else
             {
-                this.gameObject.GetComponentsInChildren<Renderer>()[1].material.SetColor("_TintColor", Color.magenta);
+                outlineObj.GetComponentInChildren<MeshRenderer>().material.SetColor("_OutlineColor", Color.magenta);
             }
             
         }
@@ -57,11 +65,11 @@ public class Piece : MonoBehaviour {
             if (IsSecret)
             {
                 //dont highlight other players piece
-                //this.gameObject.GetComponentsInChildren<Renderer>()[1].material.SetColor("_TintColor", Color.green);
+                //outlineObj.GetComponentInChildren<MeshRenderer>().material.SetColor("_OutlineColor", Color.green);
             }
             else
             {
-                this.gameObject.GetComponentsInChildren<Renderer>()[1].material.SetColor("_TintColor", Color.red);
+                outlineObj.GetComponentInChildren<MeshRenderer>().material.SetColor("_OutlineColor", Color.red);
             }
             
         }
