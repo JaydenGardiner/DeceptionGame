@@ -62,19 +62,19 @@ public class FriendsPageActions : MonoBehaviour {
         index = 0;
         numOn = 0;
         
-        if (SharedSceneData.FriendEmails != null)
+
+		string[] friendEmails = SharedSceneData.FriendEmails ();
+        print(string.Join(", ", friendEmails));
+		int maxIndex = Mathf.Min(friendEmails.Length, 3);
+        for (int i = 0; i < maxIndex; i++)
         {
-            print(string.Join(", ", SharedSceneData.FriendEmails.ToArray()));
-            int maxIndex = Mathf.Min(SharedSceneData.FriendEmails.Count, 3);
-            for (int i = 0; i < maxIndex; i++)
+			if (friendEmails[i] != null || friendEmails[i] != "")
             {
-                if (SharedSceneData.FriendEmails[i] != null || SharedSceneData.FriendEmails[i] != "")
-                {
-                    EmailInput.text = SharedSceneData.FriendEmails[i];
-                    addFriend();
-                }
+				EmailInput.text = friendEmails[i];
+                addFriend();
             }
         }
+
         
         
         //        EmailInput.contentType = InputField.ContentType.EmailAddress;\
@@ -148,11 +148,12 @@ public class FriendsPageActions : MonoBehaviour {
 
     public void addFriend()
     {
-        Debug.Log("index: " + index.ToString());
+		GameApi api = GameApi.getInstance("user", "pass");
         if (Regex.IsMatch(EmailInput.text, ".*@.*..*"))
         {
             if (EmailInput.text.Length <= 30)
             {
+				api.AddFriend(EmailInput.text);
                 friends.Add(index, EmailInput.text);
                 //friend.text = EmailInput.text;
                 CreateText(EmailInput.text);
@@ -212,11 +213,11 @@ public class FriendsPageActions : MonoBehaviour {
         if (count == 1)
         {
             //SharedSceneData.OpponentEmail = friends[onIndex];
-            SharedSceneData.FriendEmails = new List<string>();
-            foreach(string friend in friends.Values)
-            {
-                SharedSceneData.FriendEmails.Add(friend);
-            }
+            //SharedSceneData.FriendEmails = new List<string>();
+           // foreach(string friend in friends.Values)
+          //  {
+          //      SharedSceneData.FriendEmails.Add(friend);
+           // }
             Application.LoadLevel("SecretPiece");
         }
     }

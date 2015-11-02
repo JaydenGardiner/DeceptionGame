@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public static class SharedSceneData
 {
     private static int m_SecretNumber;
+	private static GameApi api = GameApi.getInstance("", "");
     public static int SecretNumber
     {
         get { return m_SecretNumber; }
@@ -23,7 +24,9 @@ public static class SharedSceneData
 
     public static string Email;
 
-    public static List<string> FriendEmails;
+    public static string[] FriendEmails() {
+		return api.GetFriends ();
+	}
 
     //change to Game object
     public static int[][] GameToLoad;
