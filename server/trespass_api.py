@@ -26,29 +26,65 @@ games = [
     {
         "player1": 0,
         "player2": 2,
-        "status": "pending"
+        "turn": 2 # Player 2's turn. This will be the state when the game is pending
+        "board": [
+            [0, 1, 2, 1], 
+            [1, 1, 1, 0],
+            [0, 0, 0, 0],
+            [3, 3, 3, 3],
+            [0, 0, 4, 3]
+        ]
     }
 ]
 
 # TODO: this will get loaded from the current auth session
 current_user_id = 1
 
+def error(msg):
+    return {"error": msg}
+def info(msg):
+    return {"result": msg}
 
 class FriendList(Resource):
     def get(self):
         return {"friends": [users[i] for i in users[current_user_id]['friends']]}
-    #TODO: post friend
+    def post(self, user_id):
+        if user_id < 0 or user_id >= len(users):
+            return error("Invalid user id")
+        if user_id in users[current_user_id]["friends"]:
+            return info("Already friends with this person")
+        if user_id == current_user_id:
+            return error("You can never befriend your inner self.")
+        users[current_user_id]["friends"].append(user_id)
+            return info("Success")
+    def delete(self, user_id):
+        if user_id < 0 or user_id >= len(users):
+            return error("Invalid user id")
+        if user_id not in users[current_user_id]["friends"]:
+            return info("Not even friends with this person")
+        if user_id == current_user_id:
+            return error("You can never unfriend your inner self.")
+        users[current_user_id]["friends"].remove(user_id)
+            return info("Success")
+
 
 class GameList(Resource):
     def get(self):
         return {"games": games}
+    def post(self, player1, player2):
     #TODO: post game
+        #TODO:
 
 class Game(Resource):
     def get(self, gameId):
         return games[gameId]
-    #TODO: put game updates
-        
+    def put(self, game_id, board_state):
+        if game_id < 0 or game_id >= len(games):
+            return error("Invalid game id")
+        games[game_id]["turn"] = 2 if games[game_id][turn] == 1 else 1
+        games[game_id]["board"] = board_state;
+        # TODO: check board state
+       
 class UserList(Resource):
     def get(self):
         return {"users": users}
