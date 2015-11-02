@@ -7,6 +7,7 @@ api = Api(app)
 
 parser= reqparse.RequestParser()
 parser.add_argument('username')
+parser.add_argument('game')
 
 COMPLETED_GAME_STATUS = "completed"
 ###
@@ -17,6 +18,9 @@ users = {
         "friends": ["jayden"]
    },
    "jayden": {
+        "friends": []
+   },
+   "bobby": {
         "friends": []
    }
 }
@@ -60,23 +64,27 @@ class FriendList(Resource):
             return error("You can never befriend your inner self.")
         users[current_user]["friends"].append(user)
         return info("Success")
-    # TODO: update this 
-    def delete(self, user_id):
-        if user_id < 0 or user_id >= len(users):
-            return error("Invalid user id")
-        if user_id not in users[current_user_id]["friends"]:
+
+class Friend(Resource):    
+    def delete(self, user):
+        if user not in users: 
+            return error("Invalid user")
+        if user not in users[current_user]["friends"]:
             return info("Not even friends with this person")
-        if user_id == current_user_id:
+        if user == current_user:
             return error("You can never unfriend your inner self.")
-        users[current_user_id]["friends"].remove(user_id)
+        users[current_user]["friends"].remove(user)
         return info("Success")
 
 
 class GameList(Resource):
     def get(self):
         return {"games": games}
-    def post(self, game):
+    def post(self):
+        game=parser.parse_args()["game"]
+        print game
         games.append(game);
+        return jsonify({"id": len(games) - 1})
 
     #TODO: post game
         #TODO:
@@ -125,12 +133,13 @@ class User(Resource):
     #TODO: put update user
 
 api.add_resource(FriendList, '/friends/')
+api.add_resource(Friend, '/friends/<string:user>')
 api.add_resource(UserList, '/users/')
 api.add_resource(UserSearch, '/users/search/<string:userQuery>')
 api.add_resource(User, '/user/<int:userId>')
-api.add_resource(GameList, '/games')
+api.add_resource(GameList, '/games/')
 api.add_resource(Game, '/game/<int:gameId>')
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0')
