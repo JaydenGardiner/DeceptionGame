@@ -32,7 +32,7 @@ public class RemoteApi {
             for (int y = 0; y < board[x].Length; y++) {
                 if (board[x, y].Piece == null) {
                     boardString += 0;
-                } else 
+                } else {
                     boardString += (2 * board[x, y].Piece.Team) + 1
                         + board[x, y].Piece.IsSecret ? 1 : 0;
                 }
@@ -41,13 +41,14 @@ public class RemoteApi {
             boardString += "],";
         }
         boardString = boardString.trim(",");
+	}
         
 
 
     public void createNewUser(String name) {
 		WebClient wc = new WebClient ();
         // TODO POST
-        wc.DownloadString (String.Join ("/", new string[] { API_BASE, USER_RES, name)));
+		wc.DownloadString (String.Join ("/", new string[] { API_BASE, USER_RES, name}));
 
     }
 }

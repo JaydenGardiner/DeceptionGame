@@ -9,5 +9,6 @@ public class Game {
     public String Player2 { get; public set; }
     public String CurrentMove { get; public set; }
     
-    public Game(
+	public Game() {
+	}
 }
