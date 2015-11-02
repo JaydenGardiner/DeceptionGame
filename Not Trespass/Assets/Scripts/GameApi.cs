@@ -1,10 +1,13 @@
+using UnityEngine;
 using System;
 using System.Net;
-using System.Web.Helpers;
+
 
 public class RemoteApi {
 	private const String API_BASE = "http://localhost:5000";
 	private  const String GAME_RES = "game";
+	private  const String USERS_RES = "users";
+	private  const String FRIENDS_RES = "friends";
 	private  const String USER_RES = "user";
 
     private RemoteApi() { }
@@ -46,9 +49,18 @@ public class RemoteApi {
 
 
     public void createNewUser(String name) {
-		WebClient wc = new WebClient ();
-        // TODO POST
-		wc.DownloadString (String.Join ("/", new string[] { API_BASE, USER_RES, name}));
+        WWWForm form = new WWWForm();
+        form.addField("username", name);
+        WWW www = new WWW(String.Join ("/",
+            new string[] { API_BASE, USERS_RES, name), form);
+        
+    }
 
+    public List<string> searchUsers(String query) {
+        WWW www = new WWW(String.join("/", new string[] { API_BASE, USERS_RES,
+            "search", query }));
+        // parse this: www.text
+            
+        
     }
 }

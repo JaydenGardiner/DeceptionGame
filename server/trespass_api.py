@@ -1,9 +1,12 @@
-from flask import Flask
-from flask_restful import Resource, Api
+from flask import Flask, jsonify
+from flask_restful import Resource, Api, reqparse
 
 app = Flask(__name__)
 api = Api(app)
 
+
+parser= reqparse.RequestParser()
+parser.add_argument('username')
 
 COMPLETED_GAME_STATUS = "completed"
 ###
@@ -23,7 +26,7 @@ games = [
     {
         "player1": "thomas",
         "player2": "jayden",
-        "turn": 2 # Player 2's turn. This will be the state when the game is pending
+        "turn": 2, # Player 2's turn. This will be the state when the game is pending
         "board": [
             [0, 1, 2, 1, 1], 
             [0, 1, 1, 1, 1], 
@@ -40,14 +43,15 @@ games = [
 current_user = "thomas"
 
 def error(msg):
-    return {"error": msg}
+    return jsonify({"error": msg})
 def info(msg):
-    return {"result": msg}
+    return jsonify({"result": msg})
 
 class FriendList(Resource):
     def get(self):
-        return {"friends": users[current_user]['friends']}
-    def post(self, user):
+        return jsonify({"friends": users[current_user]['friends']})
+    def post(self):
+        user=parser.parse_args()["username"]
         if user not in users: 
             return error("Invalid user")
         if user in users[current_user]["friends"]:
@@ -55,7 +59,7 @@ class FriendList(Resource):
         if user == current_user:
             return error("You can never befriend your inner self.")
         users[current_user]["friends"].append(user)
-            return info("Success")
+        return info("Success")
     # TODO: update this 
     def delete(self, user_id):
         if user_id < 0 or user_id >= len(users):
@@ -65,7 +69,7 @@ class FriendList(Resource):
         if user_id == current_user_id:
             return error("You can never unfriend your inner self.")
         users[current_user_id]["friends"].remove(user_id)
-            return info("Success")
+        return info("Success")
 
 
 class GameList(Resource):
@@ -73,7 +77,6 @@ class GameList(Resource):
         return {"games": games}
     def post(self, game):
         games.append(game);
-    }
 
     #TODO: post game
         #TODO:
@@ -82,7 +85,7 @@ class Game(Resource):
     def get(self, gameId):
         return games[gameId]
     def get(self, username):
-        return [games[gameId] if games[gameId]["status"] != COMPLETED_GAME_STATUS for gameId in games]
+        return [games[gameId] for gameId in games  if games[gameId]["status"] != COMPLETED_GAME_STATUS]
     def put(self, game_id, board_state):
         if game_id < 0 or game_id >= len(games):
             return error("Invalid game id")
@@ -100,28 +103,34 @@ class Game(Resource):
 class UserList(Resource):
     def get(self):
         return {"users": users}
-    def post(self, username):
-        users.append({
-            name: username,
-            friends: []
-        })
+
+    def post(self):
+        username=parser.parse_args()["username"]
+        if username in users:
+            return error("User already exists")
+        users[username] = {
+            "friends": []
+        }
+        return info("Success")
+
+class UserSearch(Resource):
+    def get(self, userQuery):
+        return jsonify({"users": [user for user in users if userQuery in user]})
+
 
 
 class User(Resource):
     def get(self, userId):
         return users[userId]
-    def get(self, userQuery):
-        return {"users": [user if userQuery in user for user in users]}
     #TODO: put update user
 
-api.add_resource(FriendList, '/friends')
-api.add_resource(UserList, '/users')
-
+api.add_resource(FriendList, '/friends/')
+api.add_resource(UserList, '/users/')
+api.add_resource(UserSearch, '/users/search/<string:userQuery>')
 api.add_resource(User, '/user/<int:userId>')
-api.add_resource(User, '/user/<str:userQuery>')
-
 api.add_resource(GameList, '/games')
 api.add_resource(Game, '/game/<int:gameId>')
+
 
 if __name__ == '__main__':
     app.run(debug=True)
