@@ -1,19 +1,25 @@
 using UnityEngine;
 using System;
 using System.Net;
+using Newtonsoft.Json;
 using SimpleJSON;
 
 
 public class GameApi {
-	private const String API_BASE = "http://localhost:5000";
+	private const String API_BASE = "http://192.168.1.109:5000";
 	private  const String GAME_RES = "game";
+	private  const String GAMES_RES = "games";
 	private  const String USERS_RES = "users";
 	private  const String FRIENDS_RES = "friends";
 	private  const String USER_RES = "user";
 
-    private GameApi() { }
+	public String User { get; private set; }
+
+    private GameApi(String user) {
+		this.User = user;
+	}
     public static GameApi getInstance(String user, String password) {
-        return new GameApi();
+        return new GameApi(user);
     }
 
     
@@ -29,23 +35,17 @@ public class GameApi {
     }
 
     
- //   public Game createNewGame(Game game) {
-        String boardString = "[";
-//        for (int x = 0; x < board.Length; x++) {
-//            boardString += "[";
-//            for (int y = 0; y < board[x].Length; y++) {
-//                if (board[x, y].Piece == null) {
-//                    boardString += 0;
-//                } else {
-//                    boardString += (2 * board[x, y].Piece.Team) + 1
-//                        + board[x, y].Piece.IsSecret ? 1 : 0;
-//                }
-//                boardString += ",";
-//            }
-//            boardString += "],";
-//        }
-//        boardString = boardString.trim(",");
-	//}
+    public int CreateNewGame(Game game) {
+		string json = JsonConvert.SerializeObject (game);
+		WWWForm form = new WWWForm ();
+		form.AddField ("game", json);
+		WWW www = new WWW(String.Join("/", new string[] { API_BASE, GAMES_RES, ""}), form);
+		while (!www.isDone) {}
+		
+		int gameId = JSON.Parse (www.text) ["id"].AsInt;
+		Debug.Log (gameId);
+		return gameId;
+	}
         
 
 
@@ -75,9 +75,13 @@ public class GameApi {
 	public void AddFriend(String username) {
 		WWWForm form = new WWWForm();
 		form.AddField("username", username);
-		WWW www = new WWW(String.Join ("/",
-		                               new string[] { API_BASE, FRIENDS_RES, ""}), form);
+		WWW www = new WWW(String.Join ("/", new string[] { API_BASE, FRIENDS_RES, ""}), form);
+	}
 
+	public void RemoveFriend(String username) {
+		WebRequest req = WebRequest.Create (String.Join ("/", new string[] { API_BASE, FRIENDS_RES, username}));
+		req.Method = "DELETE";
+		Debug.Log (req.GetResponse ());
 	}
 
 	public string[] GetFriends() {

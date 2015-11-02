@@ -113,7 +113,7 @@ public class FriendsPageActions : MonoBehaviour {
         }
     }
 
-    private void CreateText(string email)
+    private void CreateText(string username)
     {
         GameObject tObject = Instantiate(FriendTextPrefab);
         tObject.tag = "friendOption";
@@ -121,7 +121,7 @@ public class FriendsPageActions : MonoBehaviour {
         RectTransform rt = tObject.GetComponent<RectTransform>();
         rt.pivot = new Vector2(1f, 0f);
         rt.anchoredPosition = new Vector2(600, startPos + index * increment);
-        tObject.GetComponent<Text>().text = EmailInput.text;
+        tObject.GetComponent<Text>().text = username;
         Toggles.Add(index, tObject.GetComponent<Toggle>());
         tObject.GetComponent<Toggle>().onValueChanged.AddListener(SelectItem);
         index++;
@@ -148,18 +148,10 @@ public class FriendsPageActions : MonoBehaviour {
 
     public void addFriend()
     {
-		GameApi api = GameApi.getInstance("user", "pass");
-        if (Regex.IsMatch(EmailInput.text, ".*@.*..*"))
-        {
-            if (EmailInput.text.Length <= 30)
-            {
-				api.AddFriend(EmailInput.text);
-                friends.Add(index, EmailInput.text);
-                //friend.text = EmailInput.text;
-                CreateText(EmailInput.text);
-                EmailInput.text = "";
-            }
-        }
+		SharedSceneData.API.AddFriend(EmailInput.text);
+	    friends.Add(index, EmailInput.text);
+	    CreateText(EmailInput.text);
+	    EmailInput.text = "";
     }
     
 
@@ -175,7 +167,8 @@ public class FriendsPageActions : MonoBehaviour {
             Toggle t = Toggles[i];
             if (t.isOn)
             {
-                friends.Remove(i);
+				SharedSceneData.API.RemoveFriend(friends[i]);
+				friends.Remove(i);
                 Destroy(t.gameObject);
             }
             else
@@ -195,6 +188,7 @@ public class FriendsPageActions : MonoBehaviour {
 
     public void ChallengeSelected()
     {
+		print ("hello world");
         int count = 0;
         int onIndex = 0;
         foreach (int i in Toggles.Keys)
@@ -218,6 +212,7 @@ public class FriendsPageActions : MonoBehaviour {
           //  {
           //      SharedSceneData.FriendEmails.Add(friend);
            // }
+			SharedSceneData.GameToLoad = new Game(SharedSceneData.API.User, friends[onIndex]);
             Application.LoadLevel("SecretPiece");
         }
     }

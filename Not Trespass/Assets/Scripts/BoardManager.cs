@@ -61,12 +61,12 @@ public class BoardManager : MonoBehaviour {
     }
 
     //change to game object
-    public void UpdateBoard(int[][] arr)
+    public void UpdateBoard(Game g)
     {
-        if (arr == null)
-        {
+       // if (arr == null)
+        //{
             CreateBoard();
-        }
+       // }
     }
 
     void CreateBoard()
