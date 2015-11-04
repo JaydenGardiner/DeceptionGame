@@ -98,14 +98,17 @@ class Game(Resource):
         if game_id < 0 or game_id >= len(games):
             return error("Invalid game id")
 
-        if game[game_id]["status"] == "pending":
-            # TODO: check valid new secret number
-            games[game_id]["board"] = board_state;
-            # GAME status change
+        game = games[game_id]
 
-        games[game_id]["turn"] = 2 if games[game_id][turn] == 1 else 1
+        if game["status"] == "pending":
+            # TODO: check valid new secret number
+           game["board"] = board_state;
+            # TODO change status of game
+
+
+        game["turn"] = game["player1"] if game[turn] == game["player2"] else game["player2"] 
         # Don't accept new secret number
-        games[game_id]["board"] = board_state;
+        game["board"] = board_state;
         # TODO: check board state
        
 class UserList(Resource):

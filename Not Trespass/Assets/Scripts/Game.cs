@@ -4,7 +4,7 @@ public class Game {
     public enum Status { PENDING, PLAYING, COMPLETED };
     public Status GameStatus { get; private set; }
     public Nullable<Int32> GameID { get; private set; }
-    public int[][] Board { get; private set; }
+    public int[][] Board;
 
 	private readonly int[][] DefaultBoard = {
 		new int[] {1, 1, 1, 1, 1},

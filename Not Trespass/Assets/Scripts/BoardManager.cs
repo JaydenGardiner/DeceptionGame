@@ -176,13 +176,41 @@ public class BoardManager : MonoBehaviour {
             {
                 ZeroWins = true;
             }
-            else if (p != null && p.IsSecret && (p.Team == 1) && (t.I == 0))
+            else if (p != null && p.IsSecret && (p.Team == 1) && (t.I == 0))sdf
             {
                 OneWins = true;
             }
         }
-        
+
+        SharedSceneData.GameToLoad.Board = BoardToIntArray(Tiles2D);
+        // TODO: this method will eventually throw an exception that will need to 
+        // get caught for no network connection
+        SharedSceneData.GameToLoad = SharedSceneData.API.updateGameState(SharedSceneData.GameToLoad);
+
+        // TODO: Check the game above for status to see if someone has won
+        // and update the current turn
+
     }
+
+    private int[][] BoardToIntArray(Tile[,] board) {
+        int[][] intBoard = new int[board.Length][board[0].Length];
+
+        for (int x = 0; x < board.Length; x++) {
+            for (int y = 0; y < board[x].Length; y++) {
+                if (board[x][y].Piece == null) {
+                    intBoard[x][y] = 0;
+                } else {
+                    Piece currentPiece = board[x][y].Piece;
+                    intBoard[x][y] = (currentPiece.Team * 2) + 1 + currentPiece.IsSecret ? 1 : 0;
+                }
+            }
+        }
+        
+        return intBoard;
+
+    }
+
+
     //Register new move so that it can be reverted / turn ended
     public void RegisterNewMove(Tile prevTile, Tile nextTile)
     {
@@ -200,7 +228,7 @@ public class BoardManager : MonoBehaviour {
             revertTo.Piece = revertFrom.Piece;
             //Set the next tile's piece to none
             revertFrom.Piece = null;
-            //Move the actual position back
+
             revertTo.Piece.MoveToTile(revertTo, 0.5f);
             //No moved piece
             MovedPiece = null;

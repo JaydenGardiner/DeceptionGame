@@ -23,7 +23,7 @@ public class GameApi {
     }
 
     
-    public void updateGameState(Game g) {
+    public Game updateGameState(Game g) {
         	
     }
 
