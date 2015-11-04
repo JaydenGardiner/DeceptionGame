@@ -20,9 +20,9 @@ public class SecretNumberController : MonoBehaviour
     {
         if (m_IsPieceSelected)
         {
-            //TODO- update shared scene data with game object, then no need for secretnumber specifically
-            SharedSceneData.SecretNumber = m_curNumber;
+			SharedSceneData.GameToLoad.SetSecretNumber(m_curNumber);
             print("loading next scene");
+			SharedSceneData.API.CreateNewGame(SharedSceneData.GameToLoad);
             Application.LoadLevel("GameScene");
         }
     }
