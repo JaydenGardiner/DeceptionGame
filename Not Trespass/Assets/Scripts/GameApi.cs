@@ -24,7 +24,8 @@ public class GameApi {
 
     
     public Game updateGameState(Game g) {
-        	
+        //todo- finish
+        return null;
     }
 
     public Game getGameState(int gameId) {
