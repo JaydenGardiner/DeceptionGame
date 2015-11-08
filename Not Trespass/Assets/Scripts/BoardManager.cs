@@ -211,6 +211,57 @@ public class BoardManager : MonoBehaviour {
         }
         
         return intBoard;
+    }
+
+    /// <summary>
+    /// This method needs completion / testing
+    /// </summary>
+    /// <param name="arr"></param>
+    private void IntArrayToBoard(int[][] arr)
+    {
+        //start from scratch, its probably faster than redoing all references
+        Object[] toDestroy = GameObject.FindGameObjectsWithTag("piece");
+        foreach(Object item in toDestroy)
+        {
+            Destroy(item);
+        }
+        for (int i = 0; i < Tiles2D.GetLength(0); i++)
+        {
+            for (int j = 0; j < Tiles2D.GetLength(1); j++)
+            {
+                //tiles already exist
+
+                //tile indices already exist
+                //TODO-INSTANTIATE PIECE ON CORRECT TILE
+                Tile tile = Tiles2D[i, j];
+                if (arr[i][j] == 0)
+                {
+                    tile.Piece = null;
+                }
+                else
+                {
+                    //Instantiate piece on center of tile
+                    Vector3 center = tile.gameObject.GetComponentInChildren<MeshRenderer>().bounds.center;
+                    Object n_Obj = GameObject.Instantiate(PiecePrefab, center, Quaternion.identity);
+                    GameObject n_GameObj = (GameObject)n_Obj;
+                    //needs completion to center piece on square b/c unity instantiates corner of piece on center of tile
+                    n_GameObj.transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
+                    //n_GameObj.transform.Rotate(new Vector3(90, 0, 0));
+                    n_GameObj.transform.Rotate(new Vector3(0, 0, 90));
+
+                    n_GameObj.transform.Translate(2.5f, -10.0f, 10.0f);
+                    n_GameObj.AddComponent<MeshCollider>();
+                    //for collision
+                    n_GameObj.tag = "piece";
+                    //Set tile's piece
+                    Tiles2D[i, j].Piece = n_GameObj.GetComponent<Piece>();
+                    // (1-1)/2=0, (2-1)/2=0; (3-1)/2=1, (4-1)/2=1
+                    Tiles2D[i, j].Piece.Team = (arr[i][j] - 1) / 2;
+                    Tiles2D[i, j].Piece.IsSecret = (arr[i][j] % 2 == 0) ? false : true;
+                }
+            }
+        }
+
 
     }
 
