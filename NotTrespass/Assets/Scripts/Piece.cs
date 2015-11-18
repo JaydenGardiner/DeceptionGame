@@ -13,6 +13,10 @@ public class Piece : MonoBehaviour {
 
     public int Team;
 
+    public bool IsSelected;
+
+    public bool IsMarked;
+
     //private Vector3 m_Destination;
 
     void Awake()
@@ -32,6 +36,7 @@ public class Piece : MonoBehaviour {
     public void HighlightPiece(int curTeam)
     {
         //"_TintColor"
+        /*
         GameObject outlineObj = this.gameObject;
         foreach(Transform child in transform)
         {
@@ -39,24 +44,32 @@ public class Piece : MonoBehaviour {
             {
                 outlineObj = child.gameObject;
             }
+        }*/
+        if (IsSelected)
+        {
+            this.GetComponent<Renderer>().material.SetColor("_ColorTint", Color.blue);
         }
-        if (Team == 0)
+        else if (IsMarked)
+        {
+            this.GetComponent<Renderer>().material.SetColor("_ColorTint", Color.green);
+        }
+        else if (Team == 0)
         {
             if (IsSecret)
             {
                 if (curTeam == 0)
                 {
-                    outlineObj.GetComponentInChildren<MeshRenderer>().material.SetColor("_OutlineColor", Color.yellow);
+                    this.GetComponent<Renderer>().material.SetColor("_ColorTint", Color.yellow);
                 }
                 else
                 {
-                    outlineObj.GetComponentInChildren<MeshRenderer>().material.SetColor("_OutlineColor", Color.magenta);
+                    this.GetComponent<Renderer>().material.SetColor("_ColorTint", Color.magenta);
                 }
                 
             }
             else
             {
-                outlineObj.GetComponentInChildren<MeshRenderer>().material.SetColor("_OutlineColor", Color.magenta);
+                this.GetComponent<Renderer>().material.SetColor("_ColorTint", Color.magenta);
             }
             
         }
@@ -69,13 +82,13 @@ public class Piece : MonoBehaviour {
             }
             else
             {
-                outlineObj.GetComponentInChildren<MeshRenderer>().material.SetColor("_OutlineColor", Color.red);
+                this.GetComponent<Renderer>().material.SetColor("_ColorTint", Color.red);
             }
             
         }
-
         
     }
+
 
     private IEnumerator WaitAndMove(float delay, float duration, Vector3 dest )
     {

@@ -51,7 +51,7 @@ public class Tile : MonoBehaviour {
         //This must be in awake, otherwise it will be an incorrect location
         m_Loc = this.gameObject.GetComponentInChildren<MeshRenderer>().bounds.center;
         //set to correct height to move pieces to
-        m_Loc = new Vector3(m_Loc.x + 10.0f, m_Loc.y + 2.5f, m_Loc.z + 10.0f);
+        m_Loc = new Vector3(m_Loc.x, m_Loc.y + +16.0f, m_Loc.z);
         isHighlighted = false;
         movementsToHere = new List<Tile>();
     }

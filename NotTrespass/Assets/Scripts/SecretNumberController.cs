@@ -16,11 +16,14 @@ public class SecretNumberController : MonoBehaviour
 
     private List<Piece> pieces;
 
+    public GameObject PiecePrefab;
+
     public void ConfirmButton()
     {
         if (m_IsPieceSelected)
         {
 			SharedSceneData.GameToLoad.SetSecretNumber(m_curNumber);
+            //SharedSceneData.SecretNumber = m_curNumber;
             print("loading next scene");
 			SharedSceneData.API.CreateNewGame(SharedSceneData.GameToLoad);
             Application.LoadLevel("GameScene");
@@ -32,19 +35,47 @@ public class SecretNumberController : MonoBehaviour
         Application.LoadLevel("MenuScreen");
     }
 
+    private void InstantiatePieces()
+    {
+        pieces = new List<Piece>();
+        for(int i = 0; i < 10; i++)
+        {
+            
+            GameObject n_Obj = (GameObject)GameObject.Instantiate(PiecePrefab, new Vector3(110,-34, 136), Quaternion.identity);
+            n_Obj.transform.Rotate(0, 0, 90);
+
+            if (i < 5)
+            {
+                n_Obj.transform.Translate(0f, 40.0f * (i), 0f);
+            }
+            else
+            {
+                n_Obj.transform.Translate(-40f, 40.0f * (i%5), 0f);
+            }
+
+            
+            n_Obj.tag = "piece";
+            n_Obj.GetComponent<Piece>().PieceNumber = 9-i;
+            pieces.Add(n_Obj.GetComponent<Piece>());
+        }
+        
+    }
+
 
     // Use this for initialization
     void Start()
     {
         m_IsPieceSelected = false;
         m_IsTap = false;
+        InstantiatePieces();
+        /*
         pieces = new List<Piece>();
         GameObject[] objs = GameObject.FindGameObjectsWithTag("piece");
         foreach(GameObject piece in objs)
         {
             //piece.AddComponent<MeshCollider>();
             pieces.Add(piece.GetComponent<Piece>());
-        }
+        }*/
         m_IsSelectionChanged = true;
     }
 
@@ -93,8 +124,8 @@ public class SecretNumberController : MonoBehaviour
                             Ray worldPos = Camera.main.ScreenPointToRay(Input.GetTouch(0).position);
                             if (Physics.Raycast(worldPos, out hit, Mathf.Infinity))
                             {
-                                
-                                GameObject objHit = hit.transform.parent.gameObject;
+
+                                GameObject objHit = hit.transform.gameObject;
                                 if (objHit.tag == "piece")
                                 {
                                     //remove highlight
@@ -133,7 +164,7 @@ public class SecretNumberController : MonoBehaviour
             if (Physics.Raycast(worldPos, out hit, Mathf.Infinity))
             {
                 print("hit");
-                GameObject objHit = hit.transform.parent.gameObject;
+                GameObject objHit = hit.transform.gameObject;
                 if (objHit.tag == "piece")
                 {
                     //remove highlight

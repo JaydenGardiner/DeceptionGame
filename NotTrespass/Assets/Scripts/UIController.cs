@@ -75,4 +75,9 @@ public class UIController : MonoBehaviour {
             LockScreenText.text = "Unlock Camera";
         }
     }
+
+    public void MarkSelectedPieceMethod()
+    {
+        board.MarkSelectedPiece();
+    }
 }

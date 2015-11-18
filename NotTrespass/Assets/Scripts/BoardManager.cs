@@ -96,13 +96,9 @@ public class BoardManager : MonoBehaviour {
                     Vector3 center = tile.gameObject.GetComponentInChildren<MeshRenderer>().bounds.center;
                     Object n_Obj = GameObject.Instantiate(PiecePrefab, center, Quaternion.identity);
                     GameObject n_GameObj = (GameObject)n_Obj;
-                    //needs completion to center piece on square b/c unity instantiates corner of piece on center of tile
-                    n_GameObj.transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
-                    //n_GameObj.transform.Rotate(new Vector3(90, 0, 0));
-                    n_GameObj.transform.Rotate(new Vector3(0, 0, 90));
-
-                    n_GameObj.transform.Translate(2.5f, -10.0f, 10.0f);
-                    n_GameObj.AddComponent<MeshCollider>();
+                    //Rotate and move up
+                    TransformToTileCenter(n_GameObj);
+                    //n_GameObj.AddComponent<MeshCollider>();
                     //for collision
                     n_GameObj.tag = "piece";
                     //Set tile's piece
@@ -110,7 +106,7 @@ public class BoardManager : MonoBehaviour {
                     Tiles2D[i, j].Piece.IsSecret = false;
                     //This is now unneeded, when I set the tile's piece, I also set the piece's tile (see Piece property in tile)
                     //Tiles2D[i, j].Piece.Tile = Tiles2D[i, j];
-                    Tiles2D[i, j].Piece.transform.Find("Piece").GetComponent<Renderer>().material.SetColor("_TintColor", Color.red);
+                    Tiles2D[i, j].Piece.GetComponent<Renderer>().material.SetColor("_ColorTint", Color.red);// transform.Find("Piece").GetComponent<Renderer>().material.SetColor("_TintColor", Color.red);
 
 
                     //Set team for each piece
@@ -136,6 +132,12 @@ public class BoardManager : MonoBehaviour {
         Tiles2D[5, 0].Piece.IsSecret = true;
     }
 
+    private void TransformToTileCenter(GameObject n_GameObj)
+    {
+        n_GameObj.transform.Rotate(new Vector3(0, 0, 90));
+        n_GameObj.transform.Translate(16.0f, 0.0f, 0.0f);
+    }
+
 
 	// Use this for initialization
 	void Start ()
@@ -146,7 +148,7 @@ public class BoardManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-        foreach(Tile t in Tiles2D)
+        foreach (Tile t in Tiles2D)
         {
             if (t.Piece != null)
             {
@@ -154,6 +156,17 @@ public class BoardManager : MonoBehaviour {
             }
         }
 	}
+
+    public void MarkSelectedPiece()
+    {
+        foreach (Tile t in Tiles2D)
+        {
+            if (t.Piece != null && t.Piece.IsSelected == true)
+            {
+                t.Piece.IsMarked = !t.Piece.IsMarked;
+            }
+        }
+    }
 
     public void ChangeTurn()
     {
@@ -244,13 +257,9 @@ public class BoardManager : MonoBehaviour {
                     Vector3 center = tile.gameObject.GetComponentInChildren<MeshRenderer>().bounds.center;
                     Object n_Obj = GameObject.Instantiate(PiecePrefab, center, Quaternion.identity);
                     GameObject n_GameObj = (GameObject)n_Obj;
-                    //needs completion to center piece on square b/c unity instantiates corner of piece on center of tile
-                    n_GameObj.transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
-                    //n_GameObj.transform.Rotate(new Vector3(90, 0, 0));
-                    n_GameObj.transform.Rotate(new Vector3(0, 0, 90));
-
-                    n_GameObj.transform.Translate(2.5f, -10.0f, 10.0f);
-                    n_GameObj.AddComponent<MeshCollider>();
+                    //Rotate and move up
+                    TransformToTileCenter(n_GameObj);
+                    //n_GameObj.AddComponent<MeshCollider>();
                     //for collision
                     n_GameObj.tag = "piece";
                     //Set tile's piece
