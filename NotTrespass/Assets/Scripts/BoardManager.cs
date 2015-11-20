@@ -338,11 +338,13 @@ public class BoardManager : MonoBehaviour {
             Tiles2D[i, j].movementsToHere.Add(Tiles2D[i, j]);
             toVisit.Push(Tiles2D[i, j]);
             int k = j + 1;
+            marked[i, j] = 1;
             while (k < 5 && Tiles2D[i, k].Piece == null)
             {
                 Tiles2D[i, k].movementsToHere.Add(Tiles2D[i, j]);
                 Tiles2D[i, k].movementsToHere.Add(Tiles2D[i, k]);
-                toVisit.Push(Tiles2D[i, k]);            
+                toVisit.Push(Tiles2D[i, k]);
+                marked[i, k] = 1;
                 k++;
             }
             k = j - 1;
@@ -350,7 +352,8 @@ public class BoardManager : MonoBehaviour {
             {
                 Tiles2D[i, k].movementsToHere.Add(Tiles2D[i, j]);
                 Tiles2D[i, k].movementsToHere.Add(Tiles2D[i, k]);
-                toVisit.Push(Tiles2D[i, k]);               
+                toVisit.Push(Tiles2D[i, k]);
+                marked[i, k] = 1;
                 k--;
             }
             
@@ -368,26 +371,29 @@ public class BoardManager : MonoBehaviour {
                 Tiles2D[i - 2, j].movementsToHere.AddRange(Tiles2D[i, j].movementsToHere);
                 Tiles2D[i - 2, j].movementsToHere.Add(Tiles2D[i - 2, j]);
                 toVisit.Push(Tiles2D[i - 2, j]);
+                marked[i - 2, j] = 1;
             }
             if (side == 1 && i < 4 && marked[i + 2, j] == 0 && (Tiles2D[i + 1, j].Piece != null && !(i + 1 == p.Tile.I && j == p.Tile.J)) && Tiles2D[i + 2, j].Piece == null)
             {
                 Tiles2D[i + 2, j].movementsToHere.AddRange(Tiles2D[i, j].movementsToHere);
                 Tiles2D[i + 2, j].movementsToHere.Add(Tiles2D[i + 2, j]);
                 toVisit.Push(Tiles2D[i + 2, j]);
+                marked[i + 2, j] = 1;
             }
             if (j > 1 && marked[i, j - 2] == 0 && (Tiles2D[i, j - 1].Piece != null && !(i == p.Tile.I && j - 1 == p.Tile.J)) && Tiles2D[i, j - 2].Piece == null)
             {
                 Tiles2D[i, j - 2].movementsToHere.AddRange(Tiles2D[i, j].movementsToHere);
                 Tiles2D[i, j - 2].movementsToHere.Add(Tiles2D[i, j - 2]);
                 toVisit.Push(Tiles2D[i, j - 2]);
+                marked[i, j - 2] = 1;
             }
             if (j < 3 && marked[i, j + 2] == 0 && (Tiles2D[i, j + 1].Piece != null && !(i == p.Tile.I && j + 1 == p.Tile.J)) && Tiles2D[i, j + 2].Piece == null)
             {
                 Tiles2D[i, j + 2].movementsToHere.AddRange(Tiles2D[i, j].movementsToHere);
                 Tiles2D[i, j + 2].movementsToHere.Add(Tiles2D[i, j + 2]);
                 toVisit.Push(Tiles2D[i, j + 2]);
+                marked[i, j + 2] = 1;
             }
-            marked[i, j] = 1;
         }
 
         p.Tile.Dehighlight();
