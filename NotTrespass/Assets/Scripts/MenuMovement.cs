@@ -29,8 +29,8 @@ public class MenuMovement : MonoBehaviour {
                      *      game - 4
 					 */
 
-	private GameObject mainCanvas, playCanvas, friendsCanvas, optionsCanvas, gamesCanvas;
-
+	private GameObject mainCanvas, playCanvas, friendsCanvas, optionsCanvas, gamesCanvas, caseTop;
+    IEnumerator openCo, closeCo;
     void Awake()
     {
         Screen.orientation = ScreenOrientation.Landscape;
@@ -47,6 +47,7 @@ public class MenuMovement : MonoBehaviour {
 		friendsCanvas = GameObject.Find ("FriendsScreen");
 		optionsCanvas = GameObject.Find ("OptionsScreen");
         gamesCanvas = GameObject.Find("GamesScreen");
+        caseTop = GameObject.Find("CaseTop");
 
         // set main menu active and rest inactive
         mainCanvas.SetActive (true);
@@ -94,8 +95,13 @@ public class MenuMovement : MonoBehaviour {
     }
 
 	public void MoveToMainMenu(){
+        //closes case in background
+        
         moveMenu(1);
-
+        Debug.Log("Moving to main menu");
+        if (openCo != null) StopCoroutine(openCo);
+        closeCo = CloseCase();
+        StartCoroutine(closeCo);
         /*
 		startPos = mainMenuPos.toVector ();
 		endPos = playMenuPos.toVector ();
@@ -118,12 +124,23 @@ public class MenuMovement : MonoBehaviour {
 	public void MoveToPlayScreen() {
         moveMenu(2);
 
+        //opens case in background
+        if (closeCo != null) StopCoroutine(closeCo);
+        openCo = OpenCase();
+        StartCoroutine(openCo);
+        //Quaternion.Lerp(caseTop.transform.rotation, new Quaternion(400, 
         //mode = 2;
 
     }
 
+    
+
+    
 	public void MoveToFriendsScreen() {
         moveMenu(3);
+        if (closeCo != null) StopCoroutine(closeCo);
+        openCo = OpenCase();
+        StartCoroutine(openCo);
     }
 
 	public void MoveToOptionsScreen() {
@@ -227,6 +244,32 @@ public class MenuMovement : MonoBehaviour {
 		obj.SetActive(false);
 	}
 
+    private IEnumerator OpenCase()
+    {
+        float startTime = Time.time;
+        Quaternion endRot = new Quaternion(.5f, .5f, -.5f, -.5f);
+        while (Time.time - startTime <= 3.0f)
+        {           
+            caseTop.transform.rotation = Quaternion.Lerp(caseTop.transform.rotation, endRot, (Time.time - startTime) / 3.0f);
+            caseTop.transform.position = Vector3.Lerp(caseTop.transform.position, new Vector3(444.2f, 100f, 600f), (Time.time - startTime) / 3.0f);        
+            yield return 1;
+            Debug.Log("Test Open: ");
+        }
+    }
+
+    private IEnumerator CloseCase()
+    {
+
+        float startTime = Time.time;
+        Quaternion endRot = new Quaternion(.7f, 0, -.7f, 0);
+        while (Time.time - startTime <= 3.0f)
+        {            
+            caseTop.transform.rotation = Quaternion.Lerp(caseTop.transform.rotation, endRot, (Time.time - startTime) / 3.0f);
+            caseTop.transform.position = Vector3.Lerp(caseTop.transform.position, new Vector3(444.2f, 41.4f, 474f), (Time.time - startTime) / 3.0f);
+            yield return 1;
+            Debug.Log("Test Close: ");
+        }
+    }
 
 
 	struct tuple {
