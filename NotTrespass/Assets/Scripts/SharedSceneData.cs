@@ -5,8 +5,8 @@ using System.Collections.Generic;
 public static class SharedSceneData
 {
     private static int m_SecretNumber;
-	// TODO: this should get passed in
-	private static String my_user = "georgep";
+    //David- this now comes from LoginSceneController LoadMenu method
+    public static String my_user;
 	public static GameApi API = GameApi.getInstance(my_user, "");
     public static int SecretNumber
     {
