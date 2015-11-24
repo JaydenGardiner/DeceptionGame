@@ -50,7 +50,7 @@ public class GameApi {
         string json = JsonConvert.SerializeObject (g);
 		WWWForm form = new WWWForm ();
 		form.AddField ("game", json);
-		WWW www = new WWW(String.Join("/", new string[] { API_BASE, GAMES_RES, g.GameID + ""}), form);
+		WWW www = new WWW(String.Join("/", new string[] { API_BASE, GAME_RES, g.GameID + ""}), form);
 		while (!www.isDone) {}
 
 		return  JsonConvert.DeserializeObject<Game>(www.text);
