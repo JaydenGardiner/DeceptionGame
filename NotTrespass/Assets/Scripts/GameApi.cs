@@ -3,9 +3,16 @@ using System;
 using System.Net;
 using Newtonsoft.Json;
 using SimpleJSON;
+using System.Collections.Generic;
 
+
+class GameList
+{
+    public List<Game> Games;
+}
 
 public class GameApi {
+
 	private const String API_BASE = "http://143.215.206.36:5000";
 	private  const String GAME_RES = "game";
 	private  const String GAMES_RES = "games";
@@ -22,18 +29,15 @@ public class GameApi {
         return new GameApi(user);
     }
 
-    public Game[] GetGames(String user) {
-		WWW www = new WWW(String.Join("/", new string[] { API_BASE, GAME_RES, USER_RES, user}));
+    public List<Game> GetGames(String user) {
+		WWW www = new WWW(String.Join("/", new string[] { API_BASE, GAMES_RES, USER_RES, user}));
 		while (!www.isDone) {}
-
-		var gameArray = JSON.Parse (www.text) ;
-		Game[] games = new Game[gameArray.Count];
-		for (int i = 0; i < gameArray.Count; i++) {
-			games[i] = JsonConvert.DeserializeObject<Game>(gameArray[i]);
-		}
-		Debug.Log (games);
-		return games;
-
+        
+        //var gameArray = JSON.Parse(www.text)["games"];
+        Debug.Log(www.text);
+        GameList games = JsonConvert.DeserializeObject<GameList>(www.text);
+        return games.Games;
+        
 	}
 
     public Game updateGameState(int id) {

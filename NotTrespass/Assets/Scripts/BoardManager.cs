@@ -50,7 +50,7 @@ public class BoardManager : MonoBehaviour {
     private Tile revertFrom;
 
 
-    public bool IsMyTurn;
+    public bool IsMyTurn = true;
 
 
     void Awake()
@@ -227,7 +227,7 @@ public class BoardManager : MonoBehaviour {
         // TODO: this method will eventually throw an exception that will need to 
         // get caught for no network connection
         SharedSceneData.GameToLoad = SharedSceneData.API.updateGameState(SharedSceneData.GameToLoad);
-        
+        Debug.Log(SharedSceneData.GameToLoad);
         // TODO: Check the game above for status to see if someone has won
         // and update the current turn
 

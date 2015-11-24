@@ -93,23 +93,23 @@ public class FriendsPageActions : MonoBehaviour {
 
         if (index > 3)
         {
-            AddFriendButton.interactable = false;
+            if (AddFriendButton != null) AddFriendButton.interactable = false;
         }
         if (numOn != 1)
         {
-            ChallengeFriendButton.interactable = false;
+            if (ChallengeFriendButton != null) ChallengeFriendButton.interactable = false;
         }
         else
         {
-            ChallengeFriendButton.interactable = true;
+            if (ChallengeFriendButton != null) ChallengeFriendButton.interactable = true;
         }
         if (numOn >= 1)
         {
-            RemoveFriendButton.interactable = true;
+            if (RemoveFriendButton != null) RemoveFriendButton.interactable = true;
         }
         else
         {
-            RemoveFriendButton.interactable = false;
+            if (RemoveFriendButton != null) RemoveFriendButton.interactable = false;
         }
     }
 

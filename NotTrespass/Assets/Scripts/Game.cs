@@ -2,10 +2,14 @@ using System;
 
 public class Game {
     public enum Status { PENDING, PLAYING, COMPLETED };
-    public Status GameStatus { get; private set; }
-    public Nullable<Int32> GameID { get; set; }
-    public int[][] Board;
 
+
+    public String CurrentMove;
+    public int[][] Board;
+    public Nullable<Int32> GameID;
+    public Status GameStatus;
+    public String Player1;
+    public String Player2;
 	private readonly int[][] DefaultBoard = {
 		new int[] {1, 1, 1, 1, 1},
 		new int[] {1, 1, 1, 1, 1},
@@ -17,9 +21,8 @@ public class Game {
 
 
     // The following return usernames 
-    public String Player1 { get; private set; }
-    public String Player2 { get; private set; }
-    public String CurrentMove { get; private set; }
+    
+    
     
 	public Game(String Player1, String Player2) {
 		GameStatus = Status.PENDING;
