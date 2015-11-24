@@ -67,6 +67,14 @@ public class BoardManager : MonoBehaviour {
         //{
             CreateBoard();
        // }
+        if (g == null)
+        {
+            CreateBoard();
+        }
+        else
+        {
+
+        }
     }
 
     void CreateBoard()
@@ -128,7 +136,8 @@ public class BoardManager : MonoBehaviour {
             }
         }
         CurrentTeam = 0;
-        Tiles2D[1 - Player1Secret / 5, Player1Secret % 5].Piece.IsSecret = true;
+        Tiles2D[ -1*(Player1Secret / 5) + 1, Player1Secret % 5].Piece.IsSecret = true;
+        Debug.Log("player 1 sec: " + Player1Secret + "; index: " + (-1 * (Player1Secret / 5) + 1) + ", " + (Player1Secret % 5));
         Tiles2D[5, 0].Piece.IsSecret = true;
     }
 
