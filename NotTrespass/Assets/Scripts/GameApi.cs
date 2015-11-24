@@ -103,17 +103,17 @@ public class GameApi {
 	public void AddFriend(String username) {
 		WWWForm form = new WWWForm();
 		form.AddField("username", username);
-		WWW www = new WWW(String.Join ("/", new string[] { API_BASE, FRIENDS_RES, ""}), form);
+		WWW www = new WWW(String.Join ("/", new string[] { API_BASE, FRIENDS_RES, this.User}), form);
 	}
 
 	public void RemoveFriend(String username) {
-		WebRequest req = WebRequest.Create (String.Join ("/", new string[] { API_BASE, FRIENDS_RES, username}));
+		WebRequest req = WebRequest.Create (String.Join ("/", new string[] { API_BASE, FRIENDS_RES, this.User, username}));
 		req.Method = "DELETE";
 		Debug.Log (req.GetResponse ());
 	}
 
 	public string[] GetFriends() {
-		WWW www = new WWW(String.Join("/", new string[] { API_BASE, FRIENDS_RES}));
+		WWW www = new WWW(String.Join("/", new string[] { API_BASE, FRIENDS_RES, this.User}));
 		while (!www.isDone) {}
 
 		var userArray = JSON.Parse (www.text) ["friends"];
