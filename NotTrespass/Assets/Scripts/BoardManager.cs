@@ -213,7 +213,7 @@ public class BoardManager : MonoBehaviour {
         int yIndex = board.GetLength(1);
 
         for (int x = 0; x < board.GetLength(0); x++) {
-            board[x] = new int[board.GetLength(1)];
+            intBoard[x] = new int[board.GetLength(1)];
             for (int y = 0; y < board.GetLength(1); y++) {
                 if (board[x,y].Piece == null) {
                     intBoard[x][y] = 0;

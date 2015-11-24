@@ -6,7 +6,7 @@ public static class SharedSceneData
 {
     private static int m_SecretNumber;
     //David- this now comes from LoginSceneController LoadMenu method
-    public static String my_user;
+    public static String my_user = "thomas";
 	public static GameApi API = GameApi.getInstance(my_user, "");
     public static int SecretNumber
     {

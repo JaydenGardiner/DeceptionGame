@@ -6,7 +6,7 @@ using SimpleJSON;
 
 
 public class GameApi {
-	private const String API_BASE = "http://192.168.1.109:5000";
+	private const String API_BASE = "http://143.215.206.36:5000";
 	private  const String GAME_RES = "game";
 	private  const String GAMES_RES = "games";
 	private  const String USERS_RES = "users";
@@ -24,13 +24,13 @@ public class GameApi {
 
 
     public Game updateGameState(Game g) {
-        string json = JsonConvert.SerializeObject (game);
+        string json = JsonConvert.SerializeObject (g);
 		WWWForm form = new WWWForm ();
 		form.AddField ("game", json);
-		WWW www = new WWW(String.Join("/", new string[] { API_BASE, GAMES_RES, g.GameId + ""}), form);
+		WWW www = new WWW(String.Join("/", new string[] { API_BASE, GAMES_RES, g.GameID + ""}), form);
 		while (!www.isDone) {}
 
-		return  JSON.DeserializeObject<Game>(www.text);
+		return  JsonConvert.DeserializeObject<Game>(www.text);
     }
 
     public Game getGameState(int gameId) {
