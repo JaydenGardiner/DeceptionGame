@@ -23,7 +23,7 @@ public class GameApi {
     }
 
     public Game[] GetGames(String user) {
-		WWW www = new WWW(String.Join("/", new string[] { API_BASE, GAME_RES, user}));
+		WWW www = new WWW(String.Join("/", new string[] { API_BASE, GAME_RES, USER_RES, user}));
 		while (!www.isDone) {}
 
 		var gameArray = JSON.Parse (www.text) ;
