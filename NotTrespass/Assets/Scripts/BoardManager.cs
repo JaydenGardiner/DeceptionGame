@@ -75,33 +75,21 @@ public class BoardManager : MonoBehaviour {
         }
         else
         {
-
+            Debug.Log("loading");
+            IntArrayToBoard(SharedSceneData.GameToLoad.Board);
         }
     }
 
     void CreateBoard()
     {
-        OneWins = false;
-        ZeroWins = false;
-        Player1Secret = SharedSceneData.SecretNumber;
-        //Create 2d arrays of positions and game objects and instantiate pieces
-        Tiles2D = new Tile[6, 5];
         for (int i = 0; i < 6; i++)
         {
             for (int j = 0; j < 5; j++)
             {
-                //Convert 1d tile array from scene to 2d representation.
-                //Assumes tiles are ordered in scene, probably not best implementation but w.e
-                GameObject tile = tiles[(i * 5) + j];
-                tile.gameObject.GetComponentInChildren<MeshRenderer>().gameObject.AddComponent<BoxCollider>();
-                Tiles2D[i, j] = tile.gameObject.GetComponent<Tile>();
-
-                //Instantiate virtual board location
-                Tiles2D[i, j].I = i;
-                Tiles2D[i, j].J = j;
                 //Instantiate pieces on tiles.
                 if (i == 0 || i == 1 || i == 5 || i == 4)
                 {
+                    Tile tile = Tiles2D[i, j];
                     //Instantiate piece on center of tile
                     Vector3 center = tile.gameObject.GetComponentInChildren<MeshRenderer>().bounds.center;
                     Object n_Obj = GameObject.Instantiate(PiecePrefab, center, Quaternion.identity);
@@ -153,6 +141,28 @@ public class BoardManager : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
     {
+        OneWins = false;
+        ZeroWins = false;
+        Player1Secret = SharedSceneData.SecretNumber;
+        //Create 2d arrays of positions and game objects and instantiate pieces
+        Tiles2D = new Tile[6, 5];
+        for (int i = 0; i < 6; i++)
+        {
+            for (int j = 0; j < 5; j++)
+            {
+                //Convert 1d tile array from scene to 2d representation.
+                //Assumes tiles are ordered in scene, probably not best implementation but w.e
+                GameObject tile = tiles[(i * 5) + j];
+                tile.gameObject.GetComponentInChildren<MeshRenderer>().gameObject.AddComponent<BoxCollider>();
+                Tiles2D[i, j] = tile.gameObject.GetComponent<Tile>();
+
+                //Instantiate virtual board location
+                Tiles2D[i, j].I = i;
+                Tiles2D[i, j].J = j;
+            }
+        }
+
+
         UpdateBoard(SharedSceneData.GameToLoad);
 	}
 	
