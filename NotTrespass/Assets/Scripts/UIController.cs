@@ -18,7 +18,7 @@ public class UIController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	    if (!board.Moved)
+	    if (!board.Moved || !board.IsMyTurn)
         {
             TurnButton.interactable = false;
             RevertButton.interactable = false;

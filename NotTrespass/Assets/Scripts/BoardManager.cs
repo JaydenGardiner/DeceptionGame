@@ -50,6 +50,8 @@ public class BoardManager : MonoBehaviour {
     private Tile revertFrom;
 
 
+    public bool IsMyTurn;
+
 
     void Awake()
     {
@@ -157,6 +159,13 @@ public class BoardManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
+
+        //TODO replace thomas with current logged in player
+        if (SharedSceneData.GameToLoad.CurrentMove == "thomas")
+        {
+            IsMyTurn = true;
+        }
+
         foreach (Tile t in Tiles2D)
         {
             if (t.Piece != null)
@@ -208,7 +217,7 @@ public class BoardManager : MonoBehaviour {
         // TODO: this method will eventually throw an exception that will need to 
         // get caught for no network connection
         SharedSceneData.GameToLoad = SharedSceneData.API.updateGameState(SharedSceneData.GameToLoad);
-
+        
         // TODO: Check the game above for status to see if someone has won
         // and update the current turn
 
