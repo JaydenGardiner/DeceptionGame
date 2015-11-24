@@ -143,8 +143,8 @@ public class Piece : MonoBehaviour {
         List<Tile> movementList = tile.movementsToHere;
         for (int i = 0; i < movementList.Count; i++)
         {
-            Debug.Log(movementList[i].I);
-            Debug.Log(movementList[i].J);
+            //Debug.Log(movementList[i].I);
+            //Debug.Log(movementList[i].J);
         }
         //StartCoroutine(WaitAndMove(0, duration, movementList[movementList.Count - 1].Location));
 

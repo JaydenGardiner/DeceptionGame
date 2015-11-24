@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GameScreenController : MonoBehaviour {
 
@@ -10,7 +11,7 @@ public class GameScreenController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        Game[] gs = SharedSceneData.API.GetGames("thomas");
+        List<Game> gs = SharedSceneData.API.GetGames("thomas");
         curGame = gs[0];
         gButton.text = curGame.GameID.ToString();
 	}
