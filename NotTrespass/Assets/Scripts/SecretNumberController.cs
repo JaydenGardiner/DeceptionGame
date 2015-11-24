@@ -23,7 +23,7 @@ public class SecretNumberController : MonoBehaviour
         if (m_IsPieceSelected)
         {
 			SharedSceneData.GameToLoad.SetSecretNumber(m_curNumber);
-            //SharedSceneData.SecretNumber = m_curNumber;
+            SharedSceneData.SecretNumber = m_curNumber;
             print("loading next scene");
 			int id = SharedSceneData.API.CreateNewGame(SharedSceneData.GameToLoad);
             SharedSceneData.GameToLoad.GameID = id;
@@ -56,7 +56,7 @@ public class SecretNumberController : MonoBehaviour
 
             
             n_Obj.tag = "piece";
-            n_Obj.GetComponent<Piece>().PieceNumber = 9-i;
+            n_Obj.GetComponent<Piece>().PieceNumber = 9 - i;//Mathf.Abs(i-9);
             pieces.Add(n_Obj.GetComponent<Piece>());
         }
         
