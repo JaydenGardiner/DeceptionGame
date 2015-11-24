@@ -22,31 +22,36 @@ public class GameApi {
         return new GameApi(user);
     }
 
-    
+
     public Game updateGameState(Game g) {
-        //todo- finish
-        return null;
+        string json = JsonConvert.SerializeObject (game);
+		WWWForm form = new WWWForm ();
+		form.AddField ("game", json);
+		WWW www = new WWW(String.Join("/", new string[] { API_BASE, GAMES_RES, g.GameId + ""}), form);
+		while (!www.isDone) {}
+
+		return  JSON.DeserializeObject<Game>(www.text);
     }
 
     public Game getGameState(int gameId) {
 		WebClient wc = new WebClient ();
 		Console.WriteLine (wc.DownloadString (String.Join ("/", new string[] { API_BASE, GAME_RES, "" + gameId })));
-       
+
 		return null;
     }
-    
+
     public int CreateNewGame(Game game) {
 		string json = JsonConvert.SerializeObject (game);
 		WWWForm form = new WWWForm ();
 		form.AddField ("game", json);
 		WWW www = new WWW(String.Join("/", new string[] { API_BASE, GAMES_RES, ""}), form);
 		while (!www.isDone) {}
-		
+
 		int gameId = JSON.Parse (www.text) ["id"].AsInt;
 		Debug.Log (gameId);
 		return gameId;
 	}
-        
+
 
 
     public void createNewUser(String name) {
@@ -54,7 +59,7 @@ public class GameApi {
         form.AddField("username", name);
         WWW www = new WWW(String.Join ("/",
 		                               new string[] { API_BASE, USERS_RES, name}), form);
-        
+
     }
 
     public string[] SearchUsers(String query) {
@@ -87,7 +92,7 @@ public class GameApi {
 	public string[] GetFriends() {
 		WWW www = new WWW(String.Join("/", new string[] { API_BASE, FRIENDS_RES}));
 		while (!www.isDone) {}
-		
+
 		var userArray = JSON.Parse (www.text) ["friends"];
 		string[] users = new string[userArray.Count];
 		for (int i = 0; i < userArray.Count; i++) {
@@ -95,6 +100,6 @@ public class GameApi {
 		}
 		Debug.Log (users);
 		return users;
-		
+
 	}
 }

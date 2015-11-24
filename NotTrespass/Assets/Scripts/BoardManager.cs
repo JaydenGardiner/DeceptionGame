@@ -208,11 +208,12 @@ public class BoardManager : MonoBehaviour {
     private int[][] BoardToIntArray(Tile[,] board) {
         //int[][] intBoard = new int[board.Length][board[0].Length];
         //cant have 2nd length in jagged array declaration
-        int[][] intBoard = new int[board.Length][];
+        int[][] intBoard = new int[board.GetLength(0)][];
         //to access second length
         int yIndex = board.GetLength(1);
 
-        for (int x = 0; x < board.Length; x++) {
+        for (int x = 0; x < board.GetLength(0); x++) {
+            board[x] = new int[board.GetLength(1)];
             for (int y = 0; y < board.GetLength(1); y++) {
                 if (board[x,y].Piece == null) {
                     intBoard[x][y] = 0;
