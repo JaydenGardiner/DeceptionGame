@@ -82,6 +82,7 @@
     <Compile Include="Assets\Scripts\FriendsPageActions.cs" />
     <Compile Include="Assets\Scripts\Game.cs" />
     <Compile Include="Assets\Scripts\GameApi.cs" />
+    <Compile Include="Assets\Scripts\GameScreenController.cs" />
     <Compile Include="Assets\Scripts\LoginSceneController.cs" />
     <Compile Include="Assets\Scripts\MenuMovement.cs" />
     <Compile Include="Assets\Scripts\Piece.cs" />

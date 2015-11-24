@@ -67,7 +67,7 @@ public class BoardManager : MonoBehaviour {
     {
        // if (arr == null)
         //{
-            CreateBoard();
+            //CreateBoard();
        // }
         if (g == null)
         {
@@ -261,8 +261,7 @@ public class BoardManager : MonoBehaviour {
         {
             for (int j = 0; j < Tiles2D.GetLength(1); j++)
             {
-                //tiles already exist
-
+                
                 //tile indices already exist
                 //TODO-INSTANTIATE PIECE ON CORRECT TILE
                 Tile tile = Tiles2D[i, j];

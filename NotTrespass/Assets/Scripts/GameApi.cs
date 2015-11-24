@@ -27,7 +27,7 @@ public class GameApi {
 		while (!www.isDone) {}
 
 		var gameArray = JSON.Parse (www.text) ;
-		Game[] games = new Game[userArray.Count];
+		Game[] games = new Game[gameArray.Count];
 		for (int i = 0; i < gameArray.Count; i++) {
 			games[i] = JsonConvert.DeserializeObject<Game>(gameArray[i]);
 		}
@@ -37,9 +37,9 @@ public class GameApi {
 	}
 
     public Game updateGameState(int id) {
-        string json = JsonConvert.SerializeObject (g);
-		WWWForm form = new WWWForm ();
-		WWW www = new WWW(String.Join("/", new string[] { API_BASE, GAMES_RES, g.GameID + ""}), form);
+        //string json = JsonConvert.SerializeObject (g);
+		//WWWForm form = new WWWForm ();
+		WWW www = new WWW(String.Join("/", new string[] { API_BASE, GAMES_RES, id + ""}));
 		while (!www.isDone) {}
 
 		return  JsonConvert.DeserializeObject<Game>(www.text);
