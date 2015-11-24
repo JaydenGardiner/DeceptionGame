@@ -144,12 +144,12 @@ public class MenuMovement : MonoBehaviour {
     }
 
 	public void MoveToOptionsScreen() {
-        moveMenu(5);
+        moveMenu(4);
     }
 
     public void MoveToGamesScreen()
     {
-        moveMenu(4);
+        moveMenu(5);
     }
 
 

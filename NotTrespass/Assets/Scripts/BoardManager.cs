@@ -50,6 +50,8 @@ public class BoardManager : MonoBehaviour {
     private Tile revertFrom;
 
 
+    public bool IsMyTurn;
+
 
     void Awake()
     {
@@ -65,7 +67,7 @@ public class BoardManager : MonoBehaviour {
     {
        // if (arr == null)
         //{
-            CreateBoard();
+            //CreateBoard();
        // }
         if (g == null)
         {
@@ -73,33 +75,21 @@ public class BoardManager : MonoBehaviour {
         }
         else
         {
-
+            Debug.Log("loading");
+            IntArrayToBoard(SharedSceneData.GameToLoad.Board);
         }
     }
 
     void CreateBoard()
     {
-        OneWins = false;
-        ZeroWins = false;
-        Player1Secret = SharedSceneData.SecretNumber;
-        //Create 2d arrays of positions and game objects and instantiate pieces
-        Tiles2D = new Tile[6, 5];
         for (int i = 0; i < 6; i++)
         {
             for (int j = 0; j < 5; j++)
             {
-                //Convert 1d tile array from scene to 2d representation.
-                //Assumes tiles are ordered in scene, probably not best implementation but w.e
-                GameObject tile = tiles[(i * 5) + j];
-                tile.gameObject.GetComponentInChildren<MeshRenderer>().gameObject.AddComponent<BoxCollider>();
-                Tiles2D[i, j] = tile.gameObject.GetComponent<Tile>();
-
-                //Instantiate virtual board location
-                Tiles2D[i, j].I = i;
-                Tiles2D[i, j].J = j;
                 //Instantiate pieces on tiles.
                 if (i == 0 || i == 1 || i == 5 || i == 4)
                 {
+                    Tile tile = Tiles2D[i, j];
                     //Instantiate piece on center of tile
                     Vector3 center = tile.gameObject.GetComponentInChildren<MeshRenderer>().bounds.center;
                     Object n_Obj = GameObject.Instantiate(PiecePrefab, center, Quaternion.identity);
@@ -151,12 +141,41 @@ public class BoardManager : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
     {
+        OneWins = false;
+        ZeroWins = false;
+        Player1Secret = SharedSceneData.SecretNumber;
+        //Create 2d arrays of positions and game objects and instantiate pieces
+        Tiles2D = new Tile[6, 5];
+        for (int i = 0; i < 6; i++)
+        {
+            for (int j = 0; j < 5; j++)
+            {
+                //Convert 1d tile array from scene to 2d representation.
+                //Assumes tiles are ordered in scene, probably not best implementation but w.e
+                GameObject tile = tiles[(i * 5) + j];
+                tile.gameObject.GetComponentInChildren<MeshRenderer>().gameObject.AddComponent<BoxCollider>();
+                Tiles2D[i, j] = tile.gameObject.GetComponent<Tile>();
+
+                //Instantiate virtual board location
+                Tiles2D[i, j].I = i;
+                Tiles2D[i, j].J = j;
+            }
+        }
+
+
         UpdateBoard(SharedSceneData.GameToLoad);
 	}
 	
 	// Update is called once per frame
 	void Update ()
     {
+
+        //TODO replace thomas with current logged in player
+        if (SharedSceneData.GameToLoad.CurrentMove == "thomas")
+        {
+            IsMyTurn = true;
+        }
+
         foreach (Tile t in Tiles2D)
         {
             if (t.Piece != null)
@@ -208,7 +227,7 @@ public class BoardManager : MonoBehaviour {
         // TODO: this method will eventually throw an exception that will need to 
         // get caught for no network connection
         SharedSceneData.GameToLoad = SharedSceneData.API.updateGameState(SharedSceneData.GameToLoad);
-
+        
         // TODO: Check the game above for status to see if someone has won
         // and update the current turn
 
@@ -252,8 +271,7 @@ public class BoardManager : MonoBehaviour {
         {
             for (int j = 0; j < Tiles2D.GetLength(1); j++)
             {
-                //tiles already exist
-
+                
                 //tile indices already exist
                 //TODO-INSTANTIATE PIECE ON CORRECT TILE
                 Tile tile = Tiles2D[i, j];
