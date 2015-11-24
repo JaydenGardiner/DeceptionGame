@@ -25,7 +25,8 @@ public class SecretNumberController : MonoBehaviour
 			SharedSceneData.GameToLoad.SetSecretNumber(m_curNumber);
             //SharedSceneData.SecretNumber = m_curNumber;
             print("loading next scene");
-			SharedSceneData.API.CreateNewGame(SharedSceneData.GameToLoad);
+			int id = SharedSceneData.API.CreateNewGame(SharedSceneData.GameToLoad);
+            SharedSceneData.GameToLoad.GameID = id;
             Application.LoadLevel("GameScene");
         }
     }
