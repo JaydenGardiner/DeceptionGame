@@ -22,6 +22,29 @@ public class GameApi {
         return new GameApi(user);
     }
 
+    public Game[] GetGames(String user) {
+		WWW www = new WWW(String.Join("/", new string[] { API_BASE, GAME_RES, user}));
+		while (!www.isDone) {}
+
+		var gameArray = JSON.Parse (www.text) ;
+		Game[] games = new Game[userArray.Count];
+		for (int i = 0; i < gameArray.Count; i++) {
+			games[i] = JsonConvert.DeserializeObject<Game>(gameArray[i]);
+		}
+		Debug.Log (games);
+		return games;
+
+	}
+
+    public Game updateGameState(int id) {
+        string json = JsonConvert.SerializeObject (g);
+		WWWForm form = new WWWForm ();
+		WWW www = new WWW(String.Join("/", new string[] { API_BASE, GAMES_RES, g.GameID + ""}), form);
+		while (!www.isDone) {}
+
+		return  JsonConvert.DeserializeObject<Game>(www.text);
+    }
+
 
     public Game updateGameState(Game g) {
         string json = JsonConvert.SerializeObject (g);
