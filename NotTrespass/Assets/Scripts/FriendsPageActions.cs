@@ -52,28 +52,31 @@ public class FriendsPageActions : MonoBehaviour {
         }
     }
 
-
-
-	// Use this for initialization
-	public void Start () {
+    public void UpdateFriends()
+    {
         FriendCanvas = this.GetComponent<Canvas>();
         friends = new Dictionary<int, string>();
         Toggles = new Dictionary<int, Toggle>();
         index = 0;
         numOn = 0;
-        
 
-		string[] friendEmails = SharedSceneData.FriendEmails ();
+
+        string[] friendEmails = SharedSceneData.FriendEmails();
         print(string.Join(", ", friendEmails));
-		int maxIndex = Mathf.Min(friendEmails.Length, 3);
+        int maxIndex = Mathf.Min(friendEmails.Length, 3);
         for (int i = 0; i < maxIndex; i++)
         {
-			if (friendEmails[i] != null || friendEmails[i] != "")
+            if (friendEmails[i] != null || friendEmails[i] != "")
             {
-				EmailInput.text = friendEmails[i];
+                EmailInput.text = friendEmails[i];
                 addFriend();
             }
         }
+    }
+
+	// Use this for initialization
+	public void Start () {
+        UpdateFriends();
 
         
         

@@ -13,6 +13,11 @@ public class GameScreenController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        UpdateGames();
+	}
+
+    public void UpdateGames()
+    {
         m_gs = SharedSceneData.API.GetGames(SharedSceneData.my_user);
         List<Dropdown.OptionData> drops = new List<Dropdown.OptionData>();
         for (int i = 0; i < m_gs.Count; i++)
@@ -20,10 +25,7 @@ public class GameScreenController : MonoBehaviour {
             drops.Add(new Dropdown.OptionData(m_gs[i].getOtherPlayer(SharedSceneData.my_user) + "- " + m_gs[i].GameStatus));
         }
         Drop.options = drops;
-        
-
-        
-	}
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -36,7 +38,7 @@ public class GameScreenController : MonoBehaviour {
         switch(SharedSceneData.GameToLoad.GameStatus)
         {
             case Game.Status.PENDING:
-                //load secret piece scene
+                Application.LoadLevel("SecretPiece");
                 Debug.Log("game status pending");
                 break;
             case Game.Status.PLAYING:

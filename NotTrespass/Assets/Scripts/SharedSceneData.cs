@@ -22,7 +22,7 @@ public static class SharedSceneData
     {
         get
         {
-            return my_user == GameToLoad.CurrentMove;
+            return my_user == GameToLoad.CurrentMove && GameToLoad.GameStatus != Game.Status.COMPLETED;
         }
     }
     public static GameApi API = null;

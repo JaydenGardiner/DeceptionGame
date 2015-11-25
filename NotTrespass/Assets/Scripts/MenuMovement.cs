@@ -193,17 +193,22 @@ public class MenuMovement : MonoBehaviour {
                 break;
             case 3:
                 nextCanvas = friendsCanvas;
+                friendsCanvas.GetComponent<FriendsPageActions>().UpdateFriends();
                 break;
             case 4:
                 nextCanvas = optionsCanvas;
                 break;
             case 5:
                 nextCanvas = gamesCanvas;
+                gamesCanvas.GetComponent<GameScreenController>().UpdateGames();
                 break;
         }
         StartCoroutine(fadeOut(currentCanvas, speed));  // fade out 
         StartCoroutine(fadeIn(nextCanvas, speed));  // fade in
         state = newState;   // set new state
+
+        
+
     }
 
     /** fadeIn method
