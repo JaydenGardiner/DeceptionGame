@@ -339,7 +339,8 @@ public class BoardManager : MonoBehaviour {
 
     public void Poll()
     {
-        
+        SharedSceneData.GameToLoad = SharedSceneData.API.updateGameState(SharedSceneData.GameToLoad.GameID.Value);
+        UpdateBoard(SharedSceneData.GameToLoad);
     }
 
 
