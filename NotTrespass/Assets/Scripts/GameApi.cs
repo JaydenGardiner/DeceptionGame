@@ -43,7 +43,7 @@ public class GameApi {
     public Game updateGameState(int id) {
         //string json = JsonConvert.SerializeObject (g);
 		//WWWForm form = new WWWForm ();
-		WWW www = new WWW(String.Join("/", new string[] { API_BASE, GAMES_RES, id + ""}));
+		WWW www = new WWW(String.Join("/", new string[] { API_BASE, GAME_RES, id + ""}));
 		while (!www.isDone) {}
 
 		return  JsonConvert.DeserializeObject<Game>(www.text);
