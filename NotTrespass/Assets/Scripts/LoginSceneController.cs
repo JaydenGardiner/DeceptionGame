@@ -94,6 +94,7 @@ public class LoginSceneController : MonoBehaviour {
     {
         //TODO Set any game options here like player
         SharedSceneData.my_user = m_userS;
+        SharedSceneData.API = GameApi.getInstance(SharedSceneData.my_user, "");
         Application.LoadLevel("MenuScreen");
     }
 

@@ -6,8 +6,26 @@ public static class SharedSceneData
 {
     private static int m_SecretNumber;
     //David- this now comes from LoginSceneController LoadMenu method
-    public static String my_user = "thomas";
-	public static GameApi API = GameApi.getInstance(my_user, "");
+    public static String my_user = null;
+    public static int my_team
+    {
+        get
+        {
+            if (GameToLoad == null) return -1;
+            else if (my_user == GameToLoad.Player1) return 0;
+            else if (my_user == GameToLoad.Player2) return 1;
+            else return -1;
+        }
+    }
+
+    public static bool my_turn
+    {
+        get
+        {
+            return my_user == GameToLoad.CurrentMove;
+        }
+    }
+    public static GameApi API = null;
     public static int SecretNumber
     {
         get { return m_SecretNumber; }

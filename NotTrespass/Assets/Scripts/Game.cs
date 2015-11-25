@@ -10,6 +10,7 @@ public class Game {
     public Status GameStatus;
     public String Player1;
     public String Player2;
+    public String Winner;
 	private readonly int[][] DefaultBoard = {
 		new int[] {1, 1, 1, 1, 1},
 		new int[] {1, 1, 1, 1, 1},
@@ -35,5 +36,12 @@ public class Game {
 		// TODO: update this to work for player 2 as well
 		Board [(1 - (pieceNum / 5))] [pieceNum % 5] = 2;
 	}
+
+    public String getOtherPlayer(String player)
+    {
+        if (player == Player1) return Player2;
+        else if (player == Player2) return Player1;
+        else throw new System.ArgumentException("invalid player name");
+    }
 
 }

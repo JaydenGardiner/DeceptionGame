@@ -212,8 +212,20 @@ public class FriendsPageActions : MonoBehaviour {
           //  {
           //      SharedSceneData.FriendEmails.Add(friend);
            // }
-			SharedSceneData.GameToLoad = new Game(SharedSceneData.API.User, friends[onIndex]);
-            Application.LoadLevel("SecretPiece");
+            //TODO check if game exists between these 2 people
+            bool gameExists = false;
+            if (gameExists)
+            {
+                //Load game
+            }
+            else
+            {
+                //Create game
+                SharedSceneData.GameToLoad = new Game(SharedSceneData.API.User, friends[onIndex]);
+                Application.LoadLevel("SecretPiece");
+            }
+
+			
         }
     }
 

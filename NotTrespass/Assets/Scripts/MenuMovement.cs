@@ -267,7 +267,7 @@ public class MenuMovement : MonoBehaviour {
             caseTop.transform.rotation = Quaternion.Lerp(caseTop.transform.rotation, endRot, (Time.time - startTime) / 3.0f);
             caseTop.transform.position = Vector3.Lerp(caseTop.transform.position, new Vector3(444.2f, 41.4f, 474f), (Time.time - startTime) / 3.0f);
             yield return 1;
-            Debug.Log("Test Close: ");
+            //Debug.Log("Test Close: ");
         }
     }
 

@@ -57,6 +57,7 @@ public class SecretNumberController : MonoBehaviour
             
             n_Obj.tag = "piece";
             n_Obj.GetComponent<Piece>().PieceNumber = 9 - i;//Mathf.Abs(i-9);
+            n_Obj.GetComponent<Piece>().Team = 0;
             pieces.Add(n_Obj.GetComponent<Piece>());
         }
         
@@ -98,7 +99,7 @@ public class SecretNumberController : MonoBehaviour
             {
                 if (p != null)
                 {
-                    p.HighlightPiece(0);
+                    p.HighlightPiece();
                 }
             }
             m_IsSelectionChanged = false;
@@ -181,7 +182,7 @@ public class SecretNumberController : MonoBehaviour
                     m_IsPieceSelected = true;
                     Piece m_SelectedPiece = objHit.GetComponent<Piece>();
                     m_SelectedPiece.IsSecret = true;
-                    m_SelectedPiece.HighlightPiece(0);
+                    m_SelectedPiece.HighlightPiece();
                     m_curNumber = m_SelectedPiece.PieceNumber;
                     NumberText.text = "Choose your secret piece: " + m_curNumber;
                     m_IsSelectionChanged = true;

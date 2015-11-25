@@ -71,7 +71,8 @@ public class BoardManager : MonoBehaviour {
        // }
         if (g == null)
         {
-            CreateBoard();
+            //CreateBoard();
+            Debug.Log("no game to load");
         }
         else
         {
@@ -79,7 +80,7 @@ public class BoardManager : MonoBehaviour {
             IntArrayToBoard(SharedSceneData.GameToLoad.Board);
         }
     }
-
+    /*
     void CreateBoard()
     {
         for (int i = 0; i < 6; i++)
@@ -129,7 +130,7 @@ public class BoardManager : MonoBehaviour {
         Tiles2D[ -1*(Player1Secret / 5) + 1, Player1Secret % 5].Piece.IsSecret = true;
         Debug.Log("player 1 sec: " + Player1Secret + "; index: " + (-1 * (Player1Secret / 5) + 1) + ", " + (Player1Secret % 5));
         Tiles2D[5, 0].Piece.IsSecret = true;
-    }
+    }*/
 
     private void TransformToTileCenter(GameObject n_GameObj)
     {
@@ -180,7 +181,7 @@ public class BoardManager : MonoBehaviour {
         {
             if (t.Piece != null)
             {
-                t.Piece.HighlightPiece(CurrentTeam);
+                t.Piece.HighlightPiece();
             }
         }
 	}
@@ -233,6 +234,11 @@ public class BoardManager : MonoBehaviour {
 
     }
 
+    private void UpdateGameState()
+    {
+
+    }
+
     private int[][] BoardToIntArray(Tile[,] board) {
         //int[][] intBoard = new int[board.Length][board[0].Length];
         //cant have 2nd length in jagged array declaration
@@ -241,7 +247,7 @@ public class BoardManager : MonoBehaviour {
         int yIndex = board.GetLength(1);
 
         for (int x = 0; x < board.GetLength(0); x++) {
-            intBoard[x] = new int[board.GetLength(1)];
+            intBoard[x] = new int[board.GetLength(0)];
             for (int y = 0; y < board.GetLength(1); y++) {
                 if (board[x,y].Piece == null) {
                     intBoard[x][y] = 0;
@@ -294,7 +300,9 @@ public class BoardManager : MonoBehaviour {
                     Tiles2D[i, j].Piece = n_GameObj.GetComponent<Piece>();
                     // (1-1)/2=0, (2-1)/2=0; (3-1)/2=1, (4-1)/2=1
                     Tiles2D[i, j].Piece.Team = (arr[i][j] - 1) / 2;
-                    Tiles2D[i, j].Piece.IsSecret = (arr[i][j] % 2 == 0) ? false : true;
+
+                    
+                    Tiles2D[i, j].Piece.IsSecret = (arr[i][j] % 2 == 0) ? true : false;
                 }
             }
         }
@@ -327,6 +335,11 @@ public class BoardManager : MonoBehaviour {
         }
         //Now we havent moved
         Moved = false;
+    }
+
+    public void Poll()
+    {
+        
     }
 
 

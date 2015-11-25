@@ -18,7 +18,7 @@ public class UIController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	    if (!board.Moved || !board.IsMyTurn)
+	    if (!board.Moved || SharedSceneData.GameToLoad.CurrentMove != SharedSceneData.my_user)
         {
             TurnButton.interactable = false;
             RevertButton.interactable = false;
@@ -28,28 +28,16 @@ public class UIController : MonoBehaviour {
             TurnButton.interactable = true;
             RevertButton.interactable = true;
         }
-        if (board.ZeroWins)
+        
+        if (SharedSceneData.GameToLoad.GameStatus == Game.Status.COMPLETED)
         {
-            StatusText.text = "PLAYER ONE WINS";
-            TurnButton.interactable = false;
-            RevertButton.interactable = false;
-        }
-        else if (board.OneWins)
-        {
-            StatusText.text = "PLAYER TWO WINS";
+            StatusText.text = SharedSceneData.GameToLoad.Winner + "WINS!!";
             TurnButton.interactable = false;
             RevertButton.interactable = false;
         }
         else
         {
-            if (board.CurrentTeam == 0)
-            {
-                StatusText.text = "PLAYER ONE'S TURN";
-            }
-            else
-            {
-                StatusText.text = "PLAYER TWO'S TURN";
-            }
+            StatusText.text = SharedSceneData.GameToLoad.CurrentMove + "'s move";
         }
 	}
 

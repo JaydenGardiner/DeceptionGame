@@ -33,7 +33,7 @@ public class Piece : MonoBehaviour {
 	void Update () {
 	}
 
-    public void HighlightPiece(int curTeam)
+    public void HighlightPiece()
     {
         //"_TintColor"
         /*
@@ -53,32 +53,16 @@ public class Piece : MonoBehaviour {
         {
             this.GetComponent<Renderer>().material.SetColor("_ColorTint", Color.green);
         }
-        else if (Team == 0)
+        else 
         {
-            if (IsSecret)
+            if (IsSecret && Team == SharedSceneData.my_team)
             {
-                if (curTeam == 0)
-                {
-                    this.GetComponent<Renderer>().material.SetColor("_ColorTint", Color.yellow);
-                }
-                else
-                {
-                    this.GetComponent<Renderer>().material.SetColor("_ColorTint", Color.magenta);
-                }
-                
+             
+                this.GetComponent<Renderer>().material.SetColor("_ColorTint", Color.yellow);   
             }
-            else
+            else if(Team == 0)
             {
                 this.GetComponent<Renderer>().material.SetColor("_ColorTint", Color.magenta);
-            }
-            
-        }
-        else
-        {
-            if (IsSecret)
-            {
-                //dont highlight other players piece
-                //outlineObj.GetComponentInChildren<MeshRenderer>().material.SetColor("_OutlineColor", Color.green);
             }
             else
             {
@@ -86,6 +70,7 @@ public class Piece : MonoBehaviour {
             }
             
         }
+        
         
     }
 

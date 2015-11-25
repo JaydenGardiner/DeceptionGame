@@ -45,7 +45,7 @@ public class SelectObject : MonoBehaviour
                                 GameObject objHit = hit.transform.gameObject;
                                 Debug.Log(objHit.tag);
 
-                                if (objHit.tag == "piece" && !board.Moved)
+                                if (objHit.tag == "piece" && !board.Moved && SharedSceneData.my_turn)
                                 {
                                     if (board.MovedPiece != objHit.GetComponent<Piece>())
                                     {
@@ -109,8 +109,8 @@ public class SelectObject : MonoBehaviour
             {
                 GameObject objHit = hit.transform.gameObject;
                 Debug.Log(objHit.tag);
-                
-                if (objHit.tag == "piece" && !board.Moved)
+
+                if (objHit.tag == "piece" && !board.Moved && SharedSceneData.my_turn)
                 {
                     if (board.MovedPiece != objHit.GetComponent<Piece>())
                     {
