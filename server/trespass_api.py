@@ -40,24 +40,29 @@ users = {
 
 
 games = [
-#    {
-#        u'GameStatus' : PENDING,
-#        u'GameID': 0,
-#        u'Board': [
-#            [1, 1, 2, 1, 1],
-#            [1, 1, 1, 1, 1],
-#            [0, 0, 0, 0, 0],
-#            [0, 0, 0, 0, 0],
-#            [3, 3, 3, 3, 3],
-#            [3, 3, 3, 3, 3]
-#        ],
-#
-#        u'Player1': u'thomas',
-#        u'Player2': u'jayden',
-#        u'CurrentMove': u'', # Player 2's turn. This will be the state when the game is pending
-#        u'Winner': ""
-#    }
+
 ]
+
+# Sample Game
+'''
+    {
+        u'GameStatus' : PENDING,
+        u'GameID': 0,
+        u'Board': [
+            [1, 1, 2, 1, 1],
+            [1, 1, 1, 1, 1],
+            [0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0],
+            [3, 3, 3, 3, 3],
+            [3, 3, 3, 3, 3]
+        ],
+
+        u'Player1': u'thomas',
+        u'Player2': u'jayden',
+        u'CurrentMove': u'',
+        u'Winner': ""
+    }
+'''
 
 
 # TODO: this will get loaded from the current auth session
@@ -121,8 +126,12 @@ class Game(Resource):
     def post(self, gameId):
         game = json.loads(parser.parse_args()["game"])
 
-        #if game["status"] == "pending":
-            # TODO: check valid new secret number
+        if game["GameStatus"] == PENDING:
+            if (2 in game["Board"][0] or 2 in game["Board"][1]) and (4 in game["Board"][-1] or 4 in game["Board"][-2]):
+                game["GameStatus"] = PLAYING
+            else:
+                return error("Invalid secret number positions")
+
         #else
             # TODO: Don't accept new secret number
 
