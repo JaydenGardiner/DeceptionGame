@@ -41,6 +41,11 @@ public class UIController : MonoBehaviour {
         }
 	}
 
+    public void BackButtonMethod()
+    {
+        Application.LoadLevel("MenuScreen");
+    }
+
     public void TurnButtonMethod()
     {
         board.ChangeTurn();

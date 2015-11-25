@@ -35,22 +35,23 @@ public class GameScreenController : MonoBehaviour {
     public void OnGameClick()
     {
         SharedSceneData.GameToLoad = m_gs[Drop.value];
-        switch(SharedSceneData.GameToLoad.GameStatus)
+        Game.Status status = SharedSceneData.GameToLoad.GameStatus;
+        if (status == Game.Status.PENDING && SharedSceneData.GameToLoad.Player1 != SharedSceneData.my_user)
         {
-            case Game.Status.PENDING:
-                Application.LoadLevel("SecretPiece");
-                Debug.Log("game status pending");
-                break;
-            case Game.Status.PLAYING:
-                Application.LoadLevel("GameScene");
-                Debug.Log("game status playing");
-                break;
-            case Game.Status.COMPLETED:
-                Debug.Log("Game completed");
-                break;
-            default:
-                Debug.Log("ERR no game status");
-                break;
+            Application.LoadLevel("SecretPiece");
+            Debug.Log("game status pending");
+        }
+        else if (status == Game.Status.PENDING || status == Game.Status.PLAYING)
+        {
+            Application.LoadLevel("GameScene");
+            Debug.Log("game status playing");
+        }
+        else if (status == Game.Status.COMPLETED)
+        {
+            Debug.Log("Game completed");
+        }
+        else {
+            Debug.Log("ERR no game status");
         }
         
     }

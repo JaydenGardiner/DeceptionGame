@@ -173,12 +173,7 @@ public class BoardManager : MonoBehaviour {
 	void Update ()
     {
 
-        //TODO replace thomas with current logged in player
-        if (SharedSceneData.GameToLoad.CurrentMove == "thomas")
-        {
-            IsMyTurn = true;
-        }
-
+       
         foreach (Tile t in Tiles2D)
         {
             if (t.Piece != null)
