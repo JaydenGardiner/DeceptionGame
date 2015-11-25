@@ -249,7 +249,7 @@ public class BoardManager : MonoBehaviour {
         int yIndex = board.GetLength(1);
 
         for (int x = 0; x < board.GetLength(0); x++) {
-            intBoard[x] = new int[board.GetLength(0)];
+            intBoard[x] = new int[board.GetLength(1)];
             for (int y = 0; y < board.GetLength(1); y++) {
                 if (board[x,y].Piece == null) {
                     intBoard[x][y] = 0;
@@ -351,8 +351,14 @@ public class BoardManager : MonoBehaviour {
 
     public void Poll()
     {
-        SharedSceneData.GameToLoad = SharedSceneData.API.updateGameState(SharedSceneData.GameToLoad.GameID.Value);
-        UpdateBoard(SharedSceneData.GameToLoad);
+        
+        Game temp = SharedSceneData.API.updateGameState(SharedSceneData.GameToLoad.GameID.Value);
+        if (!temp.Equals(SharedSceneData.GameToLoad))
+        {
+            SharedSceneData.GameToLoad = temp;
+            UpdateBoard(SharedSceneData.GameToLoad);
+        }
+        
     }
 
 
