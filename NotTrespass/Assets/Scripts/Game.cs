@@ -44,4 +44,29 @@ public class Game {
         else throw new System.ArgumentException("invalid player name");
     }
 
+    public override bool Equals(System.Object obj)
+    {
+        if (obj == null) return false;
+
+        Game g = obj as Game;
+        if ((System.Object)g == null) return false;
+
+        return CurrentMove == g.CurrentMove && BoardsEqual(Board, g.Board) 
+            && GameID == g.GameID && GameStatus == g.GameStatus 
+            && Player1 == g.Player1 && Player2 == g.Player2;
+    }
+
+    public static bool BoardsEqual(int[][] b1, int[][] b2) {
+        if (b1.Length != b2.Length) return false;
+
+        for (int i = 0; i < b1.Length; i++) {
+            if (b1[i].Length != b2[i].Length) return false;
+            for (int j = 0; j < b1[i].Length; j++) {
+                if (b1[i][j] != b2[i][j]) return false;
+            }
+        }
+
+        return true;
+    }
+
 }
