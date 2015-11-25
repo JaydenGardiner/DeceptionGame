@@ -165,6 +165,8 @@ public class BoardManager : MonoBehaviour {
 
 
         UpdateBoard(SharedSceneData.GameToLoad);
+
+        StartCoroutine("PollSeconds", 5.0f);
 	}
 	
 	// Update is called once per frame
@@ -300,7 +302,7 @@ public class BoardManager : MonoBehaviour {
                     Tiles2D[i, j].Piece = n_GameObj.GetComponent<Piece>();
                     // (1-1)/2=0, (2-1)/2=0; (3-1)/2=1, (4-1)/2=1
                     Tiles2D[i, j].Piece.Team = (arr[i][j] - 1) / 2;
-
+                    
                     
                     Tiles2D[i, j].Piece.IsSecret = (arr[i][j] % 2 == 0) ? true : false;
                 }
@@ -335,6 +337,16 @@ public class BoardManager : MonoBehaviour {
         }
         //Now we havent moved
         Moved = false;
+    }
+
+    IEnumerator PollSeconds(float timeBetween)
+    {
+        while(true)
+        {
+            Poll();
+            yield return new WaitForSeconds(timeBetween);
+        }
+        
     }
 
     public void Poll()
