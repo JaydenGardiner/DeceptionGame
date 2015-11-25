@@ -32,9 +32,10 @@ public class Game {
 		this.Board = (int[][]) DefaultBoard.Clone ();
 	}
 
-	public void SetSecretNumber(int pieceNum) {
+	public void SetSecretNumber(int pieceNum, int team) {
 		// TODO: update this to work for player 2 as well
-		Board [(1 - (pieceNum / 5))] [pieceNum % 5] = 2;
+        int row = 1 - (pieceNum / 5);
+		Board [team == 1 ? 5 - row: row] [pieceNum % 5] = 2 + (team * 2);
 	}
 
     public String getOtherPlayer(String player)

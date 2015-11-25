@@ -38,7 +38,7 @@ public class GameScreenController : MonoBehaviour {
         switch(SharedSceneData.GameToLoad.GameStatus)
         {
             case Game.Status.PENDING:
-                //load secret piece scene
+                Application.LoadLevel("SecretPiece");
                 Debug.Log("game status pending");
                 break;
             case Game.Status.PLAYING:

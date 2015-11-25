@@ -22,11 +22,18 @@ public class SecretNumberController : MonoBehaviour
     {
         if (m_IsPieceSelected)
         {
-			SharedSceneData.GameToLoad.SetSecretNumber(m_curNumber);
+			SharedSceneData.GameToLoad.SetSecretNumber(m_curNumber, SharedSceneData.my_team);
             SharedSceneData.SecretNumber = m_curNumber;
             print("loading next scene");
-			int id = SharedSceneData.API.CreateNewGame(SharedSceneData.GameToLoad);
-            SharedSceneData.GameToLoad.GameID = id;
+            if (!SharedSceneData.GameToLoad.GameID.HasValue)
+            {
+                int id = SharedSceneData.API.CreateNewGame(SharedSceneData.GameToLoad);
+                SharedSceneData.GameToLoad.GameID = id;
+            }
+            else
+            {
+                SharedSceneData.GameToLoad = SharedSceneData.API.updateGameState(SharedSceneData.GameToLoad);
+            }
             Application.LoadLevel("GameScene");
         }
     }
@@ -57,7 +64,7 @@ public class SecretNumberController : MonoBehaviour
             
             n_Obj.tag = "piece";
             n_Obj.GetComponent<Piece>().PieceNumber = 9 - i;//Mathf.Abs(i-9);
-            n_Obj.GetComponent<Piece>().Team = 0;
+            n_Obj.GetComponent<Piece>().Team = SharedSceneData.my_team;
             pieces.Add(n_Obj.GetComponent<Piece>());
         }
         
