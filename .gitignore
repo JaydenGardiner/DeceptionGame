@@ -6,7 +6,7 @@
 [Bb]uild
 [Ll]ibrary/
 sysinfo.txt
- 
+
 # ===================================== #
 # Visual Studio / MonoDevelop generated #
 # ===================================== #
@@ -19,7 +19,7 @@ sysinfo.txt
 /*.user
 /*.unityproj
 /*.booproj
- 
+
 # ============ #
 # OS generated #
 # ============ #
