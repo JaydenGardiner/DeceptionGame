@@ -31,14 +31,10 @@ public class MenuMovement : MonoBehaviour {
 
 	private GameObject mainCanvas, playCanvas, friendsCanvas, optionsCanvas, gamesCanvas, caseTop;
     IEnumerator openCo, closeCo;
-    void Awake()
-    {
-        Screen.orientation = ScreenOrientation.Landscape;
-    }
 
 	// Use this for initialization
-	void Start () {
-
+	void Awake () {
+        Screen.orientation = ScreenOrientation.Landscape;
         state = 1;      // start on main menu screen
 
         // initialize global canvas objects

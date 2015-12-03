@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class GameScreenController : MonoBehaviour {
 
@@ -12,13 +13,22 @@ public class GameScreenController : MonoBehaviour {
     private List<Game> m_gs;
 
 	// Use this for initialization
-	void Start () {
+	void Start() {
         UpdateGames();
 	}
 
     public void UpdateGames()
     {
-        m_gs = SharedSceneData.API.GetGames(SharedSceneData.my_user);
+        try
+        {
+            m_gs = SharedSceneData.API.GetGames(SharedSceneData.my_user);
+        }
+        catch (NullReferenceException n)
+        {
+            Debug.Log(SharedSceneData.API);
+            m_gs = new List<Game>();
+        }
+        
         List<Dropdown.OptionData> drops = new List<Dropdown.OptionData>();
         for (int i = 0; i < m_gs.Count; i++)
         {
