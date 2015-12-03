@@ -118,7 +118,8 @@ public class GameApi {
 
 	public string[] GetFriends() {
 		WWW www = new WWW(String.Join("/", new string[] { API_BASE, FRIENDS_RES, this.User}));
-		while (!www.isDone) {}
+        int b = 0;
+        while (!www.isDone) {}
 
 		var userArray = JSON.Parse (www.text) ["friends"];
 		string[] users = new string[userArray.Count];
