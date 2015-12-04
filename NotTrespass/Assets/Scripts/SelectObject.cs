@@ -45,7 +45,7 @@ public class SelectObject : MonoBehaviour
                                 GameObject objHit = hit.transform.gameObject;
                                 Debug.Log(objHit.tag);
 
-                                if (objHit.tag == "piece" && !board.Moved && SharedSceneData.my_turn)
+                                if (objHit.tag == "piece" && !board.Moved && SharedSceneData.my_turn && UIController.IsGameEnabled)
                                 {
                                     if (board.MovedPiece != objHit.GetComponent<Piece>())
                                     {
@@ -68,7 +68,7 @@ public class SelectObject : MonoBehaviour
 
 
                                 }
-                                else if (objHit.transform.parent != null && objHit.transform.parent.gameObject.tag == "tile" && !board.Moved)
+                                else if (objHit.transform.parent != null && objHit.transform.parent.gameObject.tag == "tile" && !board.Moved && UIController.IsGameEnabled)
                                 {
                                     objHit = objHit.transform.parent.gameObject;
                                     Tile t = objHit.GetComponent<Tile>();
@@ -110,7 +110,7 @@ public class SelectObject : MonoBehaviour
                 GameObject objHit = hit.transform.gameObject;
                 Debug.Log(objHit.tag);
 
-                if (objHit.tag == "piece" && !board.Moved && SharedSceneData.my_turn)
+                if (objHit.tag == "piece" && !board.Moved && SharedSceneData.my_turn && UIController.IsGameEnabled)
                 {
                     if (board.MovedPiece != objHit.GetComponent<Piece>())
                     {
@@ -133,7 +133,7 @@ public class SelectObject : MonoBehaviour
 
 
                 }
-                else if (objHit.transform.parent != null && objHit.transform.parent.gameObject.tag == "tile" && !board.Moved)
+                else if (objHit.transform.parent != null && objHit.transform.parent.gameObject.tag == "tile" && !board.Moved && UIController.IsGameEnabled)
                 {
                     objHit = objHit.transform.parent.gameObject;
                     Tile t = objHit.GetComponent<Tile>();

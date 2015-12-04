@@ -34,7 +34,6 @@ public class MenuMovement : MonoBehaviour {
 
 	// Use this for initialization
 	void Awake () {
-        Screen.orientation = ScreenOrientation.Landscape;
         state = 1;      // start on main menu screen
 
         // initialize global canvas objects

@@ -10,18 +10,15 @@ public class UIController : MonoBehaviour {
     public Text LockText;
     public Button TurnButton;
     public Button RevertButton;
-    //public Dropdown MenuDrop;
-    //public Dropdown MoveDrop;
 
+    public Canvas MainCanvas;
+    public Canvas MessageCanvas;
+    public Text MessageText;
 
+    public static bool IsGameEnabled;
 
 	// Use this for initialization
 	void Start () {
-
-
-
-        //MenuDrop.options = new List<Dropdown.OptionData>();
-        //string lockText = "";
         if (CameraMovement.LockScreen)
         {
             LockText.text = "Lock Camera";
@@ -30,79 +27,61 @@ public class UIController : MonoBehaviour {
         {
             LockText.text = "Unlock Camera";
         }
-        //MenuDrop.options.Add(new Dropdown.OptionData("Options..."));
-        //MenuDrop.options.Add(new Dropdown.OptionData(lockText));
-        //MenuDrop.options.Add(new Dropdown.OptionData("Main Menu"));
-        //MenuDrop.value = 0;
-        //MoveDrop.options = new List<Dropdown.OptionData>();
-        //MoveDrop.options.Add(new Dropdown.OptionData("Move..."));
-        //MoveDrop.options.Add(new Dropdown.OptionData("Mark Piece"));
-        //MoveDrop.options.Add(new Dropdown.OptionData("Revert Move"));
-        //MoveDrop.options.Add(new Dropdown.OptionData("End Turn"));
-        
-        //MoveDrop.value = 0;
+        MainCanvas.enabled = true;
+        MessageCanvas.enabled = false;
+        IsGameEnabled = true;
 	}
-    /*
-    public void SelectMenuOption()
-    {
-        Debug.Log("selecting menu item: " + MenuDrop.value);
-        if (MenuDrop.value == 0)
-        {
-            LockScreenMethod();
-        }
-        else if (MenuDrop.value == 1)
-        {
-            BackButtonMethod();
-        }
-    }
 
-    public void SelectMoveOption()
-    {
-        if (MoveDrop.value == 0)
-        {
-            MarkSelectedPieceMethod();
-        }
-        else if (MoveDrop.value == 1)
-        {
-            RevertButtonMethod();
-        }
-        else if (MoveDrop.value == 2)
-        {
-            TurnButtonMethod();
-        }
-    }*/
-
-    bool enableTurn;
-    bool enableRevert;
 
 	// Update is called once per frame
 	void Update () {
-	    if (!board.Moved || SharedSceneData.GameToLoad.CurrentMove != SharedSceneData.my_user)
+        if (board.IsNetworkConnection)
         {
-            TurnButton.interactable = false;
-            //enableTurn = false;
-            //enableRevert = false;
-            RevertButton.interactable = false;
+            IsGameEnabled = true;
+            if (!board.Moved || SharedSceneData.GameToLoad.CurrentMove != SharedSceneData.my_user)
+            {
+                TurnButton.interactable = false;
+                //enableTurn = false;
+                //enableRevert = false;
+                RevertButton.interactable = false;
+            }
+            else
+            {
+                //enableTurn = true;
+                //enableRevert = true;
+                TurnButton.interactable = true;
+                RevertButton.interactable = true;
+            }
+
+            if (SharedSceneData.GameToLoad.GameStatus == Game.Status.COMPLETED)
+            {
+                MainCanvas.enabled = false;
+                MessageCanvas.enabled = true;
+                MessageText.text = SharedSceneData.GameToLoad.Winner + " WINS!!";
+                IsGameEnabled = false;
+                //enableTurn = false;
+                //enableRevert = false;
+                //TurnButton.interactable = false;
+                //RevertButton.interactable = false;
+            }
+            else if (SharedSceneData.GameToLoad.GameStatus == Game.Status.PENDING)
+            {
+                MainCanvas.enabled = false;
+                MessageCanvas.enabled = true;
+                MessageText.text = "Waiting for other player to accept";
+                IsGameEnabled = false;
+            }
+            else
+            {
+                StatusText.text = SharedSceneData.GameToLoad.CurrentMove + "'s move";
+            }
         }
         else
         {
-            //enableTurn = true;
-            //enableRevert = true;
-            TurnButton.interactable = true;
-            RevertButton.interactable = true;
-        }
-        
-        if (SharedSceneData.GameToLoad.GameStatus == Game.Status.COMPLETED)
-        {
-            StatusText.text = SharedSceneData.GameToLoad.Winner + "WINS!!";
-            //enableTurn = false;
-            //enableRevert = false;
-            TurnButton.interactable = false;
-            RevertButton.interactable = false;
-        }
-        else
-        {
-            StatusText.text = SharedSceneData.GameToLoad.CurrentMove + "'s move";
+            MainCanvas.enabled = false;
+            MessageCanvas.enabled = true;
+            MessageText.text = "Waiting for network connection...";
+            IsGameEnabled = false;
         }
 	}
 
@@ -128,13 +107,10 @@ public class UIController : MonoBehaviour {
         if(CameraMovement.LockScreen)
         {
             LockText.text = "Lock Camera";
-            //MenuDrop.options[0].
-            //MenuDrop.options[0] = new Dropdown.OptionData("Lock Camera");
         }
         else
         {
             LockText.text = "Unlock Camera";
-            //MenuDrop.options[0] = new Dropdown.OptionData("Unlock Camera");
         }
     }
 

@@ -17,35 +17,24 @@ public class FriendsPageActions : MonoBehaviour {
 
 
     //int index;
-    //bool itemSelected;
-
-    static FriendsPageActions _instance;
-    public static FriendsPageActions Instance
-    {
-        get
-        {
-            if (!_instance)
-            {
-                _instance = FindObjectOfType(typeof(FriendsPageActions)) as FriendsPageActions;
-
-                // nope, create a new one
-                if (!_instance)
-                {
-                    var obj = new GameObject("friend actions");
-                    _instance = obj.AddComponent<FriendsPageActions>();
-                    DontDestroyOnLoad(obj);
-                }
-            }
-
-            return _instance;
-        }
-    }
+    //bool itemSelected
 
     public void UpdateFriends()
     {
         string[] friendEmails;
-
-        friendEmails = SharedSceneData.FriendEmails();
+        try
+        {
+            friendEmails = SharedSceneData.FriendEmails();
+        }
+        catch (NullReferenceException n)
+        {
+            Debug.Log(n.Message);
+            //Application.LoadLevel("ErrorScene");
+            ErrorHandler.ErrorMessage = "Could not connect to database.";
+            ErrorHandler.SceneToLoad = "MenuScreen";
+            friendEmails = new string[] { "test", "test2", "test3", "test" };
+        }
+        
         List<Dropdown.OptionData> drops = new List<Dropdown.OptionData>();
         print(string.Join(", ", friendEmails));
         for (int i = 0; i < friendEmails.Length; i++)
@@ -110,6 +99,7 @@ public class FriendsPageActions : MonoBehaviour {
             Debug.Log(n.Message);
             Application.LoadLevel("ErrorScene");
             ErrorHandler.ErrorMessage = "Could not connect to database.";
+            ErrorHandler.SceneToLoad = "MenuScreen";
         }
 		
         List<Dropdown.OptionData> drops = Drop.options;
@@ -126,7 +116,18 @@ public class FriendsPageActions : MonoBehaviour {
         {
             Debug.Log("removing friend");
             string selected = Drop.options[Drop.value].text;
-            SharedSceneData.API.RemoveFriend(selected);
+            try
+            {
+                SharedSceneData.API.RemoveFriend(selected);
+            }
+            catch (NullReferenceException n)
+            {
+                Debug.Log(n.Message);
+                Application.LoadLevel("ErrorScene");
+                ErrorHandler.SceneToLoad = "MenuScreen";
+                ErrorHandler.ErrorMessage = "Could not connect to database.";
+            }
+            
             //itemSelected = false;
             Drop.value = 0;
             UpdateFriends();
@@ -140,17 +141,10 @@ public class FriendsPageActions : MonoBehaviour {
         Debug.Log("index: " + Drop.value);
         if (true)//itemSelected)
         {
-            //SharedSceneData.OpponentEmail = friends[onIndex];
-            //SharedSceneData.FriendEmails = new List<string>();
-           // foreach(string friend in friends.Values)
-          //  {
-          //      SharedSceneData.FriendEmails.Add(friend);
-           // }
-            //TODO check if game exists between these 2 people
             bool gameExists = false;
             if (gameExists)
             {
-                //Load game
+                
             }
             else
             {
@@ -158,7 +152,17 @@ public class FriendsPageActions : MonoBehaviour {
                 //Create game
                 Debug.Log(Drop.value);
                 Debug.Log(Drop.options.Count);
-                SharedSceneData.GameToLoad = new Game(SharedSceneData.API.User, Drop.options[Drop.value].text);
+                try
+                {
+                    SharedSceneData.GameToLoad = new Game(SharedSceneData.API.User, Drop.options[Drop.value].text);
+                }
+                catch (NullReferenceException n)
+                {
+                    Debug.Log(n.Message);
+                    Application.LoadLevel("ErrorScene");
+                    ErrorHandler.SceneToLoad = "MenuScreen";
+                    ErrorHandler.ErrorMessage = "Could not connect to database.";
+                }
                 Application.LoadLevel("SecretPiece");
             }
             //itemSelected = false;

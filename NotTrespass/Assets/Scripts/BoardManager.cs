@@ -52,6 +52,8 @@ public class BoardManager : MonoBehaviour {
 
     public bool IsMyTurn = true;
 
+    public bool IsNetworkConnection;
+
 
     void Awake()
     {
@@ -142,6 +144,7 @@ public class BoardManager : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
     {
+        IsNetworkConnection = true;
         OneWins = false;
         ZeroWins = false;
         Player1Secret = SharedSceneData.SecretNumber;
@@ -172,8 +175,6 @@ public class BoardManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-
-       
         foreach (Tile t in Tiles2D)
         {
             if (t.Piece != null)
@@ -346,12 +347,20 @@ public class BoardManager : MonoBehaviour {
 
     public void Poll()
     {
-        
-        Game temp = SharedSceneData.API.updateGameState(SharedSceneData.GameToLoad.GameID.Value);
-        if (!temp.Equals(SharedSceneData.GameToLoad))
+        try
         {
-            SharedSceneData.GameToLoad = temp;
-            UpdateBoard(SharedSceneData.GameToLoad);
+            Game temp = SharedSceneData.API.updateGameState(SharedSceneData.GameToLoad.GameID.Value);
+            if (!temp.Equals(SharedSceneData.GameToLoad))
+            {
+                SharedSceneData.GameToLoad = temp;
+                UpdateBoard(SharedSceneData.GameToLoad);
+            }
+            IsNetworkConnection = true;
+        }
+        catch (System.NullReferenceException n)
+        {
+            Debug.Log(n.Message);
+            IsNetworkConnection = false;
         }
         
     }

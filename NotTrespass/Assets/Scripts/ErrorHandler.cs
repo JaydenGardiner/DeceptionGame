@@ -5,6 +5,7 @@ using System.Collections;
 public class ErrorHandler : MonoBehaviour {
 
     public static string ErrorMessage;
+    public static string SceneToLoad;
 
     public Text ErrorText;
 
@@ -20,6 +21,6 @@ public class ErrorHandler : MonoBehaviour {
 
     public void LoadMenu()
     {
-        Application.LoadLevel("MenuScreen");
+        Application.LoadLevel(SceneToLoad);
     }
 }

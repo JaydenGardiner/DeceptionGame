@@ -20,6 +20,11 @@ public class LoginSceneController : MonoBehaviour {
     private string m_passwordErrorString = "Password must be less than 16 characters";
     private string m_userErrorString = "Username must be less than 10 characters";
 
+    void Awake()
+    {
+        Screen.orientation = ScreenOrientation.Landscape;
+    }
+
 	// Use this for initialization
 	void Start () {
         m_validUser = false;

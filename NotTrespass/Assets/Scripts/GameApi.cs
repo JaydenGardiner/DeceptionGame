@@ -31,7 +31,7 @@ public class GameApi {
 
     public List<Game> GetGames(String user) {
 		WWW www = new WWW(String.Join("/", new string[] { API_BASE, GAMES_RES, USER_RES, user}));
-		while (!www.isDone) {}
+        while (!www.isDone) {  }
         
         //var gameArray = JSON.Parse(www.text)["games"];
         Debug.Log(www.text);
@@ -44,7 +44,9 @@ public class GameApi {
         //string json = JsonConvert.SerializeObject (g);
 		//WWWForm form = new WWWForm ();
 		WWW www = new WWW(String.Join("/", new string[] { API_BASE, GAME_RES, id + ""}));
-		while (!www.isDone) {}
+        //time out
+        //TODO- make this better
+        while (!www.isDone) { }
 
 		return  JsonConvert.DeserializeObject<Game>(www.text);
     }
@@ -72,7 +74,7 @@ public class GameApi {
 		WWWForm form = new WWWForm ();
 		form.AddField ("game", json);
 		WWW www = new WWW(String.Join("/", new string[] { API_BASE, GAMES_RES, ""}), form);
-		while (!www.isDone) {}
+        while (!www.isDone) {}
 
 		int gameId = JSON.Parse (www.text) ["id"].AsInt;
 		Debug.Log (gameId);
@@ -92,7 +94,7 @@ public class GameApi {
     public string[] SearchUsers(String query) {
         WWW www = new WWW(String.Join("/", new string[] { API_BASE, USERS_RES,
             "search", query }));
-		while (!www.isDone) {}
+        while (!www.isDone) {}
 
 		var userArray = JSON.Parse (www.text) ["users"];
 		string[] users = new string[userArray.Count];
@@ -118,9 +120,7 @@ public class GameApi {
 
 	public string[] GetFriends() {
 		WWW www = new WWW(String.Join("/", new string[] { API_BASE, FRIENDS_RES, this.User}));
-        int b = 0;
         while (!www.isDone) {}
-
 		var userArray = JSON.Parse (www.text) ["friends"];
 		string[] users = new string[userArray.Count];
 		for (int i = 0; i < userArray.Count; i++) {

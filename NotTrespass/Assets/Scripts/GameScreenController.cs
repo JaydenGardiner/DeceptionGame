@@ -27,6 +27,9 @@ public class GameScreenController : MonoBehaviour {
         {
             Debug.Log(SharedSceneData.API);
             m_gs = new List<Game>();
+            ErrorHandler.ErrorMessage = "No connection could be made to the server.";
+            ErrorHandler.SceneToLoad = "MenuScreen";
+            //Application.LoadLevel("ErrorScene");
         }
         
         List<Dropdown.OptionData> drops = new List<Dropdown.OptionData>();
