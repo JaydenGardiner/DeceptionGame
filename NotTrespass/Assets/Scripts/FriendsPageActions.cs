@@ -16,8 +16,8 @@ public class FriendsPageActions : MonoBehaviour {
     public Button RemoveFriendButton;
 
 
-    int index;
-    bool itemSelected;
+    //int index;
+    //bool itemSelected;
 
     static FriendsPageActions _instance;
     public static FriendsPageActions Instance
@@ -43,13 +43,10 @@ public class FriendsPageActions : MonoBehaviour {
 
     public void UpdateFriends()
     {
-        index = 0;
-
         string[] friendEmails;
 
         friendEmails = SharedSceneData.FriendEmails();
         List<Dropdown.OptionData> drops = new List<Dropdown.OptionData>();
-        drops.Add(new Dropdown.OptionData("Select a friend..."));
         print(string.Join(", ", friendEmails));
         for (int i = 0; i < friendEmails.Length; i++)
         {
@@ -58,6 +55,7 @@ public class FriendsPageActions : MonoBehaviour {
                 drops.Add(new Dropdown.OptionData(friendEmails[i]));
             }
         }
+        Debug.Log(Drop);
         Drop.options = drops;
     }
 
@@ -73,7 +71,7 @@ public class FriendsPageActions : MonoBehaviour {
 
     void Update()
     {
-        if (itemSelected && index >= 0)
+        if (true)//itemSelected)
         {
             if (ChallengeFriendButton != null) ChallengeFriendButton.interactable = true;
             if (RemoveFriendButton != null) RemoveFriendButton.interactable = true;
@@ -84,12 +82,21 @@ public class FriendsPageActions : MonoBehaviour {
             if (ChallengeFriendButton != null) ChallengeFriendButton.interactable = false;
             if (RemoveFriendButton != null) RemoveFriendButton.interactable = false;
         }
+        if (EmailInput.text == "")
+        {
+            AddFriendButton.interactable = false;
+        }
+        else
+        {
+            AddFriendButton.interactable = true;
+        }
+
     }
 
     public void SelectFriend()
     {
-        index = Drop.value-1;
-        itemSelected = true;
+        Debug.Log("Selecting friend");
+        //itemSelected = true;
     }
 
     public void addFriend()
@@ -115,12 +122,14 @@ public class FriendsPageActions : MonoBehaviour {
 
     public void removeFriend()
     {
-        if (itemSelected && index > 0)
+        if (true)//itemSelected)
         {
-            string selected = Drop.options[index].text;
+            Debug.Log("removing friend");
+            string selected = Drop.options[Drop.value].text;
             SharedSceneData.API.RemoveFriend(selected);
-            itemSelected = false;
+            //itemSelected = false;
             Drop.value = 0;
+            UpdateFriends();
         }
 
 		
@@ -128,10 +137,9 @@ public class FriendsPageActions : MonoBehaviour {
 
     public void ChallengeSelected()
     {
-        if (itemSelected && index > 0)
+        Debug.Log("index: " + Drop.value);
+        if (true)//itemSelected)
         {
-            itemSelected = false;
-            Drop.value = 0;
             //SharedSceneData.OpponentEmail = friends[onIndex];
             //SharedSceneData.FriendEmails = new List<string>();
            // foreach(string friend in friends.Values)
@@ -146,10 +154,15 @@ public class FriendsPageActions : MonoBehaviour {
             }
             else
             {
+                Debug.Log("start game");
                 //Create game
-                SharedSceneData.GameToLoad = new Game(SharedSceneData.API.User, Drop.options[index].text);
+                Debug.Log(Drop.value);
+                Debug.Log(Drop.options.Count);
+                SharedSceneData.GameToLoad = new Game(SharedSceneData.API.User, Drop.options[Drop.value].text);
                 Application.LoadLevel("SecretPiece");
             }
+            //itemSelected = false;
+            Drop.value = 0;
 
 			
         }

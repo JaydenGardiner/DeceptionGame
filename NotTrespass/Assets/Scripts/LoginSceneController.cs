@@ -26,6 +26,7 @@ public class LoginSceneController : MonoBehaviour {
         m_validPass = false;
         UserF.onEndEdit.AddListener(SubmitUser);
         PassF.onEndEdit.AddListener(SubmitPassword);
+        PassF.inputType = InputField.InputType.Password;
 	}
 	
 	// Update is called once per frame
