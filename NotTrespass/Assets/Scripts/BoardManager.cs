@@ -54,7 +54,9 @@ public class BoardManager : MonoBehaviour {
 
     public bool IsNetworkConnection;
 
-
+    /// <summary>
+    /// Runs after start when all references setup
+    /// </summary>
     void Awake()
     {
         //Add tile script to all tiles.  This is done in awake to ensure that by Start(), all tiles have Tile script
@@ -64,7 +66,12 @@ public class BoardManager : MonoBehaviour {
         }
     }
 
-    //change to game object
+    /// <summary>
+    /// Updates the board from a current game
+    /// </summary>
+    /// <param name="g">
+    /// The current game
+    /// </param>
     public void UpdateBoard(Game g)
     {
        // if (arr == null)
@@ -74,7 +81,16 @@ public class BoardManager : MonoBehaviour {
         if (g == null)
         {
             //CreateBoard();
+            int[][] DefaultBoard = {
+		    new int[] {1, 1, 1, 1, 1},
+		    new int[] {1, 1, 1, 1, 1},
+		    new int[] {0, 0, 0, 0, 0},
+		    new int[] {0, 0, 0, 0, 0},
+		    new int[] {3, 3, 3, 3, 3},
+		    new int[] {3, 3, 3, 3, 3}};
+            IntArrayToBoard(DefaultBoard);
             Debug.Log("no game to load");
+            
         }
         else
         {
@@ -82,7 +98,8 @@ public class BoardManager : MonoBehaviour {
             IntArrayToBoard(SharedSceneData.GameToLoad.Board);
         }
     }
-    /*
+
+    [System.Obsolete("This is an obsolete method-dont use, instead create an int array and use conversion")]
     void CreateBoard()
     {
         for (int i = 0; i < 6; i++)
@@ -132,8 +149,12 @@ public class BoardManager : MonoBehaviour {
         Tiles2D[ -1*(Player1Secret / 5) + 1, Player1Secret % 5].Piece.IsSecret = true;
         Debug.Log("player 1 sec: " + Player1Secret + "; index: " + (-1 * (Player1Secret / 5) + 1) + ", " + (Player1Secret % 5));
         Tiles2D[5, 0].Piece.IsSecret = true;
-    }*/
+    }
 
+    /// <summary>
+    /// Transforms a gameobject to center position
+    /// </summary>
+    /// <param name="n_GameObj"></param>
     private void TransformToTileCenter(GameObject n_GameObj)
     {
         n_GameObj.transform.Rotate(new Vector3(0, 0, 90));
@@ -141,7 +162,9 @@ public class BoardManager : MonoBehaviour {
     }
 
 
-	// Use this for initialization
+	/// <summary>
+	/// Initializes all necessary data- runs on creation
+	/// </summary>
 	void Start ()
     {
         IsNetworkConnection = true;
@@ -172,7 +195,9 @@ public class BoardManager : MonoBehaviour {
         StartCoroutine("PollSeconds", 5.0f);
 	}
 	
-	// Update is called once per frame
+	/// <summary>
+	/// Update- from monobehaviour, called once per frame
+	/// </summary>
 	void Update ()
     {
         foreach (Tile t in Tiles2D)
@@ -184,6 +209,9 @@ public class BoardManager : MonoBehaviour {
         }
 	}
 
+    /// <summary>
+    /// Marks a piece
+    /// </summary>
     public void MarkSelectedPiece()
     {
         foreach (Tile t in Tiles2D)
@@ -195,6 +223,9 @@ public class BoardManager : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Ends a turn
+    /// </summary>
     public void ChangeTurn()
     {
         if (Moved)
@@ -232,11 +263,15 @@ public class BoardManager : MonoBehaviour {
 
     }
 
-    private void UpdateGameState()
-    {
-
-    }
-
+    /// <summary>
+    /// Converts a board to an int array representation
+    /// </summary>
+    /// <param name="board">
+    /// The current repreentation of the board
+    /// </param>
+    /// <returns>
+    /// An jagged array of ints, no piece = 0, team1 piece = 1, team1 secret = 2, team2 piece = 3, team3 piece = 4
+    /// </returns>
     private int[][] BoardToIntArray(Tile[,] board) {
         //int[][] intBoard = new int[board.Length][board[0].Length];
         //cant have 2nd length in jagged array declaration
@@ -260,7 +295,7 @@ public class BoardManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// This method needs completion / testing
+    /// Converts an int array from the network to the representation on the board
     /// </summary>
     /// <param name="arr"></param>
     private void IntArrayToBoard(int[][] arr)
@@ -277,7 +312,6 @@ public class BoardManager : MonoBehaviour {
             {
                 
                 //tile indices already exist
-                //TODO-INSTANTIATE PIECE ON CORRECT TILE
                 Tile tile = Tiles2D[i, j];
                 if (arr[i][j] == 0)
                 {
@@ -309,7 +343,16 @@ public class BoardManager : MonoBehaviour {
     }
 
 
-    //Register new move so that it can be reverted / turn ended
+    
+    /// <summary>
+    /// Register a new move so that the turn can be ended or the piece reverted
+    /// </summary>
+    /// <param name="prevTile">
+    /// The tile the piece was previously on
+    /// </param>
+    /// <param name="nextTile">
+    /// The tile the piece moved to
+    /// </param>
     public void RegisterNewMove(Tile prevTile, Tile nextTile)
     {
         Moved = true;
@@ -317,7 +360,10 @@ public class BoardManager : MonoBehaviour {
         revertTo = prevTile;
         revertFrom = nextTile;
     }
-    //Revert move before turn ended
+    
+    /// <summary>
+    /// Revert a moved piece before a turn ends
+    /// </summary>
     public void RevertMove()
     {
         if (Moved)
@@ -335,6 +381,13 @@ public class BoardManager : MonoBehaviour {
         Moved = false;
     }
 
+    /// <summary>
+    /// Starts the poll routine
+    /// </summary>
+    /// <param name="timeBetween">
+    /// The time between each poll
+    /// </param>
+    /// <returns></returns>
     IEnumerator PollSeconds(float timeBetween)
     {
         while(true)
@@ -345,6 +398,9 @@ public class BoardManager : MonoBehaviour {
         
     }
 
+    /// <summary>
+    /// Polls the network for updates to the game state
+    /// </summary>
     public void Poll()
     {
         try
@@ -365,7 +421,9 @@ public class BoardManager : MonoBehaviour {
         
     }
 
-
+    /// <summary>
+    /// Restores default highlighting to all tiles
+    /// </summary>
     public void RestoreAllTiles()
     {
         for(int i = 0; i < 6; i++)
@@ -377,7 +435,10 @@ public class BoardManager : MonoBehaviour {
         }
 
     }
-    // Displays tiles that the current piece ca move to
+    
+    /// <summary>
+    /// Displays all movement options for the currently selected piece
+    /// </summary>
     public void FindMovementOptions()
     {
         for (int r = 0; r < 6; r++)

@@ -18,6 +18,9 @@ public class SelectObject : MonoBehaviour
     }
 
     // Update is called once per frame
+    /// <summary>
+    /// Mainly gets user input for the board scene.
+    /// </summary>
     void Update()
     {
         // || Input.GetMouseButtonDown(0)
@@ -98,7 +101,7 @@ public class SelectObject : MonoBehaviour
                     break;
             }
         }
-
+        //For use on the editor
         #region debug
 #if UNITY_EDITOR
         if (Input.GetMouseButtonDown(0))

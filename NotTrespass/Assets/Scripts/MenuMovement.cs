@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
+/// <summary>
+/// Controls how the menu moves and interacts
+/// </summary>
 public class MenuMovement : MonoBehaviour {
 
 	public Vector3 startPos;
@@ -33,6 +37,9 @@ public class MenuMovement : MonoBehaviour {
     IEnumerator openCo, closeCo;
 
 	// Use this for initialization
+    /// <summary>
+    /// From monobehaviour- initializes variables after everything is instantiated
+    /// </summary>
 	void Awake () {
         state = 1;      // start on main menu screen
 
@@ -84,11 +91,17 @@ public class MenuMovement : MonoBehaviour {
 		}
 	}
 
+    /// <summary>
+    /// Load secret piece scene
+    /// </summary>
     public void LoadSecretScreen()
     {
         Application.LoadLevel("SecretPiece");
     }
 
+    /// <summary>
+    /// Close case in background
+    /// </summary>
 	public void MoveToMainMenu(){
         //closes case in background
         
@@ -116,6 +129,9 @@ public class MenuMovement : MonoBehaviour {
 
     }
 
+    /// <summary>
+    /// Switch to play canvas
+    /// </summary>
 	public void MoveToPlayScreen() {
         moveMenu(2);
 
@@ -130,7 +146,9 @@ public class MenuMovement : MonoBehaviour {
 
     
 
-    
+    /// <summary>
+    /// Switch to friends canvas
+    /// </summary>
 	public void MoveToFriendsScreen() {
         moveMenu(3);
         if (closeCo != null) StopCoroutine(closeCo);
@@ -138,10 +156,16 @@ public class MenuMovement : MonoBehaviour {
         StartCoroutine(openCo);
     }
 
+    /// <summary>
+    /// Switch to options canvas
+    /// </summary>
 	public void MoveToOptionsScreen() {
         moveMenu(4);
     }
 
+    /// <summary>
+    /// Switch to games canvas
+    /// </summary>
     public void MoveToGamesScreen()
     {
         moveMenu(5);
@@ -244,6 +268,10 @@ public class MenuMovement : MonoBehaviour {
 		obj.SetActive(false);
 	}
 
+    /// <summary>
+    /// Opens the case
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator OpenCase()
     {
         float startTime = Time.time;
@@ -257,6 +285,10 @@ public class MenuMovement : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Closes the case
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator CloseCase()
     {
 

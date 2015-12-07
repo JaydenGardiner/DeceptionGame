@@ -5,6 +5,9 @@ using UnityEngine.UI;
 using System.Text.RegularExpressions;
 using System;
 
+/// <summary>
+/// Handles friends canvas interactions
+/// </summary>
 public class FriendsPageActions : MonoBehaviour {
 
     public InputField EmailInput;
@@ -20,6 +23,9 @@ public class FriendsPageActions : MonoBehaviour {
     //bool itemSelected
     bool m_connected;
 
+    /// <summary>
+    /// Updates friends from network
+    /// </summary>
     public void UpdateFriends()
     {
         string[] friendEmails;
@@ -34,7 +40,7 @@ public class FriendsPageActions : MonoBehaviour {
             //Application.LoadLevel("ErrorScene");
             ErrorHandler.ErrorMessage = "Could not connect to database.";
             ErrorHandler.SceneToLoad = "MenuScreen";
-            friendEmails = new string[] { "test", "test2", "test3", "test" };
+            friendEmails = new string[] { "No network connection", "test2", "test3", "test" };
             m_connected = false;
         }
         
@@ -61,6 +67,9 @@ public class FriendsPageActions : MonoBehaviour {
         //        EmailInput.contentType = InputField.ContentType.EmailAddress;\
     }
 
+    /// <summary>
+    /// From Monobehaviour, occurs every frame
+    /// </summary>
     void Update()
     {
         if (m_connected)//itemSelected)
@@ -85,12 +94,16 @@ public class FriendsPageActions : MonoBehaviour {
 
     }
 
+    [System.Obsolete("This is an obsolete method- we see which is selected based on the drops value")]
     public void SelectFriend()
     {
         Debug.Log("Selecting friend");
         //itemSelected = true;
     }
 
+    /// <summary>
+    /// Add a friend to current networked player
+    /// </summary>
     public void addFriend()
     {
         try
@@ -112,7 +125,9 @@ public class FriendsPageActions : MonoBehaviour {
     }
     
 
-
+    /// <summary>
+    /// Removed friend from current player
+    /// </summary>
     public void removeFriend()
     {
         if (true)//itemSelected)
@@ -139,6 +154,10 @@ public class FriendsPageActions : MonoBehaviour {
 		
     }
 
+    /// <summary>
+    /// Challenge friend to game
+    /// Needs completion
+    /// </summary>
     public void ChallengeSelected()
     {
         Debug.Log("index: " + Drop.value);

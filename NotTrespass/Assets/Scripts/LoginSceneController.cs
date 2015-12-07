@@ -2,6 +2,9 @@
 using UnityEngine.UI;
 using System.Collections;
 
+/// <summary>
+/// Controls the login scene
+/// </summary>
 public class LoginSceneController : MonoBehaviour {
 
     public InputField UserF;
@@ -20,8 +23,10 @@ public class LoginSceneController : MonoBehaviour {
     private string m_passwordErrorString = "Password must be less than 16 characters";
     private string m_userErrorString = "Username must be less than 10 characters";
 
+    //Initialize vairables after instantation
     void Awake()
     {
+        //Force to landscape
         Screen.orientation = ScreenOrientation.Landscape;
     }
 
@@ -66,6 +71,9 @@ public class LoginSceneController : MonoBehaviour {
         }
 	}
 
+    /// <summary>
+    /// Creates an account on the server
+    /// </summary>
     public void CreateAccount()
     {
         //TODO  if access to server
@@ -81,6 +89,9 @@ public class LoginSceneController : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Logins to an account on the server
+    /// </summary>
     public void LoginToAccount()
     {
         //TODO  if access to server
@@ -96,6 +107,9 @@ public class LoginSceneController : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Loads menu screen and initializes sharedscenedata data
+    /// </summary>
     private void LoadMenu()
     {
         //TODO Set any game options here like player
@@ -105,6 +119,10 @@ public class LoginSceneController : MonoBehaviour {
         Application.LoadLevel("MenuScreen");
     }
 
+    /// <summary>
+    /// Links to input field
+    /// </summary>
+    /// <param name="arg"></param>
     private void SubmitUser(string arg)
     {
         if (IsValidUsername(arg))
@@ -118,6 +136,10 @@ public class LoginSceneController : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Links to password input field
+    /// </summary>
+    /// <param name="arg"></param>
     private void SubmitPassword(string arg)
     {
         if (IsValidPassword(arg))
@@ -131,6 +153,11 @@ public class LoginSceneController : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Validates user name
+    /// </summary>
+    /// <param name="user"></param>
+    /// <returns></returns>
     private bool IsValidUsername(string user)
     {
         if (user.Length <= 10 && user.Length > 0)
@@ -143,6 +170,11 @@ public class LoginSceneController : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Validates password
+    /// </summary>
+    /// <param name="pass"></param>
+    /// <returns></returns>
     private bool IsValidPassword(string pass)
     {
         if (pass.Length <= 16 && pass.Length > 0)

@@ -5,12 +5,17 @@ using Newtonsoft.Json;
 using SimpleJSON;
 using System.Collections.Generic;
 
-
+/// <summary>
+/// Data holder for games
+/// </summary>
 class GameList
 {
     public List<Game> Games;
 }
 
+/// <summary>
+/// API for the network interface
+/// </summary>
 public class GameApi {
 
 	private const String API_BASE = "http://143.215.206.36:5000";
@@ -23,6 +28,10 @@ public class GameApi {
 
 	public String User { get; private set; }
 
+    /// <summary>
+    /// Initializes API for a user
+    /// </summary>
+    /// <param name="user"></param>
     private GameApi(String user) {
 		this.User = user;
 	}
@@ -30,6 +39,13 @@ public class GameApi {
         return new GameApi(user);
     }
 
+    /// <summary>
+    /// Get list of games for a certain user
+    /// </summary>
+    /// <param name="user"></param>
+    /// <returns>
+    /// List of all games for a user
+    /// </returns>
     public List<Game> GetGames(String user) {
 		WWW www = new WWW(String.Join("/", new string[] { API_BASE, GAMES_RES, USER_RES, user}));
         while (!www.isDone) {  }
@@ -41,6 +57,15 @@ public class GameApi {
         
 	}
 
+    /// <summary>
+    /// Updates game state for a game
+    /// </summary>
+    /// <param name="id">
+    /// The id of the game to update
+    /// </param>
+    /// <returns>
+    /// The updated game
+    /// </returns>
     public Game updateGameState(int id) {
         //string json = JsonConvert.SerializeObject (g);
 		//WWWForm form = new WWWForm ();
@@ -52,7 +77,15 @@ public class GameApi {
 		return  JsonConvert.DeserializeObject<Game>(www.text);
     }
 
-
+    /// <summary>
+    /// Updates a game from a game
+    /// </summary>
+    /// <param name="g">
+    /// The new game instance
+    /// </param>
+    /// <returns>
+    /// The updated game after network confirmation
+    /// </returns>
     public Game updateGameState(Game g) {
         string json = JsonConvert.SerializeObject (g);
 		WWWForm form = new WWWForm ();
@@ -63,6 +96,15 @@ public class GameApi {
 		return  JsonConvert.DeserializeObject<Game>(www.text);
     }
 
+    /// <summary>
+    /// Gets game state
+    /// </summary>
+    /// <param name="gameId">
+    /// The game id to get the game state for
+    /// </param>
+    /// <returns>
+    /// The game state
+    /// </returns>
     public Game getGameState(int gameId) {
 		WebClient wc = new WebClient ();
 		Console.WriteLine (wc.DownloadString (String.Join ("/", new string[] { API_BASE, GAME_RES, "" + gameId })));
@@ -70,6 +112,15 @@ public class GameApi {
 		return null;
     }
 
+    /// <summary>
+    /// Creates a new game from a game object
+    /// </summary>
+    /// <param name="game">
+    /// The new game
+    /// </param>
+    /// <returns>
+    /// The new game's gameid
+    /// </returns>
     public int CreateNewGame(Game game) {
 		string json = JsonConvert.SerializeObject (game);
 		WWWForm form = new WWWForm ();
@@ -83,7 +134,12 @@ public class GameApi {
 	}
 
 
-
+    /// <summary>
+    /// Create a new user
+    /// </summary>
+    /// <param name="name">
+    /// new user's name
+    /// </param>
     public void createNewUser(String name) {
         WWWForm form = new WWWForm();
         form.AddField("username", name);
@@ -92,6 +148,11 @@ public class GameApi {
 
     }
 
+    /// <summary>
+    /// Searches users..
+    /// </summary>
+    /// <param name="query"></param>
+    /// <returns></returns>
     public string[] SearchUsers(String query) {
         WWW www = new WWW(String.Join("/", new string[] { API_BASE, USERS_RES,
             "search", query }));
@@ -107,18 +168,34 @@ public class GameApi {
 
     }
 
+    /// <summary>
+    /// Adds a friend for the current user
+    /// </summary>
+    /// <param name="username">
+    /// The friend to add
+    /// </param>
 	public void AddFriend(String username) {
 		WWWForm form = new WWWForm();
 		form.AddField("username", username);
 		WWW www = new WWW(String.Join ("/", new string[] { API_BASE, FRIENDS_RES, this.User}), form);
 	}
 
+    /// <summary>
+    /// Removes a friend for the current user
+    /// </summary>
+    /// <param name="username">
+    /// The friend toremove
+    /// </param>
 	public void RemoveFriend(String username) {
 		WebRequest req = WebRequest.Create (String.Join ("/", new string[] { API_BASE, FRIENDS_RES, this.User, username}));
 		req.Method = "DELETE";
 		Debug.Log (req.GetResponse ());
 	}
 
+    /// <summary>
+    /// Gets friends for current user
+    /// </summary>
+    /// <returns></returns>
 	public string[] GetFriends() {
 		WWW www = new WWW(String.Join("/", new string[] { API_BASE, FRIENDS_RES, this.User}));
         while (!www.isDone) {}

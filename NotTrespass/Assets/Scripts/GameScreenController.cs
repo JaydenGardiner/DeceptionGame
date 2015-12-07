@@ -4,6 +4,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
+/// <summary>
+/// Controls the games canvas in the main menu
+/// </summary>
 public class GameScreenController : MonoBehaviour {
 
     Game curGame;
@@ -17,6 +20,9 @@ public class GameScreenController : MonoBehaviour {
         UpdateGames();
 	}
 
+    /// <summary>
+    /// Updates list of games from server
+    /// </summary>
     public void UpdateGames()
     {
         try
@@ -45,6 +51,9 @@ public class GameScreenController : MonoBehaviour {
         
 	}
 
+    /// <summary>
+    /// Loads the game depending on what is clicked
+    /// </summary>
     public void OnGameClick()
     {
         SharedSceneData.GameToLoad = m_gs[Drop.value];

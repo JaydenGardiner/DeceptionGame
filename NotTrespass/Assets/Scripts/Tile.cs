@@ -2,9 +2,15 @@
 using System.Collections;
 using System.Collections.Generic;
 
+/// <summary>
+/// Tile object- tiles have pieces and a location, and an index in the array
+/// </summary>
 public class Tile : MonoBehaviour {
 
     private Vector3 m_Loc;
+    /// <summary>
+    /// The location in world space
+    /// </summary>
     public Vector3 Location
     {
         get
@@ -17,6 +23,9 @@ public class Tile : MonoBehaviour {
         }
     }
     private Piece m_Piece;
+    /// <summary>
+    /// The piece on this tile
+    /// </summary>
     public Piece Piece
     {
         get { return m_Piece; }
@@ -56,15 +65,23 @@ public class Tile : MonoBehaviour {
         movementsToHere = new List<Tile>();
     }
 
+    /// <summary>
+    /// Start from Monobehaviour
+    /// </summary>
 	void Start () {
         
 	}
 	
-	// Update is called once per frame
+	/// <summary>
+	/// Update from Monobehaviour
+	/// </summary>
 	void Update () {
 	    
 	}
 
+    /// <summary>
+    /// Highlights this tile
+    /// </summary>
     public void Highlight()
     {
         isHighlighted = true;
@@ -73,6 +90,9 @@ public class Tile : MonoBehaviour {
         else gameObject.GetComponentInChildren<Renderer>().material.SetColor("_TintColor", Color.blue);
     }
 
+    /// <summary>
+    /// Dehighlightes this tile
+    /// </summary>
     public void Dehighlight()
     {
         isHighlighted = false;

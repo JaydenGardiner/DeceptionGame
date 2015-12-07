@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-
+[System.Obsolete("This is an obsolete class")]
 public class Player
 {
     public string Name { get; private set; }

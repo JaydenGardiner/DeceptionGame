@@ -18,6 +18,9 @@ public class UIController : MonoBehaviour {
     public static bool IsGameEnabled;
 
 	// Use this for initialization
+    /// <summary>
+    /// Inherited from MonoBehaviour- initializes variables
+    /// </summary>
 	void Start () {
         if (CameraMovement.LockScreen)
         {
@@ -34,6 +37,9 @@ public class UIController : MonoBehaviour {
 
 
 	// Update is called once per frame
+    /// <summary>
+    /// Update inherited from MonoBehaviour-sets button interactivity
+    /// </summary>
 	void Update () {
         if (board.IsNetworkConnection)
         {
@@ -85,21 +91,33 @@ public class UIController : MonoBehaviour {
         }
 	}
 
+    /// <summary>
+    /// Interfaces with button to go back to main menu
+    /// </summary>
     public void BackButtonMethod()
     {
         Application.LoadLevel("MenuScreen");
     }
 
+    /// <summary>
+    /// Interfaces with button to end turn
+    /// </summary>
     public void TurnButtonMethod()
     {
         board.ChangeTurn();
     }
 
+    /// <summary>
+    /// Interfaces with button to revert move
+    /// </summary>
     public void RevertButtonMethod()
     {
         board.RevertMove();
     }
 
+    /// <summary>
+    /// Interfaces with button to lock screen
+    /// </summary>
     public void LockScreenMethod()
     {
         CameraMovement.LockScreen = !CameraMovement.LockScreen;
@@ -114,6 +132,9 @@ public class UIController : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Interfaces with button to mark piece
+    /// </summary>
     public void MarkSelectedPieceMethod()
     {
         board.MarkSelectedPiece();

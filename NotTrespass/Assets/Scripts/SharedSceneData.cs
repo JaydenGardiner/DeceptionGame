@@ -2,10 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 
+/// <summary>
+/// Holds data that needs to be transfered between scenes
+/// </summary>
 public static class SharedSceneData
 {
-    private static int m_SecretNumber;
     //David- this now comes from LoginSceneController LoadMenu method
+    //Current user
     public static String my_user = null;
     public static int my_team
     {
@@ -26,6 +29,9 @@ public static class SharedSceneData
         }
     }
     public static GameApi API = null;
+    
+    //Todo- possibly unnecessary
+    private static int m_SecretNumber;
     public static int SecretNumber
     {
         get { return m_SecretNumber; }
@@ -42,11 +48,17 @@ public static class SharedSceneData
         }
     }
 
+    /// <summary>
+    /// Get friends for user
+    /// </summary>
+    /// <returns>
+    /// Friends list
+    /// </returns>
     public static string[] FriendEmails() {
 		return API.GetFriends ();
 	}
 
-    //change to Game object
+    //Game to load
 	public static Game GameToLoad;
 
 }

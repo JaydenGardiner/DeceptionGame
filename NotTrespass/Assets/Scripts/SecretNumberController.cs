@@ -3,6 +3,9 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
+/// <summary>
+/// Controls the secret number scene
+/// </summary>
 public class SecretNumberController : MonoBehaviour
 {
     private bool m_IsPieceSelected;
@@ -18,6 +21,9 @@ public class SecretNumberController : MonoBehaviour
 
     public GameObject PiecePrefab;
 
+    /// <summary>
+    /// Confirm button method- loads next scene
+    /// </summary>
     public void ConfirmButton()
     {
         if (m_IsPieceSelected)
@@ -38,11 +44,17 @@ public class SecretNumberController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Cancel button- back to main menu
+    /// </summary>
     public void CancelButton()
     {
         Application.LoadLevel("MenuScreen");
     }
 
+    /// <summary>
+    /// Instantiate pieces in scene to pick from
+    /// </summary>
     private void InstantiatePieces()
     {
         pieces = new List<Piece>();
@@ -164,6 +176,7 @@ public class SecretNumberController : MonoBehaviour
             }
         }
 
+        //For editor usage
         #region debug
 #if UNITY_EDITOR
         if (Input.GetMouseButtonDown(0))

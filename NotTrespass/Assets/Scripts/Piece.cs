@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
+/// <summary>
+/// Holds piece game object
+/// </summary>
 public class Piece : MonoBehaviour {
 
     public int PieceNumber;
@@ -33,6 +36,9 @@ public class Piece : MonoBehaviour {
 	void Update () {
 	}
 
+    /// <summary>
+    /// Highlights piece based on team and secret number
+    /// </summary>
     public void HighlightPiece()
     {
         //"_TintColor"
@@ -74,7 +80,19 @@ public class Piece : MonoBehaviour {
         
     }
 
-
+    /// <summary>
+    /// Moves a piece to a location
+    /// </summary>
+    /// <param name="delay">
+    /// How long before the move starts
+    /// </param>
+    /// <param name="duration">
+    /// Time for the move to take
+    /// </param>
+    /// <param name="dest">
+    /// Final target location for the move
+    /// </param>
+    /// <returns></returns>
     private IEnumerator WaitAndMove(float delay, float duration, Vector3 dest )
     {
         yield return new WaitForSeconds(delay);
@@ -87,6 +105,19 @@ public class Piece : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Moves piece on a path
+    /// </summary>
+    /// <param name="delay">
+    /// How long before move starts
+    /// </param>
+    /// <param name="duration">
+    /// Time for a move
+    /// </param>
+    /// <param name="movements">
+    /// List of tiles for the movement to follow
+    /// </param>
+    /// <returns></returns>
     private IEnumerator WaitAndMoveOnPath(float delay, float duration, List<Tile> movements)
     {
         yield return new WaitForSeconds(delay);
@@ -114,6 +145,15 @@ public class Piece : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Moves to a tile
+    /// </summary>
+    /// <param name="tile">
+    /// Tile to move to
+    /// </param>
+    /// <param name="duration">
+    /// Length of time to take for move
+    /// </param>
     public void MoveToTile(Tile tile, float duration)
     {
         Debug.Log("moving");
@@ -122,6 +162,15 @@ public class Piece : MonoBehaviour {
         this.Tile = tile;
     }
 
+    /// <summary>
+    /// Moves piece on a path to a tile
+    /// </summary>
+    /// <param name="tile">
+    /// Tile to move to
+    /// </param>
+    /// <param name="duration">
+    /// Time to take for the movement
+    /// </param>
     public void MoveOnPathToTile(Tile tile, float duration)
     {
         Debug.Log("moving");

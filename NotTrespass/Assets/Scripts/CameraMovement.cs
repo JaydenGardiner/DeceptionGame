@@ -3,6 +3,9 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using System.Collections;
 
+/// <summary>
+/// Controls how the game scene's camera movement behaves
+/// </summary>
 public class CameraMovement : MonoBehaviour {
 
     public static bool LockScreen;
@@ -27,6 +30,7 @@ public class CameraMovement : MonoBehaviour {
         m_MaxCameraY = 111f;
         m_MinCameraY = 15f;
         m_MainCamera = this.GetComponent<Camera>();
+        //this.transform.position = new Vector3(this.transform.position.x, m_MaxCameraY, this.transform.position.z);
 	}
 
 
@@ -138,6 +142,7 @@ public class CameraMovement : MonoBehaviour {
         }
         else if (Input.touchCount >= 2 && LockScreen)
         {
+            //zooming
             Touch touchZero = Input.GetTouch(0);
             Touch touchOne = Input.GetTouch(1);
 
@@ -168,6 +173,8 @@ public class CameraMovement : MonoBehaviour {
             }
         }
 
+
+//controls functionality in editor
 #if UNITY_EDITORx
         this.transform.RotateAround(m_Target, Vector3.up, Input.GetAxis("Mouse X") * m_Speed);
         m_OtherPt = RotateAroundPivot(m_OtherPt, Vector3.up, Quaternion.Euler(0, Input.GetAxis("Mouse X") * m_Speed, 0));
