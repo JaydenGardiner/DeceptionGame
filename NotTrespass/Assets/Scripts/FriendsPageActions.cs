@@ -18,6 +18,7 @@ public class FriendsPageActions : MonoBehaviour {
 
     //int index;
     //bool itemSelected
+    bool m_connected;
 
     public void UpdateFriends()
     {
@@ -25,6 +26,7 @@ public class FriendsPageActions : MonoBehaviour {
         try
         {
             friendEmails = SharedSceneData.FriendEmails();
+            m_connected = true;
         }
         catch (NullReferenceException n)
         {
@@ -33,6 +35,7 @@ public class FriendsPageActions : MonoBehaviour {
             ErrorHandler.ErrorMessage = "Could not connect to database.";
             ErrorHandler.SceneToLoad = "MenuScreen";
             friendEmails = new string[] { "test", "test2", "test3", "test" };
+            m_connected = false;
         }
         
         List<Dropdown.OptionData> drops = new List<Dropdown.OptionData>();
@@ -60,7 +63,7 @@ public class FriendsPageActions : MonoBehaviour {
 
     void Update()
     {
-        if (true)//itemSelected)
+        if (m_connected)//itemSelected)
         {
             if (ChallengeFriendButton != null) ChallengeFriendButton.interactable = true;
             if (RemoveFriendButton != null) RemoveFriendButton.interactable = true;
@@ -101,10 +104,10 @@ public class FriendsPageActions : MonoBehaviour {
             ErrorHandler.ErrorMessage = "Could not connect to database.";
             ErrorHandler.SceneToLoad = "MenuScreen";
         }
-		
-        List<Dropdown.OptionData> drops = Drop.options;
-        drops.Add(new Dropdown.OptionData(EmailInput.text));
-        Drop.options = drops;
+        UpdateFriends();
+        //List<Dropdown.OptionData> drops = Drop.options;
+        //drops.Add(new Dropdown.OptionData(EmailInput.text));
+        //Drop.options = drops;
 	    EmailInput.text = "";
     }
     
