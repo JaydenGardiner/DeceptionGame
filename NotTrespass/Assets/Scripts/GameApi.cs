@@ -19,7 +19,8 @@ class GameList
 public class GameApi {
 
 	//private const String API_BASE = "http://143.215.206.36:5000";
-    private const String API_BASE = "http://128.61.105.217:5000";
+  private const String API_BASE = "http://128.61.105.217:5000";
+
 	private  const String GAME_RES = "game";
 	private  const String GAMES_RES = "games";
 	private  const String USERS_RES = "users";
@@ -49,12 +50,12 @@ public class GameApi {
     public List<Game> GetGames(String user) {
 		WWW www = new WWW(String.Join("/", new string[] { API_BASE, GAMES_RES, USER_RES, user}));
         while (!www.isDone) {  }
-        
+
         //var gameArray = JSON.Parse(www.text)["games"];
         Debug.Log(www.text);
         GameList games = JsonConvert.DeserializeObject<GameList>(www.text);
         return games.Games;
-        
+
 	}
 
     /// <summary>
@@ -209,4 +210,9 @@ public class GameApi {
 		return users;
 
 	}
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> pranav
 }
