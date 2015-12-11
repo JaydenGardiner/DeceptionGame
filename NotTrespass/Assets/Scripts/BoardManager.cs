@@ -290,7 +290,7 @@ public class BoardManager : MonoBehaviour {
                 } else {
                     Piece currentPiece = board[x,y].Piece;
                     int markedAdd = currentPiece.IsMarked ? (SharedSceneData.my_team*10 + 10) : 0;
-                    Debug.Log("mnarked add" + markedAdd);
+                    Debug.Log("mnarked add " + markedAdd);
                     intBoard[x][y] = (currentPiece.Team * 2) + 1 + (currentPiece.IsSecret ? 1 : 0) + markedAdd;
                 }
             }
@@ -346,6 +346,7 @@ public class BoardManager : MonoBehaviour {
                         //Is my mark
                         int doMark = arr[i][j] - myMultiplier;
                         Debug.Log("doMark: " + doMark);
+                        Debug.Log(arr[i][j]);
                         if ( doMark < 9 && doMark > 0)
                         {
                             Tiles2D[i, j].Piece.IsMarked = true;
