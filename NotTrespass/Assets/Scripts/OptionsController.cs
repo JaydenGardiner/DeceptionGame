@@ -21,6 +21,7 @@ public class OptionsController : MonoBehaviour {
     public void changeIP()
     {
         string newIP = Enter.text;
-        GameApi.API_BASE = "https://" + newIP + ":5000";
+        GameApi.API_BASE = "http://" + newIP + ":5000";
+        Debug.Log(GameApi.API_BASE);
     }
 }
