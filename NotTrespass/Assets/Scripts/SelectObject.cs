@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 
 public class SelectObject : MonoBehaviour
 {
@@ -10,11 +12,32 @@ public class SelectObject : MonoBehaviour
     private bool m_IsTap;
 
     BoardManager board;
+
+    public Canvas MainCanvas;
+
     // Use this for initialization
     void Start()
     {
         board = FindObjectOfType<BoardManager>();
         m_IsTap = false;
+    }
+
+    /// <summary>
+    /// Returns if the object hit UI
+    /// </summary>
+    /// <returns>
+    /// True, if it is a UI
+    /// </returns>
+    private bool IsPointerOverUIObject(Canvas canvas, Vector2 screenPosition)
+    {
+        PointerEventData curEventPos = new PointerEventData(EventSystem.current);
+        curEventPos.position = screenPosition;
+
+        //Raycast from current screen position to UI
+        GraphicRaycaster uiRaycaster = canvas.gameObject.GetComponent<GraphicRaycaster>();
+        List<RaycastResult> results = new List<RaycastResult>();
+        uiRaycaster.Raycast(curEventPos, results);
+        return results.Count > 0;
     }
 
     // Update is called once per frame
@@ -48,7 +71,7 @@ public class SelectObject : MonoBehaviour
                                 GameObject objHit = hit.transform.gameObject;
                                 Debug.Log(objHit.tag);
 
-                                if (objHit.tag == "piece" && !board.Moved && SharedSceneData.my_turn && UIController.IsGameEnabled)
+                                if (!IsPointerOverUIObject(MainCanvas, curTouch.position) && objHit.tag == "piece" && !board.Moved && SharedSceneData.my_turn && UIController.IsGameEnabled)
                                 {
                                     if (board.MovedPiece != objHit.GetComponent<Piece>() && !(board.LastMoved[0] == objHit.GetComponent<Piece>().Tile.I && board.LastMoved[1] == objHit.GetComponent<Piece>().Tile.J))
                                     {
@@ -71,7 +94,7 @@ public class SelectObject : MonoBehaviour
 
 
                                 }
-                                else if (objHit.transform.parent != null && objHit.transform.parent.gameObject.tag == "tile" && !board.Moved && UIController.IsGameEnabled)
+                                else if (!IsPointerOverUIObject(MainCanvas, curTouch.position) && objHit.transform.parent != null && objHit.transform.parent.gameObject.tag == "tile" && !board.Moved && UIController.IsGameEnabled)
                                 {
                                     objHit = objHit.transform.parent.gameObject;
                                     Tile t = objHit.GetComponent<Tile>();
@@ -113,7 +136,6 @@ public class SelectObject : MonoBehaviour
             if (Physics.Raycast(worldPos, out hit, Mathf.Infinity))
             {
                 GameObject objHit = hit.transform.gameObject;
-                Debug.Log(objHit.tag);
                 if (objHit.tag == "piece" && !board.Moved && SharedSceneData.my_turn && UIController.IsGameEnabled && !(board.LastMoved[0] == objHit.GetComponent<Piece>().Tile.I && board.LastMoved[1] == objHit.GetComponent<Piece>().Tile.J))
                 {
                     if (board.MovedPiece != objHit.GetComponent<Piece>())
