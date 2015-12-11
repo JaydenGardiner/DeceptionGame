@@ -286,6 +286,8 @@ public class BoardManager : MonoBehaviour {
                 } else {
                     Piece currentPiece = board[x,y].Piece;
                     int markedAdd = currentPiece.IsMarked ? 10 : 0;
+                    markedAdd = (SharedSceneData.my_team + 1) * markedAdd;
+                    Debug.Log("mnarked add" + markedAdd);
                     intBoard[x][y] = (currentPiece.Team * 2) + 1 + (currentPiece.IsSecret ? 1 : 0) + markedAdd;
                 }
             }
@@ -331,15 +333,23 @@ public class BoardManager : MonoBehaviour {
                     //Set tile's piece
                     Tiles2D[i, j].Piece = n_GameObj.GetComponent<Piece>();
 
+                    int myMultiplier = (SharedSceneData.my_team + 1)*10;
+
                     if (arr[i][j] >= 10)
                     {
+                        //Marked
                         Tiles2D[i, j].Piece.Team = ((arr[i][j]%10) - 1) / 2;
                         Tiles2D[i, j].Piece.IsSecret = ( (arr[i][j]%10) % 2 == 0) ? true : false;
-                        Tiles2D[i, j].Piece.IsMarked = true;
+                        //Is my mark
+                        int doMark = arr[i][j] - myMultiplier;
+                        if ( doMark < 9 && doMark > 0)
+                        {
+                            Tiles2D[i, j].Piece.IsMarked = true;
+                        }
                     }
 
                     // (1-1)/2=0, (2-1)/2=0; (3-1)/2=1, (4-1)/2=1
-
+                    //Not marked
                     Tiles2D[i, j].Piece.Team = (arr[i][j] - 1) / 2;
                     
                     
