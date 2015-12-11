@@ -27,6 +27,8 @@ public class Game {
 		new int[] {3, 3, 3, 3, 3}
 	};
     public int[] LastMoved = {0, 0};
+    public List<int[]> Player1Marked = new List<int[]>();
+    public List<int[]> Player2Marked = new List<int[]>();
 
 
     // The following return usernames 

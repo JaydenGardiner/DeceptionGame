@@ -99,6 +99,16 @@ public class BoardManager : MonoBehaviour {
             Debug.Log("loading");
             LastMoved = g.LastMoved;
             IntArrayToBoard(SharedSceneData.GameToLoad.Board);
+            List<int[]> markedPieces = (SharedSceneData.my_user == g.Player1) ? g.Player1Marked : g.Player2Marked;
+            List<int[]> otherMarkedPieces = (SharedSceneData.my_user == g.Player1) ? g.Player2Marked : g.Player1Marked;
+            foreach(int[] ind in markedPieces)
+            {
+                Tiles2D[ind[0], ind[1]].Piece.IsMarked = true;
+            }
+            foreach(int[] ind in otherMarkedPieces)
+            {
+                Tiles2D[ind[0], ind[1]].Piece.IsOtherMarked = true;
+            }
         }
     }
 
@@ -242,6 +252,9 @@ public class BoardManager : MonoBehaviour {
             }
             Moved = false;
         }
+        //Get new marked pieces
+        List<int[]> markedPieces = new List<int[]>();
+        List<int[]> otherMarkedPieces = new List<int[]>();
         foreach (Tile t in Tiles2D)
         {
             Piece p = t.Piece;
@@ -253,6 +266,26 @@ public class BoardManager : MonoBehaviour {
             {
                 OneWins = true;
             }
+            if (p != null && p.IsMarked)
+            {
+                markedPieces.Add(new int[] { t.I, t.J });
+            }
+            if (p != null && p.IsOtherMarked)
+            {
+                otherMarkedPieces.Add(new int[] { t.I, t.J });
+            }
+        }
+        //Set marked pieces for correct player
+        bool p1Marking = SharedSceneData.my_user == SharedSceneData.GameToLoad.Player1;
+        if (p1Marking)
+        {
+            SharedSceneData.GameToLoad.Player1Marked = markedPieces;
+            SharedSceneData.GameToLoad.Player2Marked = otherMarkedPieces;
+        }
+        else
+        {
+            SharedSceneData.GameToLoad.Player2Marked = markedPieces;
+            SharedSceneData.GameToLoad.Player1Marked = otherMarkedPieces;
         }
         SharedSceneData.GameToLoad.LastMoved = LastMoved;
         Debug.Log("LAST: " + LastMoved[0] + " " + LastMoved[1]);
@@ -289,9 +322,9 @@ public class BoardManager : MonoBehaviour {
                     intBoard[x][y] = 0;
                 } else {
                     Piece currentPiece = board[x,y].Piece;
-                    int markedAdd = (currentPiece.IsMarked || currentPiece.IsOtherMarked) ? (SharedSceneData.my_team*10 + 10) : 0;
-                    Debug.Log("mnarked add " + markedAdd);
-                    intBoard[x][y] = (currentPiece.Team * 2) + 1 + (currentPiece.IsSecret ? 1 : 0) + markedAdd;
+                    //int markedAdd = (currentPiece.IsMarked || currentPiece.IsOtherMarked) ? (SharedSceneData.my_team*10 + 10) : 0;
+                    //Debug.Log("mnarked add " + markedAdd);
+                    intBoard[x][y] = (currentPiece.Team * 2) + 1 + (currentPiece.IsSecret ? 1 : 0);
                 }
             }
         }
@@ -336,8 +369,8 @@ public class BoardManager : MonoBehaviour {
                     //Set tile's piece
                     Tiles2D[i, j].Piece = n_GameObj.GetComponent<Piece>();
 
-                    int myMultiplier = 10 + 10 * (SharedSceneData.my_team);
-
+                    //int myMultiplier = 10 + 10 * (SharedSceneData.my_team);
+                    /*
                     if (arr[i][j] >= 10)
                     {
                         //Marked
@@ -358,15 +391,14 @@ public class BoardManager : MonoBehaviour {
                         }
                     }
                     else
-                    {
+                    {*/
                         // (1-1)/2=0, (2-1)/2=0; (3-1)/2=1, (4-1)/2=1
                         //Not marked
-                        Tiles2D[i, j].Piece.Team = (arr[i][j] - 1) / 2;
+                    Tiles2D[i, j].Piece.Team = (arr[i][j] - 1) / 2;
 
-                        Tiles2D[i, j].Piece.IsSecret = (arr[i][j] % 2 == 0) ? true : false;
-                        Tiles2D[i, j].Piece.IsMarked = false;
-                        Tiles2D[i, j].Piece.IsOtherMarked = false;
-                    }
+                    Tiles2D[i, j].Piece.IsSecret = (arr[i][j] % 2 == 0) ? true : false;
+                    Tiles2D[i, j].Piece.IsMarked = false;
+                    Tiles2D[i, j].Piece.IsOtherMarked = false;
                 }
             }
         }

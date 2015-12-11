@@ -28,6 +28,7 @@ public class LoginSceneController : MonoBehaviour {
     {
         //Force to landscape
         Screen.orientation = ScreenOrientation.Landscape;
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;
     }
 
 	// Use this for initialization
