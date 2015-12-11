@@ -79,6 +79,9 @@ public class UIController : MonoBehaviour {
             }
             else
             {
+                MainCanvas.enabled = true;
+                MessageCanvas.enabled = false;
+                IsGameEnabled = true;
                 StatusText.text = SharedSceneData.GameToLoad.CurrentMove + "'s move";
             }
         }
