@@ -341,24 +341,25 @@ public class BoardManager : MonoBehaviour {
                     if (arr[i][j] >= 10)
                     {
                         //Marked
-                        Tiles2D[i, j].Piece.Team = ((arr[i][j]%10) - 1) / 2;
-                        Tiles2D[i, j].Piece.IsSecret = ( (arr[i][j]%10) % 2 == 0) ? true : false;
+                        Tiles2D[i, j].Piece.Team = ((arr[i][j] % 10) - 1) / 2;
+                        Tiles2D[i, j].Piece.IsSecret = ((arr[i][j] % 10) % 2 == 0) ? true : false;
                         //Is my mark
                         int doMark = arr[i][j] - myMultiplier;
                         Debug.Log("doMark: " + doMark);
                         Debug.Log(arr[i][j]);
-                        if ( doMark < 9 && doMark > 0)
+                        if (doMark < 9 && doMark > 0)
                         {
                             Tiles2D[i, j].Piece.IsMarked = true;
                         }
                     }
+                    else
+                    {
+                        // (1-1)/2=0, (2-1)/2=0; (3-1)/2=1, (4-1)/2=1
+                        //Not marked
+                        Tiles2D[i, j].Piece.Team = (arr[i][j] - 1) / 2;
 
-                    // (1-1)/2=0, (2-1)/2=0; (3-1)/2=1, (4-1)/2=1
-                    //Not marked
-                    Tiles2D[i, j].Piece.Team = (arr[i][j] - 1) / 2;
-                    
-                    
-                    Tiles2D[i, j].Piece.IsSecret = (arr[i][j] % 2 == 0) ? true : false;
+                        Tiles2D[i, j].Piece.IsSecret = (arr[i][j] % 2 == 0) ? true : false;
+                    }
                 }
             }
         }
