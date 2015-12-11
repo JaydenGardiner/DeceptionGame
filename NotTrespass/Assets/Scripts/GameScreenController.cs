@@ -63,7 +63,9 @@ public class GameScreenController : MonoBehaviour {
     /// </summary>
     public void OnGameClick()
     {
+
         SharedSceneData.GameToLoad = m_gs[Drop.value];
+
         Game.Status status = SharedSceneData.GameToLoad.GameStatus;
         if (status == Game.Status.PENDING && SharedSceneData.GameToLoad.Player1 != SharedSceneData.my_user)
         {

@@ -50,7 +50,7 @@ public class SelectObject : MonoBehaviour
 
                                 if (objHit.tag == "piece" && !board.Moved && SharedSceneData.my_turn && UIController.IsGameEnabled)
                                 {
-                                    if (board.MovedPiece != objHit.GetComponent<Piece>())
+                                    if (board.MovedPiece != objHit.GetComponent<Piece>() && !(board.LastMoved[0] == objHit.GetComponent<Piece>().Tile.I && board.LastMoved[1] == objHit.GetComponent<Piece>().Tile.J))
                                     {
                                         board.currentPiece = objHit.GetComponent<Piece>();
                                         m_IsPieceSelected = true;
@@ -81,6 +81,8 @@ public class SelectObject : MonoBehaviour
                                         //Debug.Log("piece is selected");
                                         if (t.isHighlighted)
                                         {
+                                            board.LastMoved[0] = t.I;
+                                            board.LastMoved[1] = t.J;
                                             //Debug.Log("asking to mvoe");
                                             m_SelectedPiece.IsSelected = false;
                                             m_SelectedPiece.MoveOnPathToTile(t, .5f);
@@ -112,8 +114,7 @@ public class SelectObject : MonoBehaviour
             {
                 GameObject objHit = hit.transform.gameObject;
                 Debug.Log(objHit.tag);
-
-                if (objHit.tag == "piece" && !board.Moved && SharedSceneData.my_turn && UIController.IsGameEnabled)
+                if (objHit.tag == "piece" && !board.Moved && SharedSceneData.my_turn && UIController.IsGameEnabled && !(board.LastMoved[0] == objHit.GetComponent<Piece>().Tile.I && board.LastMoved[1] == objHit.GetComponent<Piece>().Tile.J))
                 {
                     if (board.MovedPiece != objHit.GetComponent<Piece>())
                     {
@@ -146,6 +147,8 @@ public class SelectObject : MonoBehaviour
                         //Debug.Log("piece is selected");
                         if (t.isHighlighted)
                         {
+                            board.LastMoved[0] = t.I;
+                            board.LastMoved[1] = t.J;
                             //Debug.Log("asking to mvoe");
                             m_SelectedPiece.IsSelected = false;
                             m_SelectedPiece.MoveOnPathToTile(t, .5f);

@@ -26,6 +26,7 @@ public class Game {
 		new int[] {3, 3, 3, 3, 3},
 		new int[] {3, 3, 3, 3, 3}
 	};
+    public int[] LastMoved = {0, 0};
 
 
     // The following return usernames 

@@ -23,6 +23,8 @@ public class BoardManager : MonoBehaviour {
     //Current team
     public int CurrentTeam;
 
+    public int[] LastMoved = {0, 0};
+
 
     /* In row column order where the rows go downwards
      * 5 6 7 8 9  r=0
@@ -95,6 +97,7 @@ public class BoardManager : MonoBehaviour {
         else
         {
             Debug.Log("loading");
+            LastMoved = g.LastMoved;
             IntArrayToBoard(SharedSceneData.GameToLoad.Board);
         }
     }
@@ -251,7 +254,8 @@ public class BoardManager : MonoBehaviour {
                 OneWins = true;
             }
         }
-
+        SharedSceneData.GameToLoad.LastMoved = LastMoved;
+        Debug.Log("LAST: " + LastMoved[0] + " " + LastMoved[1]);
         SharedSceneData.GameToLoad.Board = BoardToIntArray(Tiles2D);
         // TODO: this method will eventually throw an exception that will need to 
         // get caught for no network connection

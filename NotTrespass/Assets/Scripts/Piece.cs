@@ -132,7 +132,7 @@ public class Piece : MonoBehaviour {
                 Vector3 temp = Vector3.Lerp(cur, movements[i].Location, t);
                 if (i >= 2)
                 {
-                    float h = (-t) * (t - 1) * 100;
+                    float h = (-t) * (t - 1) * 150;
                     temp.y = movements[i].Location.y + h;
                 }
                 this.transform.position = temp;
