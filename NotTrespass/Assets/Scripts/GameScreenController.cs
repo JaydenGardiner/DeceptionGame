@@ -37,6 +37,13 @@ public class GameScreenController : MonoBehaviour {
             ErrorHandler.SceneToLoad = "MenuScreen";
             //Application.LoadLevel("ErrorScene");
         }
+        catch (Newtonsoft.Json.JsonReaderException j)
+        {
+            Debug.Log(SharedSceneData.API);
+            m_gs = new List<Game>();
+            ErrorHandler.ErrorMessage = "No connection could be made to the server.";
+            ErrorHandler.SceneToLoad = "MenuScreen";
+        }
         
         List<Dropdown.OptionData> drops = new List<Dropdown.OptionData>();
         for (int i = 0; i < m_gs.Count; i++)

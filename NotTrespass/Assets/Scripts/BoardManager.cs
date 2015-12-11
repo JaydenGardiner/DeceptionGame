@@ -208,7 +208,6 @@ public class BoardManager : MonoBehaviour {
             }
         }
 	}
-
     /// <summary>
     /// Marks a piece
     /// </summary>
@@ -286,7 +285,8 @@ public class BoardManager : MonoBehaviour {
                     intBoard[x][y] = 0;
                 } else {
                     Piece currentPiece = board[x,y].Piece;
-                    intBoard[x][y] = (currentPiece.Team * 2) + 1 + (currentPiece.IsSecret ? 1 : 0);
+                    int markedAdd = currentPiece.IsMarked ? 10 : 0;
+                    intBoard[x][y] = (currentPiece.Team * 2) + 1 + (currentPiece.IsSecret ? 1 : 0) + markedAdd;
                 }
             }
         }
@@ -330,7 +330,16 @@ public class BoardManager : MonoBehaviour {
                     n_GameObj.tag = "piece";
                     //Set tile's piece
                     Tiles2D[i, j].Piece = n_GameObj.GetComponent<Piece>();
+
+                    if (arr[i][j] >= 10)
+                    {
+                        Tiles2D[i, j].Piece.Team = ((arr[i][j]%10) - 1) / 2;
+                        Tiles2D[i, j].Piece.IsSecret = ( (arr[i][j]%10) % 2 == 0) ? true : false;
+                        Tiles2D[i, j].Piece.IsMarked = true;
+                    }
+
                     // (1-1)/2=0, (2-1)/2=0; (3-1)/2=1, (4-1)/2=1
+
                     Tiles2D[i, j].Piece.Team = (arr[i][j] - 1) / 2;
                     
                     
@@ -338,7 +347,6 @@ public class BoardManager : MonoBehaviour {
                 }
             }
         }
-
 
     }
 
