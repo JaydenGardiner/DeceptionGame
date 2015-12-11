@@ -37,7 +37,7 @@ public class FriendsPageActions : MonoBehaviour {
         catch (NullReferenceException n)
         {
             Debug.Log(n.Message);
-            //Application.LoadLevel("ErrorScene");
+            Application.LoadLevel("ErrorScene");
             ErrorHandler.ErrorMessage = "Could not connect to database.";
             ErrorHandler.SceneToLoad = "MenuScreen";
             friendEmails = new string[] { "No network connection", "test2", "test3", "test" };
