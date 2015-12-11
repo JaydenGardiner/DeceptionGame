@@ -289,7 +289,7 @@ public class BoardManager : MonoBehaviour {
                     intBoard[x][y] = 0;
                 } else {
                     Piece currentPiece = board[x,y].Piece;
-                    int markedAdd = currentPiece.IsMarked ? (SharedSceneData.my_team*10 + 10) : 0;
+                    int markedAdd = (currentPiece.IsMarked || currentPiece.IsOtherMarked) ? (SharedSceneData.my_team*10 + 10) : 0;
                     Debug.Log("mnarked add " + markedAdd);
                     intBoard[x][y] = (currentPiece.Team * 2) + 1 + (currentPiece.IsSecret ? 1 : 0) + markedAdd;
                 }
@@ -350,6 +350,11 @@ public class BoardManager : MonoBehaviour {
                         if (doMark < 9 && doMark > 0)
                         {
                             Tiles2D[i, j].Piece.IsMarked = true;
+                            
+                        }
+                        else
+                        {
+                            Tiles2D[i, j].Piece.IsOtherMarked = true;
                         }
                     }
                     else
@@ -359,6 +364,8 @@ public class BoardManager : MonoBehaviour {
                         Tiles2D[i, j].Piece.Team = (arr[i][j] - 1) / 2;
 
                         Tiles2D[i, j].Piece.IsSecret = (arr[i][j] % 2 == 0) ? true : false;
+                        Tiles2D[i, j].Piece.IsMarked = false;
+                        Tiles2D[i, j].Piece.IsOtherMarked = false;
                     }
                 }
             }

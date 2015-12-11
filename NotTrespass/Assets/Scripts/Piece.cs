@@ -20,6 +20,8 @@ public class Piece : MonoBehaviour {
 
     public bool IsMarked;
 
+    public bool IsOtherMarked = false;
+
     //private Vector3 m_Destination;
 
     void Awake()
