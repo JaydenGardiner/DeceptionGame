@@ -19,7 +19,7 @@ class GameList
 public class GameApi {
 
 	//private const String API_BASE = "http://143.215.206.36:5000";
-    private String API_BASE = "http://128.61.90.78:5000";
+    public static String API_BASE = "http://128.61.41.165:5000";
 	private  const String GAME_RES = "game";
 	private  const String GAMES_RES = "games";
 	private  const String USERS_RES = "users";
@@ -210,8 +210,5 @@ public class GameApi {
 
 	}
 
-    public void changeIP(String newIP)
-    {
-        API_BASE = "https://" + newIP + ":5000";
-    }
+
 }
